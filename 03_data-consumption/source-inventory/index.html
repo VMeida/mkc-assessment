@@ -1,0 +1,3925 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Microsoft Fabric Medallion Architecture — Assessment, Architecture & Roadmap">
+      
+      
+      
+        <link rel="canonical" href="https://VMeida.github.io/mkc-assessment/03_data-consumption/source-inventory/">
+      
+      
+        <link rel="prev" href="../dataflow-inventory/">
+      
+      
+        <link rel="next" href="../self-service/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>Source Inventory - MKC · Data Strategy Assessment</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#source-inventory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MKC · Data Strategy Assessment" class="md-header__button md-logo" aria-label="MKC · Data Strategy Assessment" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MKC · Data Strategy Assessment
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Source Inventory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../01_foundation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Foundation & Strategy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../02_devops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  DevOps & Automation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Data Consumption
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../04_fabric-architecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fabric Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../05_ai-mlops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI, Data Science & MLOps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../06_governance/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Governance & Security
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../07_finops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  FinOps & Observability
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MKC · Data Strategy Assessment" class="md-nav__button md-logo" aria-label="MKC · Data Strategy Assessment" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MKC · Data Strategy Assessment
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_foundation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foundation & Strategy
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Foundation & Strategy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/executive-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/current-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current State
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/target-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Target State
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/maturity-assessment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Maturity
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../02_devops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevOps & Automation
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevOps & Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_devops/git-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git Workflow
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_devops/cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD Pipelines
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_devops/environments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environments
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_devops/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Consumption
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Consumption
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workspace-catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataflow-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataflow Inventory
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source Inventory
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source Inventory
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#source-type-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source Type Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-server-database-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Server &amp; Database Inventory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connections-by-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connections by Workspace
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connections by Workspace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Administration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-portal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Portal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digital-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Digital Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#financial-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Financial Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#financial-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Financial Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#human-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Human Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#producer-ag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producer Ag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../self-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Self-Service Strategy
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../04_fabric-architecture/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fabric Architecture
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fabric Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/medallion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Medallion Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/onelake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OneLake & Delta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/star-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Star Schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/workspace-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/vendor-independence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Independence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_ai-mlops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI, Data Science & MLOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI, Data Science & MLOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/llm-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise LLM Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/data-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fabric Data Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/mlops-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MLOps Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/feature-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Store
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/cost-scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost Scenarios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../06_governance/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance & Security
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance & Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/rls-ols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLS & OLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/purview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft Purview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/entra-rbac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entra ID & RBAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../07_finops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FinOps & Observability
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FinOps & Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/sku-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SKU Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Scenarios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Work in Progress</p>
+<p>This section is under active development and subject to change.</p>
+</div>
+<h1 id="source-inventory">Source Inventory<a class="headerlink" href="#source-inventory" title="Permanent link">&para;</a></h1>
+<p>Auto-generated from <strong>Source Mapping</strong> sheet of <code>MKC PowerBI Inventory (1).xlsx</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Coverage</p>
+<p><strong>190 source connections</strong> across <strong>12 workspaces</strong></p>
+</div>
+<h2 id="source-type-breakdown">Source Type Breakdown<a class="headerlink" href="#source-type-breakdown" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Source Type</th>
+<th>Connections</th>
+<th>% of Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dataflow</td>
+<td>104</td>
+<td>54.7%</td>
+</tr>
+<tr>
+<td>mkc-sqlcall</td>
+<td>52</td>
+<td>27.4%</td>
+</tr>
+<tr>
+<td>SharePointList</td>
+<td>20</td>
+<td>10.5%</td>
+</tr>
+<tr>
+<td>DataFlow</td>
+<td>8</td>
+<td>4.2%</td>
+</tr>
+<tr>
+<td>API</td>
+<td>3</td>
+<td>1.6%</td>
+</tr>
+<tr>
+<td>dataflow</td>
+<td>2</td>
+<td>1.1%</td>
+</tr>
+<tr>
+<td>tmadbserver.database.windows.net</td>
+<td>1</td>
+<td>0.5%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sql-server-database-inventory">SQL Server &amp; Database Inventory<a class="headerlink" href="#sql-server-database-inventory" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Databases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#REF!</code></td>
+<td>Agtrax_BI</td>
+</tr>
+<tr>
+<td><code>Sharepoint</code></td>
+<td>AgVend</td>
+</tr>
+</tbody>
+</table>
+<h2 id="connections-by-workspace">Connections by Workspace<a class="headerlink" href="#connections-by-workspace" title="Permanent link">&para;</a></h2>
+<h3 id="_1"><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p><strong>179 connections</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>PM00204</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>PM30200</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>PM00200</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>PM00204</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>PM30200</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>PM00200</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>PM00204</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>PM30200</td>
+</tr>
+<tr>
+<td>1099 Amount to Payments</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>PM00200</td>
+</tr>
+<tr>
+<td>Applications Revenue</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITApps</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Applications Revenue</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+<tr>
+<td>Applications Revenue</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP+HAVEN</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis,vFarmKanSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Applications Revenue</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>AgWorld</td>
+<td>vActivitySummary,vMWFActivitySummary</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; SOP10100</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>dynamics</td>
+<td>SY01400</td>
+</tr>
+<tr>
+<td>Billing Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IRASShipInvHDRWORK</td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>Dataflow</td>
+<td></td>
+<td>dynamics</td>
+<td>SLB21100</td>
+</tr>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>Dataflow</td>
+<td></td>
+<td>dynamics</td>
+<td>SY01400</td>
+</tr>
+<tr>
+<td>Claim Reports</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Claims Report</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>RM20101</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>RM00101</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>RM40201</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>vmkcCreditMgmtBalHold</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>RM20101</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>RM00101</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>RM40201</td>
+</tr>
+<tr>
+<td>Credit Holds</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>vmwfCreditMgmtBalHold</td>
+</tr>
+<tr>
+<td>Customer Master Summary</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; RM00101</td>
+</tr>
+<tr>
+<td>Customer Master Summary</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; RM20201</td>
+</tr>
+<tr>
+<td>Customer Master Summary</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; RM00101</td>
+</tr>
+<tr>
+<td>Customer Master Summary</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; SY01200</td>
+</tr>
+<tr>
+<td>Customer Master Summary</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; RM20101</td>
+</tr>
+<tr>
+<td>Customer Master Summary</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM20000</td>
+</tr>
+<tr>
+<td>Dispatch</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DispatchContracts</td>
+</tr>
+<tr>
+<td>Dispatch</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>IV_BRANCH_MASTER</td>
+</tr>
+<tr>
+<td>Dispatch</td>
+<td>Dataflow</td>
+<td></td>
+<td></td>
+<td>Sharepoint</td>
+</tr>
+<tr>
+<td>Dispatch</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Dispatch</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Energy Department Orders</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Energy Department Orders</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Energy Scorecard</td>
+<td>Dataflow</td>
+<td></td>
+<td>AgVend</td>
+<td>MKC_CRM_AccountRep</td>
+</tr>
+<tr>
+<td>Energy Scorecard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Energy Scorecard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+<tr>
+<td>Executive Sales</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITApps</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Executive Sales</td>
+<td>Dataflow</td>
+<td></td>
+<td>AgVend</td>
+<td>AgVend &gt; MKC_CRM_AccountRep ,MWF_CRM_AccountRep</td>
+</tr>
+<tr>
+<td>Executive Sales</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRPGvMembers</td>
+</tr>
+<tr>
+<td>Executive Sales</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP+HAVEN</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis,vFarmKanSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Feed Scorecard</td>
+<td>Dataflow</td>
+<td></td>
+<td>AgVend</td>
+<td>AgVend &gt; MKC_CRM_AccountRep ,MWF_CRM_AccountRep</td>
+</tr>
+<tr>
+<td>Feed Scorecard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Feed Scorecard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>RM00101</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IV00102</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IRASPrepayLINEOPEN</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>vmkcSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>RM00101</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>IV00102</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>IRASPrepayLINEOPEN</td>
+</tr>
+<tr>
+<td>Fertilizer Prepay</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRPGvMemberStockSummaryRpt</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRPGvMemberStockSummaryRpt</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRPGvMembers</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM00200</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM00201</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>HAVEN &gt; RM00101</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP+HAVEN</td>
+<td>MKCGP+MWFGP+HAVEN&gt; RM00103</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITApps</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Financials</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>AccountSummary</td>
+</tr>
+<tr>
+<td>Fuel Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>eeeHomeOffice</td>
+<td>vw_MKC_ExportSource"</td>
+</tr>
+<tr>
+<td>Fuel Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRCSBranchMSTR</td>
+</tr>
+<tr>
+<td>Fuel Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>vmkcSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Fuel Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>DynamicsGPWarehouse</td>
+<td>DtnAllPrices</td>
+</tr>
+<tr>
+<td>Fuel Dashboard</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRASXRefItemLINE</td>
+</tr>
+<tr>
+<td>GL Reconciliation</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; AccountSummary</td>
+</tr>
+<tr>
+<td>Grain Receipts</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DM_GrainReceiptSummary</td>
+</tr>
+<tr>
+<td>Grain Receipts</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Grain Receipts</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DMvGrainBalances</td>
+</tr>
+<tr>
+<td>Internal Transfers</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Internal Transfers</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Internal Transfers</td>
+<td>Dataflow</td>
+<td></td>
+<td>dynamics</td>
+<td>SY01400</td>
+</tr>
+<tr>
+<td>Internal Transfers</td>
+<td>dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRASBranchTranHDRHIST</td>
+</tr>
+<tr>
+<td>Internal Transfers</td>
+<td>dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRASBranchTranLINEHIST</td>
+</tr>
+<tr>
+<td>Internal Transfers</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>IRCSReasonCodeMSTR</td>
+</tr>
+<tr>
+<td>Item Price Master</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+<tr>
+<td>Item Price Master</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00108</td>
+</tr>
+<tr>
+<td>Item Price Master</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; SY03900</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR9</td>
+<td>U6FRMXH</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR9</td>
+<td>U6SEEDSTS</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR14</td>
+<td>U8CONST</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR10</td>
+<td>U4CSTMR</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR11</td>
+<td>U4ITMMR</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR12</td>
+<td>U4SLSMN</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR9</td>
+<td>USSEEDDISC</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR13</td>
+<td>USSEEDXREF</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>CST3PWR9</td>
+<td>U6FRMXD</td>
+</tr>
+<tr>
+<td>LCR Reporting</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Locations</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Long and Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>IV_BRANCH_MASTER</td>
+</tr>
+<tr>
+<td>Long and Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>CA_POSITION_BALANCE</td>
+</tr>
+<tr>
+<td>Long and Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>0</td>
+<td>https://midkscoop-my.sharepoint.com/personal/pashare_producerag_com/Documents/ProducerAg%20Files/Asset%20Utilization/Long%20and%20Short.xlsm</td>
+</tr>
+<tr>
+<td>MKC Branch Financials VP 7.10.23</td>
+<td>API</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MKC Branch Financials VP 7.10.23</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>MKCGP.dbo.ABCPODLU</td>
+</tr>
+<tr>
+<td>MKC Branch Financials VP 7.10.23</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>itapps</td>
+<td>[ITApps].[dbo].[St_branch]</td>
+</tr>
+<tr>
+<td>MKC Branch Financials VP 7.10.23</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>MKCGP.dbo.slbAccountSummary</td>
+</tr>
+<tr>
+<td>MKC Branch Financials VP 7.10.23</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>MKCGP.dbo.vmkcBudgetSummary</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>SOP30200</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>SOP30300</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>haven</td>
+<td>IV40400</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IRCSBranchMSTR</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>vmkcSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>IRCSBranchMSTR</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>IV00101</td>
+</tr>
+<tr>
+<td>Margin Analysis</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mwfgp</td>
+<td>vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Millwright Hours</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Millwright Hours</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Open Contracts</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DM_OpenContracts</td>
+</tr>
+<tr>
+<td>Open Contracts</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITApps</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Open Contracts</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>AR_CUSTOMER_MASTER_TMA</td>
+</tr>
+<tr>
+<td>Open Contracts</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>Agtrax_BI..DM_OpenContractsNet</td>
+</tr>
+<tr>
+<td>Open Contracts</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>mkcgp</td>
+<td>AgTrax_BI..DM_OpenContracts</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>CA_SI_TICKET_INFO</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>CA_TICKET_OUTBOUND ,CA_TICKET_INBOUND</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DMvGrainVolume</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+<tr>
+<td>Operational KPIs</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>OrderEntry</td>
+<td>tmadbserver.database.windows.net</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Overtime Report</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DMvGrainVolume</td>
+</tr>
+<tr>
+<td>Overtime Report</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP</td>
+<td>vmkcSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Overtime Report</td>
+<td>Dataflow</td>
+<td></td>
+<td>MWFGP</td>
+<td>vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Overtime Report</td>
+<td>Dataflow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+<tr>
+<td>Overtime Report</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>Dataflow</td>
+<td></td>
+<td>dynamics</td>
+<td>SY01400</td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>Dataflow</td>
+<td></td>
+<td>dynamics</td>
+<td>SLB21100</td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Physical v Book Bushels</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>CA_POSITION_BALANCE</td>
+</tr>
+<tr>
+<td>Physical v Book Bushels</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>IV_BRANCH_MASTER</td>
+</tr>
+<tr>
+<td>Physical v Book Bushels</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>CA_COMMODITY_MASTER</td>
+</tr>
+<tr>
+<td>Physical v Book Bushels</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Procurement Long &amp; Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00102</td>
+</tr>
+<tr>
+<td>Procurement Long &amp; Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Procurement Long &amp; Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+<tr>
+<td>Procurement Long &amp; Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; SY03900</td>
+</tr>
+<tr>
+<td>Procurement Long &amp; Short</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Procurement Long &amp; Short</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Sales Detail Analysis</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP+HAVEN</td>
+<td>MKCGP+MWFGP+HAVEN&gt; RM00103</td>
+</tr>
+<tr>
+<td>Sales Detail Analysis</td>
+<td>Dataflow</td>
+<td></td>
+<td>AgVend</td>
+<td>AgVend &gt; MKC_CRM_AccountRep ,MWF_CRM_AccountRep</td>
+</tr>
+<tr>
+<td>Sales Detail Analysis</td>
+<td>Dataflow</td>
+<td></td>
+<td>HAVEN</td>
+<td>vFarmKanSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Sales Detail Analysis</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+<tr>
+<td>Sales Detail Analysis</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>HAVEN &gt; RM00101</td>
+</tr>
+<tr>
+<td>Shipment Overview</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>DMvGrainVolume</td>
+</tr>
+<tr>
+<td>Vehicle Report</td>
+<td>API</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Vehicle Report</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>agtrax_bi</td>
+<td>DateDim</td>
+</tr>
+<tr>
+<td>Vendor Payments</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM00100</td>
+</tr>
+<tr>
+<td>Vendor Payments</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM30200</td>
+</tr>
+<tr>
+<td>Vendor Payments</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM30300</td>
+</tr>
+<tr>
+<td>Vendor Payments</td>
+<td>Dataflow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; PM00200</td>
+</tr>
+<tr>
+<td>Voucher Report</td>
+<td>API</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Voucher Report</td>
+<td>Dataflow</td>
+<td></td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+</tbody>
+</table>
+<h3 id="administration">Administration<a class="headerlink" href="#administration" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agronomy Scorecard</td>
+<td>DataFlow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>MKCGP+MWFGP &gt; IV00101</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-portal">Data Portal<a class="headerlink" href="#data-portal" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agronomy Scorecard</td>
+<td>DataFlow</td>
+<td>#REF!</td>
+<td>Agtrax_BI</td>
+<td>DateDim</td>
+</tr>
+</tbody>
+</table>
+<h3 id="digital-transformation">Digital Transformation<a class="headerlink" href="#digital-transformation" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="executive">Executive<a class="headerlink" href="#executive" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>SharePointList</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="financial-processing">Financial Processing<a class="headerlink" href="#financial-processing" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>mkc-sqlcall</td>
+<td></td>
+<td>Date Dimension</td>
+<td>Agtrax BI DateDim</td>
+</tr>
+</tbody>
+</table>
+<h3 id="financial-reporting">Financial Reporting<a class="headerlink" href="#financial-reporting" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>DataFlow</td>
+<td></td>
+<td>dynamics</td>
+<td>SY01400</td>
+</tr>
+</tbody>
+</table>
+<h3 id="human-resources">Human Resources<a class="headerlink" href="#human-resources" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CICM - PPM - Project Portfolio Management</td>
+<td>DataFlow</td>
+<td></td>
+<td>dynamics</td>
+<td>SLB21100</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agronomy Scorecard</td>
+<td>DataFlow</td>
+<td>Sharepoint</td>
+<td>AgVend</td>
+<td>AgVend &gt; MKC_CRM_AccountRep ,MWF_CRM_AccountRep</td>
+</tr>
+</tbody>
+</table>
+<h3 id="producer-ag">Producer Ag<a class="headerlink" href="#producer-ag" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agronomy Scorecard</td>
+<td>DataFlow</td>
+<td></td>
+<td>MKCGP+MWFGP</td>
+<td>vmkcSalesDetailAnalysis,vmwfSalesDetailAnalysis</td>
+</tr>
+</tbody>
+</table>
+<h3 id="public">Public<a class="headerlink" href="#public" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agronomy Scorecard</td>
+<td>DataFlow</td>
+<td></td>
+<td>ITAPPS</td>
+<td>LocationsMaster</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sales">Sales<a class="headerlink" href="#sales" title="Permanent link">&para;</a></h3>
+<p><strong>1 connection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Type</th>
+<th>Server</th>
+<th>Database</th>
+<th>Table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Account Assignments</td>
+<td>DataFlow</td>
+<td></td>
+<td>AgVend</td>
+<td>AgVend &gt; MKC_CRM_AccountRep ,MWF_CRM_AccountRep</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "content.code.copy", "content.code.annotate", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

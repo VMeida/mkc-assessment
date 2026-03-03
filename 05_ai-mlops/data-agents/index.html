@@ -1,0 +1,1088 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Microsoft Fabric Medallion Architecture — Assessment, Architecture &amp; Roadmap" name="description"/>
+<link href="https://VMeida.github.io/mkc-assessment/05_ai-mlops/data-agents/" rel="canonical"/>
+<link href="../llm-architecture/" rel="prev"/>
+<link href="../mlops-pipeline/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.3" name="generator"/>
+<title>Fabric Data Agents - MKC · Data Strategy Assessment</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#fabric-data-agents">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="MKC · Data Strategy Assessment" class="md-header__button md-logo" data-md-component="logo" href="../.." title="MKC · Data Strategy Assessment">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            MKC · Data Strategy Assessment
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Fabric Data Agents
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../01_foundation/">
+          
+  
+  
+    
+  
+  Foundation &amp; Strategy
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../02_devops/">
+          
+  
+  
+    
+  
+  DevOps &amp; Automation
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../03_data-consumption/">
+          
+  
+  
+    
+  
+  Data Consumption
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../04_fabric-architecture/">
+          
+  
+  
+    
+  
+  Fabric Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../">
+          
+  
+  
+    
+  
+  AI, Data Science &amp; MLOps
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../06_governance/">
+          
+  
+  
+    
+  
+  Governance &amp; Security
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../07_finops/">
+          
+  
+  
+    
+  
+  FinOps &amp; Observability
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="MKC · Data Strategy Assessment" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="MKC · Data Strategy Assessment">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    MKC · Data Strategy Assessment
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01_foundation/">
+<span class="md-ellipsis">
+    
+  
+    Foundation &amp; Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Foundation &amp; Strategy
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/executive-summary/">
+<span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/current-state/">
+<span class="md-ellipsis">
+    
+  
+    Current State
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/target-state/">
+<span class="md-ellipsis">
+    
+  
+    Target State
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/maturity-assessment/">
+<span class="md-ellipsis">
+    
+  
+    Data Maturity
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02_devops/">
+<span class="md-ellipsis">
+    
+  
+    DevOps &amp; Automation
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    DevOps &amp; Automation
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/git-workflow/">
+<span class="md-ellipsis">
+    
+  
+    Git Workflow
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/cicd/">
+<span class="md-ellipsis">
+    
+  
+    CI/CD Pipelines
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/environments/">
+<span class="md-ellipsis">
+    
+  
+    Environments
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/testing/">
+<span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03_data-consumption/">
+<span class="md-ellipsis">
+    
+  
+    Data Consumption
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Consumption
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/workspace-catalog/">
+<span class="md-ellipsis">
+    
+  
+    Workspace Catalog
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/dataflow-inventory/">
+<span class="md-ellipsis">
+    
+  
+    Dataflow Inventory
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/source-inventory/">
+<span class="md-ellipsis">
+    
+  
+    Source Inventory
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/self-service/">
+<span class="md-ellipsis">
+    
+  
+    Self-Service Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04_fabric-architecture/">
+<span class="md-ellipsis">
+    
+  
+    Fabric Architecture
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Fabric Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/medallion/">
+<span class="md-ellipsis">
+    
+  
+    Medallion Layers
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/onelake/">
+<span class="md-ellipsis">
+    
+  
+    OneLake &amp; Delta
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/star-schema/">
+<span class="md-ellipsis">
+    
+  
+    Star Schema
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/workspace-design/">
+<span class="md-ellipsis">
+    
+  
+    Workspace Design
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/vendor-independence/">
+<span class="md-ellipsis">
+    
+  
+    Vendor Independence
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    AI, Data Science &amp; MLOps
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    AI, Data Science &amp; MLOps
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../llm-architecture/">
+<span class="md-ellipsis">
+    
+  
+    Enterprise LLM Architecture
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Fabric Data Agents
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Fabric Data Agents
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-are-fabric-data-agents">
+<span class="md-ellipsis">
+      
+        What Are Fabric Data Agents?
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#agent-workspace-semantic-model-mapping">
+<span class="md-ellipsis">
+      
+        Agent → Workspace → Semantic Model Mapping
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#query-flow">
+<span class="md-ellipsis">
+      
+        Query Flow
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#system-prompt-structure">
+<span class="md-ellipsis">
+      
+        System Prompt Structure
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuring-a-data-agent-in-fabric">
+<span class="md-ellipsis">
+      
+        Configuring a Data Agent in Fabric
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#monitoring-agent-usage">
+<span class="md-ellipsis">
+      
+        Monitoring Agent Usage
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mlops-pipeline/">
+<span class="md-ellipsis">
+    
+  
+    MLOps Pipeline
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../feature-store/">
+<span class="md-ellipsis">
+    
+  
+    Feature Store
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../cost-scenarios/">
+<span class="md-ellipsis">
+    
+  
+    Cost Scenarios
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06_governance/">
+<span class="md-ellipsis">
+    
+  
+    Governance &amp; Security
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance &amp; Security
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/rls-ols/">
+<span class="md-ellipsis">
+    
+  
+    RLS &amp; OLS
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/purview/">
+<span class="md-ellipsis">
+    
+  
+    Microsoft Purview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/entra-rbac/">
+<span class="md-ellipsis">
+    
+  
+    Entra ID &amp; RBAC
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/compliance/">
+<span class="md-ellipsis">
+    
+  
+    Compliance
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07_finops/">
+<span class="md-ellipsis">
+    
+  
+    FinOps &amp; Observability
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    FinOps &amp; Observability
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/sku-reference/">
+<span class="md-ellipsis">
+    
+  
+    SKU Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/scenarios/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Scenarios
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/optimization/">
+<span class="md-ellipsis">
+    
+  
+    Cost Optimization
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/observability/">
+<span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="fabric-data-agents">Fabric Data Agents<a class="headerlink" href="#fabric-data-agents" title="Permanent link">¶</a></h1>
+<h2 id="what-are-fabric-data-agents">What Are Fabric Data Agents?<a class="headerlink" href="#what-are-fabric-data-agents" title="Permanent link">¶</a></h2>
+<p>Fabric Data Agents are <strong>natural-language query interfaces</strong> scoped to specific semantic models within their workspace. Each agent:</p>
+<ol>
+<li>Accepts a plain-English question from a user</li>
+<li>Sends the question (with semantic model schema context) to Azure OpenAI via APIM</li>
+<li>Receives a DAX or SQL query generated by GPT-4o</li>
+<li>Executes that query against the semantic model <strong>under the user's own Entra identity</strong></li>
+<li>Returns a formatted answer — RLS/OLS rules are automatically enforced</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Key Security Property</p>
+<p>Because the DAX/SQL is executed under the <strong>user's own identity</strong>, all Row-Level Security and Object-Level Security rules apply automatically. A sales rep asking "What are total margins by region?" will only see regions they have access to — the agent cannot bypass RLS.</p>
+</div>
+<h2 id="agent-workspace-semantic-model-mapping">Agent → Workspace → Semantic Model Mapping<a class="headerlink" href="#agent-workspace-semantic-model-mapping" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Workspace Group</th>
+<th>Semantic Model(s)</th>
+<th>Example NL Questions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Agent (Operational)</strong></td>
+<td>Sales, OMS, Operations</td>
+<td>Sales</td>
+<td><em>"What were grain sales in Q3 by location?"</em></td>
+</tr>
+<tr>
+<td><strong>Data Agent (Analytics)</strong></td>
+<td>Executive, Data Portal</td>
+<td>Sales + Financial + Operations</td>
+<td><em>"Show margin trend vs budget by division this fiscal year"</em></td>
+</tr>
+<tr>
+<td><strong>Data Agent (Financial)</strong></td>
+<td>Financial Reporting, Financial Processing</td>
+<td>Financial</td>
+<td><em>"Which AP invoices are overdue by cost center?"</em></td>
+</tr>
+<tr>
+<td><strong>Data Agent (Domain)</strong></td>
+<td>Administration, Producer Ag, HR, Digital Transformation</td>
+<td>Financial + Operations</td>
+<td><em>"What fields are enrolled per producer this planting season?"</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="query-flow">Query Flow<a class="headerlink" href="#query-flow" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>sequenceDiagram
+    actor User
+    participant Agent as Data Agent
+    participant APIM as Azure APIM
+    participant AOAI as Azure OpenAI
+    participant SemModel as Semantic Model
+
+    User-&gt;&gt;Agent: "Show grain sales by location this month"
+    Agent-&gt;&gt;APIM: POST /chat/completions<br/>(schema + question + few-shot examples)
+    APIM-&gt;&gt;APIM: Rate limit check, token meter start
+    APIM-&gt;&gt;AOAI: Forward with Managed Identity token
+    AOAI--&gt;&gt;APIM: DAX query generated
+    APIM-&gt;&gt;APIM: Log tokens used, meter end
+    APIM--&gt;&gt;Agent: DAX query returned
+    Agent-&gt;&gt;SemModel: Execute DAX (under user's Entra identity)
+    SemModel-&gt;&gt;SemModel: Apply RLS rules (Region/Division filter)
+    SemModel-&gt;&gt;SemModel: Apply OLS rules (hide CostMargin if not Finance role)
+    SemModel--&gt;&gt;Agent: Result set
+    Agent--&gt;&gt;User: Formatted answer + data table
+</code></pre>
+<h2 id="system-prompt-structure">System Prompt Structure<a class="headerlink" href="#system-prompt-structure" title="Permanent link">¶</a></h2>
+<p>Each agent is pre-configured with a system prompt containing:</p>
+<div class="highlight"><pre><span></span><code>You are a data analyst assistant for MKC (Mid-Kansas Cooperative).
+You have access to the Sales semantic model which contains:
+
+TABLES:
+- FactGrainSales (transaction_id, date_key, location_key, item_key,
+                  customer_key, quantity_bushels, price_per_bushel, amount_usd)
+- DimDate (date_key, full_date, fiscal_period, fiscal_year, calendar_month_name)
+- DimLocation (location_key, location_name, region, division)
+- DimItem (item_key, description, commodity_type)
+- DimCustomer (customer_key, name, region)
+
+MEASURES (pre-defined):
+- [Total Grain Revenue], [Total Grain Bushels], [Grain Margin %]
+
+RULES:
+- Always use DAX, never SQL for this semantic model
+- Use CALCULATE() with FILTER() for date ranges
+- Use USERPRINCIPALNAME() for user-specific queries
+- Return at most 100 rows in result tables
+
+FEW-SHOT EXAMPLES:
+Q: What were grain sales last month?
+A: EVALUATE SUMMARIZECOLUMNS(DimDate[fiscal_period], "Sales", [Total Grain Revenue])
+</code></pre></div>
+<h2 id="configuring-a-data-agent-in-fabric">Configuring a Data Agent in Fabric<a class="headerlink" href="#configuring-a-data-agent-in-fabric" title="Permanent link">¶</a></h2>
+<ol>
+<li>In the target BI workspace, create a new <strong>Data Agent</strong> item (Fabric AI item type)</li>
+<li>Connect it to the workspace's semantic model</li>
+<li>Configure the system prompt with table schema and few-shot DAX examples</li>
+<li>Set the Azure OpenAI endpoint to the APIM gateway URL</li>
+<li>Test with sample questions; iterate on few-shot examples</li>
+<li>Publish to workspace — all workspace members can now query via the agent</li>
+</ol>
+<h2 id="monitoring-agent-usage">Monitoring Agent Usage<a class="headerlink" href="#monitoring-agent-usage" title="Permanent link">¶</a></h2>
+<p>All agent queries flow through APIM, which logs to Log Analytics:</p>
+<div class="highlight"><pre><span></span><code><span class="c">// Top 10 questions by frequency</span>
+<span class="n">AzureDiagnostics</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"APIMANAGEMENT"</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">OperationName</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"chat/completions"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">WorkspaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">requestBody_s</span><span class="p">))[</span><span class="s">"workspace"</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Question</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">requestBody_s</span><span class="p">))[</span><span class="s">"messages"</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">"content"</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">QueryCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Question</span><span class="p">,</span><span class="w"> </span><span class="n">WorkspaceId</span>
+<span class="p">|</span><span class="w"> </span><span class="k">top</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">QueryCount</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c">// Token usage by workspace (for chargeback)</span>
+<span class="n">AzureDiagnostics</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"APIMANAGEMENT"</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Tokens</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">parse_json</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="n">responseBody_s</span><span class="p">))[</span><span class="s">"usage"</span><span class="p">][</span><span class="s">"total_tokens"</span><span class="p">])</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">WorkspaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">requestBody_headers</span><span class="err">.</span><span class="n">x_workspace_id</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span><span class="w"> </span><span class="n">TotalTokens</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Tokens</span><span class="p">),</span><span class="w"> </span><span class="n">QueryCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">WorkspaceId</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "content.code.copy", "content.code.annotate", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.6.1/dist/mermaid.esm.min.mjs";
+window.mermaidConfig = {default: {
+    startOnLoad: false
+}};</script></body>
+</html>
