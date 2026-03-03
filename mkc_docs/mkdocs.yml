@@ -1,4 +1,5 @@
 site_name: MKC · Data Strategy Assessment
+site_url: https://VMeida.github.io/mkc-assessment/
 site_description: Microsoft Fabric Medallion Architecture — Assessment, Architecture & Roadmap
 docs_dir: docs
 site_dir: site
