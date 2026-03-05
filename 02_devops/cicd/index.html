@@ -2117,12 +2117,12 @@
 <tr>
 <td><code>ci.yml</code></td>
 <td>Pull Request to <code>dev</code> or <code>main</code></td>
-<td>Lint notebooks, run DQ checks, validate pipeline YAML</td>
+<td>Lint notebooks, enforce coverage gate, run DQ checks, validate pipeline YAML</td>
 </tr>
 <tr>
 <td><code>promote.yml</code></td>
 <td>Push to <code>main</code> (after PR merge)</td>
-<td>Deploy workspace items to Test via Fabric REST API; gate before Prod</td>
+<td>Deploy workspace items to Prod via Fabric REST API with manual approval gate</td>
 </tr>
 </tbody>
 </table>
@@ -2141,9 +2141,13 @@
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.11&quot;</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install nbqa ruff</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install nbqa ruff pytest pytest-cov pandas</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lint notebooks</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa ruff workspaces/dev/notebooks/ --select E,W,F</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate schema registry</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python validate_schema.py</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unit tests with coverage gate</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest tests/ --cov=src --cov-fail-under=80 -q</span>
 
 <span class="w">  </span><span class="nt">data-quality</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
@@ -2166,6 +2170,10 @@
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate pipeline JSON/YAML definitions</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python scripts/validate_definitions.py workspaces/dev/pipelines/</span>
 </code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Schema validation step</p>
+<p><code>python validate_schema.py</code> reads <code>schema_registry.yml</code> and checks every Silver column name for compliance with the naming-convention rules (snake_case, recognised suffix, no duplicates within a table). The PR fails immediately if any violation is found. No live Fabric connection is required — the check is purely offline. See <a href="../naming-conventions/#schema-registry">Naming Conventions — Schema Registry</a> for the full rule set.</p>
+</div>
 <h2 id="promoteyml-workspace-promotion"><code>promote.yml</code> — Workspace Promotion<a class="headerlink" href="#promoteyml-workspace-promotion" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MKC Fabric Promote</span>
 
@@ -2174,29 +2182,17 @@
 <span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
 
 <span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">deploy-to-test</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">deploy-to-prod</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span><span class="w">   </span><span class="c1"># requires manual approval in GitHub Environments</span>
 <span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.11&quot;</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install requests msal</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to Test Workspace</span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python scripts/deploy.py --workspace MKC-Test --branch main</span>
-<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">FABRIC_CLIENT_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.FABRIC_CLIENT_ID }}</span>
-<span class="w">          </span><span class="nt">FABRIC_CLIENT_SECRET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.FABRIC_CLIENT_SECRET }}</span>
-<span class="w">          </span><span class="nt">FABRIC_TENANT_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.FABRIC_TENANT_ID }}</span>
-
-<span class="w">  </span><span class="nt">deploy-to-prod</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-to-test</span>
-<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span><span class="w">   </span><span class="c1"># requires manual approval in GitHub Environments</span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to Prod Workspace</span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python scripts/deploy.py --workspace MKC-Prod --branch release/v${{ github.ref_name }}</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python scripts/deploy.py --workspace MKC-Prod --branch main</span>
 <span class="w">        </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">FABRIC_CLIENT_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.FABRIC_CLIENT_ID }}</span>
 <span class="w">          </span><span class="nt">FABRIC_CLIENT_SECRET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.FABRIC_CLIENT_SECRET }}</span>
@@ -2260,7 +2256,7 @@
 </table>
 <div class="admonition warning">
 <p class="admonition-title">No Direct Prod Deployments</p>
-<p>The <code>deploy-to-prod</code> job requires a manual approval step via <strong>GitHub Environments</strong> protection rules. No code reaches Prod without an explicit human sign-off.</p>
+<p>The <code>deploy-to-prod</code> job requires a manual approval step via <strong>GitHub Environments</strong> protection rules. No code reaches Prod without an explicit human sign-off. This gate replaces the former Test environment stage — UAT is conducted against the Dev workspace using a production-like data snapshot (last 90 days).</p>
 </div>
 
 

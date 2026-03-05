@@ -908,8 +908,7 @@
     B --&gt;|Pull Request| C[dev branch]
     C --&gt;|Fabric Sync| D["Fabric Dev Workspace<br/>(F8)"]
     D --&gt;|PR + DQ tests pass| E[main branch]
-    E --&gt;|Fabric Sync| F["Fabric Test Workspace<br/>(F8)"]
-    F --&gt;|Approval gate| G["Fabric Prod Workspace<br/>(F32)"]
+    E --&gt;|Manual approval gate| F["Fabric Prod Workspace<br/>(F32)"]
 </code></pre>
 <h2 id="branch-strategy">Branch Strategy<a class="headerlink" href="#branch-strategy" title="Permanent link">¶</a></h2>
 <table>
@@ -929,17 +928,12 @@
 <tr>
 <td><code>dev</code></td>
 <td>Dev Workspace (F8)</td>
-<td>Integration testing of in-progress work</td>
+<td>Integration of in-progress work; UAT with last-90-days snapshot</td>
 </tr>
 <tr>
 <td><code>main</code></td>
-<td>Test Workspace (F8)</td>
-<td>Staging for UAT and QA sign-off</td>
-</tr>
-<tr>
-<td><code>release/vX.Y</code></td>
 <td>Prod Workspace (F32)</td>
-<td>Production-deployed, tagged versions</td>
+<td>Production-deployed; requires manual GitHub Environments approval</td>
 </tr>
 </tbody>
 </table>
@@ -966,9 +960,11 @@
 </code></pre></div>
 <h2 id="pull-request-rules">Pull Request Rules<a class="headerlink" href="#pull-request-rules" title="Permanent link">¶</a></h2>
 <ol>
+<li><strong>feature → dev only</strong> — all feature branches target <code>dev</code> via PR; direct PRs to <code>main</code> are not permitted</li>
 <li><strong>Minimum 1 reviewer</strong> for any change to <code>dev</code> or <code>main</code></li>
-<li><strong>CI checks must pass</strong> before merge (lint + DQ smoke test)</li>
-<li><strong>No direct commits</strong> to <code>main</code> or <code>release/*</code> branches</li>
+<li><strong>CI checks must pass</strong> before merge (lint + DQ smoke test + coverage gate)</li>
+<li><strong>No direct commits</strong> to <code>main</code></li>
+<li><strong>dev → main requires approval</strong> — the <code>main</code> branch is protected by a GitHub Environments approval gate (replaces the former Test stage gate)</li>
 <li><strong>Squash merges</strong> preferred — keeps <code>main</code> history clean</li>
 </ol>
 <h2 id="workspace-to-branch-mapping">Workspace-to-Branch Mapping<a class="headerlink" href="#workspace-to-branch-mapping" title="Permanent link">¶</a></h2>
@@ -988,13 +984,8 @@
 <td>On push</td>
 </tr>
 <tr>
-<td>MKC-Test</td>
-<td><code>main</code></td>
-<td>Manual trigger</td>
-</tr>
-<tr>
 <td>MKC-Prod</td>
-<td><code>release/vX.Y</code></td>
+<td><code>main</code></td>
 <td>Manual after approval</td>
 </tr>
 </tbody>

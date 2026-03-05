@@ -411,10 +411,10 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#three-tier-model">
+<a class="md-nav__link" href="#two-tier-model">
 <span class="md-ellipsis">
       
-        Three-Tier Model
+        Two-Tier Model
       
     </span>
 </a>
@@ -899,20 +899,14 @@
 <p>This section is under active development and subject to change.</p>
 </div>
 <h1 id="environment-topology">Environment Topology<a class="headerlink" href="#environment-topology" title="Permanent link">¶</a></h1>
-<h2 id="three-tier-model">Three-Tier Model<a class="headerlink" href="#three-tier-model" title="Permanent link">¶</a></h2>
-<p>MKC operates three Fabric environments, each a distinct Fabric workspace connected to its own Git branch:</p>
+<h2 id="two-tier-model">Two-Tier Model<a class="headerlink" href="#two-tier-model" title="Permanent link">¶</a></h2>
+<p>MKC operates two Fabric environments, each a distinct Fabric workspace connected to its own Git branch:</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph Dev["Dev (F8 — paused off-hours)"]
         D1[Bronze-Dev LH]
         D2[Silver-Dev LH]
         D3[Gold-Dev LH]
         D4[Semantic Models Dev]
-    end
-    subgraph Test["Test (F8 — always on)"]
-        T1[Bronze-Test LH]
-        T2[Silver-Test LH]
-        T3[Gold-Test LH]
-        T4[Semantic Models Test]
     end
     subgraph Prod["Prod (F32 — always on)"]
         P1[Bronze-Prod LH]
@@ -922,8 +916,7 @@
         P5[BI Workspaces × 12]
     end
 
-    Dev --&gt;|PR merge + DQ tests| Test
-    Test --&gt;|Manual approval gate| Prod
+    Dev --&gt;|Manual approval gate| Prod
 </code></pre>
 <h2 id="environment-comparison">Environment Comparison<a class="headerlink" href="#environment-comparison" title="Permanent link">¶</a></h2>
 <table>
@@ -931,7 +924,6 @@
 <tr>
 <th>Property</th>
 <th>Dev</th>
-<th>Test</th>
 <th>Prod</th>
 </tr>
 </thead>
@@ -939,54 +931,51 @@
 <tr>
 <td>F-SKU</td>
 <td>F8 (paused nights/weekends)</td>
-<td>F8</td>
 <td>F32</td>
 </tr>
 <tr>
 <td>Est. monthly cost</td>
 <td>~$200 (paused)</td>
-<td>~$600</td>
 <td>~$4,194</td>
 </tr>
 <tr>
 <td>Git branch</td>
 <td><code>dev</code></td>
 <td><code>main</code></td>
-<td><code>release/vX.Y</code></td>
 </tr>
 <tr>
 <td>Source data</td>
-<td>Subset / synthetic</td>
-<td>Last 90 days real</td>
+<td>Last 90 days real (production-like snapshot)</td>
 <td>Full historical</td>
 </tr>
 <tr>
 <td>BI workspaces</td>
-<td>Developer only</td>
-<td>Tester + UAT users</td>
+<td>Developer + UAT users</td>
 <td>All 12 workspaces</td>
 </tr>
 <tr>
 <td>Auto-refresh pipelines</td>
 <td>On-demand</td>
-<td>Daily</td>
 <td>Hourly CDC</td>
 </tr>
 <tr>
 <td>Purview scanning</td>
 <td>Off</td>
-<td>Off</td>
-<td>On</td>
+<td>Phase 2 (optional)</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition info">
+<p class="admonition-title">UAT in Dev</p>
+<p>UAT is conducted against the Dev workspace using a last-90-days production data snapshot. This eliminates the need for a separate Test environment while still providing realistic validation data.</p>
+</div>
 <h2 id="workspace-naming-convention">Workspace Naming Convention<a class="headerlink" href="#workspace-naming-convention" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>MKC-{Layer}-{Environment}
 
 Examples:
   MKC-Bronze-Prod
   MKC-Silver-Dev
-  MKC-Gold-Test
+  MKC-Gold-Dev
   MKC-SemanticModels-Prod
   MKC-BI-Sales-Prod
   MKC-BI-Financial-Prod
@@ -999,7 +988,7 @@ onelake://{workspace}/Gold-{ENV}.Lakehouse/Tables/{fact_or_dim}
 </code></pre></div>
 <p>Notebooks receive <code>ENV</code> as a parameter cell:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># parameters</span>
-<span class="n">ENV</span> <span class="o">=</span> <span class="s2">"dev"</span>   <span class="c1"># overridden by CI/CD to "test" or "prod"</span>
+<span class="n">ENV</span> <span class="o">=</span> <span class="s2">"dev"</span>   <span class="c1"># overridden by CI/CD to "prod"</span>
 <span class="n">WORKSPACE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"MKC-Bronze-</span><span class="si">{</span><span class="n">ENV</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
 <span class="n">BRONZE_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"abfss://</span><span class="si">{</span><span class="n">WORKSPACE</span><span class="si">}</span><span class="s2">@onelake.dfs.fabric.microsoft.com/..."</span>
 </code></pre></div>
@@ -1032,7 +1021,7 @@ POST https://api.fabric.microsoft.com/v1/capacities/{capacityId}/suspend
 </code></pre></div></p>
 <div class="admonition info">
 <p class="admonition-title">Cost Impact</p>
-<p>Pausing Dev F8 nights and weekends reduces it from ~$1,100/month to ~$200/month — a ~82% saving on the dev capacity.</p>
+<p>Pausing Dev F8 nights and weekends reduces it from ~$1,100/month to ~$200/month — a ~82% saving on the dev capacity. Removing the former Test F8 environment saves an additional ~$600/month (~$7,200/yr) compared to a three-tier model.</p>
 </div>
 </article>
 </div>

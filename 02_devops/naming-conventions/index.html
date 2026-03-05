@@ -1,0 +1,2780 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Microsoft Fabric Medallion Architecture — Assessment, Architecture & Roadmap">
+      
+      
+      
+        <link rel="canonical" href="https://VMeida.github.io/mkc-assessment/02_devops/naming-conventions/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>Naming conventions - MKC · Data Strategy Assessment</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#naming-conventions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MKC · Data Strategy Assessment" class="md-header__button md-logo" aria-label="MKC · Data Strategy Assessment" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MKC · Data Strategy Assessment
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Naming conventions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../01_foundation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Foundation & Strategy
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  DevOps & Automation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../03_data-consumption/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Data Consumption
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../04_fabric-architecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fabric Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../05_ai-mlops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI, Data Science & MLOps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../06_governance/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Governance & Security
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../07_finops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  FinOps & Observability
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MKC · Data Strategy Assessment" class="md-nav__button md-logo" aria-label="MKC · Data Strategy Assessment" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MKC · Data Strategy Assessment
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_foundation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foundation & Strategy
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Foundation & Strategy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/executive-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/current-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current State
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/target-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Target State
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/maturity-assessment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Maturity
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundation/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DevOps & Automation
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    DevOps & Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git Workflow
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI/CD Pipelines
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environments
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../03_data-consumption/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Consumption
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Consumption
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_data-consumption/workspace-catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_data-consumption/dataflow-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataflow Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_data-consumption/source-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_data-consumption/self-service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Self-Service Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../04_fabric-architecture/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fabric Architecture
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fabric Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/medallion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Medallion Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/onelake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OneLake & Delta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/star-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Star Schema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/workspace-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_fabric-architecture/vendor-independence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Independence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_ai-mlops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI, Data Science & MLOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI, Data Science & MLOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/llm-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise LLM Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/data-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fabric Data Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/mlops-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MLOps Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/feature-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature Store
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/cost-scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost Scenarios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../06_governance/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance & Security
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance & Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/rls-ols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RLS & OLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/purview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft Purview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/entra-rbac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entra ID & RBAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_governance/compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../07_finops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FinOps & Observability
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FinOps & Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/sku-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SKU Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Scenarios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_finops/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Work in Progress</p>
+<p>This section is under active development and subject to change.</p>
+</div>
+<h1 id="naming-conventions">Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permanent link">&para;</a></h1>
+<p>This page is the single source of truth for all naming patterns used across MKC's Fabric platform. Consistent names are the foundation of cross-workspace search, automated lineage, and CI/CD variable substitution.</p>
+<hr />
+<h2 id="fabric-artifact-names">Fabric Artifact Names<a class="headerlink" href="#fabric-artifact-names" title="Permanent link">&para;</a></h2>
+<h3 id="workspaces">Workspaces<a class="headerlink" href="#workspaces" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>MKC-{Layer}-{Environment}
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{Layer}</code></td>
+<td><code>Bronze</code>, <code>Silver</code>, <code>Gold</code>, <code>SemanticModels</code>, <code>BI-{Domain}</code></td>
+</tr>
+<tr>
+<td><code>{Environment}</code></td>
+<td><code>Dev</code>, <code>Prod</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>MKC-Bronze-Prod
+MKC-Silver-Dev
+MKC-Gold-Prod
+MKC-SemanticModels-Prod
+MKC-BI-Sales-Prod
+MKC-BI-Financial-Prod
+MKC-BI-Operations-Prod
+</code></pre></div>
+<hr />
+<h3 id="lakehouses">Lakehouses<a class="headerlink" href="#lakehouses" title="Permanent link">&para;</a></h3>
+<p>Lakehouses live inside a workspace. The name mirrors the layer only (no environment suffix — the workspace already carries it):</p>
+<div class="highlight"><pre><span></span><code>{Layer}.Lakehouse
+</code></pre></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>Bronze.Lakehouse
+Silver.Lakehouse
+Gold.Lakehouse
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Why no env suffix on the Lakehouse name?</p>
+<p>The environment is encoded in the workspace (<code>MKC-Bronze-Dev</code> vs <code>MKC-Bronze-Prod</code>). Repeating it in the Lakehouse name creates redundancy and complicates notebook path templates.</p>
+</div>
+<hr />
+<h3 id="notebooks">Notebooks<a class="headerlink" href="#notebooks" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>nb-{layer}-{action}-{subject}
+</code></pre></div>
+<p>All lowercase, hyphen-separated. The <code>{layer}</code> token makes the notebook's position in the medallion immediately clear.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{layer}</code></td>
+<td><code>bronze</code>, <code>silver</code>, <code>gold</code>, <code>utils</code></td>
+</tr>
+<tr>
+<td><code>{action}</code></td>
+<td><code>ingest</code>, <code>transform</code>, <code>aggregate</code>, <code>validate</code>, <code>repair</code></td>
+</tr>
+<tr>
+<td><code>{subject}</code></td>
+<td>Source table or entity name in <code>snake_case</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>nb-bronze-ingest-sop10100
+nb-bronze-ingest-rm00101
+nb-silver-transform-grain-sale-transaction
+nb-silver-validate-fact-inventory
+nb-gold-aggregate-fact-grain-sales
+nb-utils-schema-drift-check
+</code></pre></div>
+<hr />
+<h3 id="pipelines">Pipelines<a class="headerlink" href="#pipelines" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>pl-{layer}-{subject}
+</code></pre></div>
+<p>Pipelines orchestrate one or more notebooks for a subject area. Keep the name at the pipeline level — do not repeat individual notebook names.</p>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>pl-bronze-gp-daily-ingest
+pl-silver-sales-transform
+pl-gold-refresh-all
+pl-bronze-sharepoint-ingest
+pl-bronze-agvantage-api
+</code></pre></div>
+<hr />
+<h3 id="dataflow-gen2">Dataflow Gen2<a class="headerlink" href="#dataflow-gen2" title="Permanent link">&para;</a></h3>
+<p>Dataflows handle small-payload ingestion (API/SharePoint → Bronze). Name them after their source:</p>
+<div class="highlight"><pre><span></span><code>dfw-{source}-{subject}
+</code></pre></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>dfw-sharepoint-crop-plan
+dfw-dynamics-crm-opportunity
+dfw-agvantage-field-applications
+dfw-agworld-producer-master
+</code></pre></div>
+<hr />
+<h3 id="semantic-models">Semantic Models<a class="headerlink" href="#semantic-models" title="Permanent link">&para;</a></h3>
+<p>Semantic models are named after their business domain. No environment suffix (managed by workspace):</p>
+<div class="highlight"><pre><span></span><code>{Domain}.SemanticModel
+</code></pre></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>Sales.SemanticModel
+Financial.SemanticModel
+Operations.SemanticModel
+</code></pre></div>
+<hr />
+<h3 id="reports">Reports<a class="headerlink" href="#reports" title="Permanent link">&para;</a></h3>
+<p>Reports live in BI workspaces. Name them after the business subject with Title Case:</p>
+<div class="highlight"><pre><span></span><code>{Subject Area} {Report Type}
+</code></pre></div>
+<p>Where <code>{Report Type}</code> is one of: <code>Dashboard</code>, <code>Scorecard</code>, <code>Report</code>, <code>Analysis</code>.</p>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>Grain Sales Dashboard
+Agronomy Scorecard
+AP Aging Report
+Inventory On Hand Report
+Payroll Summary Dashboard
+GL Cost Center Analysis
+</code></pre></div>
+<hr />
+<h3 id="dax-measures">DAX Measures<a class="headerlink" href="#dax-measures" title="Permanent link">&para;</a></h3>
+<p>Measures use <strong>Title Case with spaces</strong>, wrapped in square brackets in DAX:</p>
+<div class="highlight"><pre><span></span><code>[{Aggregation} {Subject}]
+</code></pre></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>[Total Grain Revenue]
+[Grain Margin %]
+[Inventory On Hand]
+[AP Overdue Amount]
+[AR 60+ Days]
+[YTD Feed Sales]
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">No underscores in measure names</p>
+<p>Measure names appear in report tooltips and field lists. Use human-readable Title Case, not <code>snake_case</code> or <code>SCREAMING_SNAKE</code>.</p>
+</div>
+<hr />
+<h2 id="column-naming-contract">Column Naming Contract<a class="headerlink" href="#column-naming-contract" title="Permanent link">&para;</a></h2>
+<p>Column names are the contract that travels across all medallion layers. The rules below define what happens to a column name at each layer transition. Enforcing these rules at Silver is the mechanism that standardises columns across all environments and workspaces.</p>
+<h3 id="the-three-layer-contract">The Three-Layer Contract<a class="headerlink" href="#the-three-layer-contract" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Source (GP / AgVantage / SharePoint)
+    ↓  Bronze: mirror source names exactly
+Bronze.Lakehouse
+    ↓  Silver: rename to snake_case canonical form
+Silver.Lakehouse
+    ↓  Gold: add surrogate keys; names carry through unchanged
+Gold.Lakehouse / Gold.Warehouse
+    ↓  DirectLake: column names inherited unchanged
+Semantic Model
+    ↓  DAX: measures follow [Title Case] convention
+</code></pre></div>
+<hr />
+<h3 id="bronze-mirror-source-names">Bronze — Mirror Source Names<a class="headerlink" href="#bronze-mirror-source-names" title="Permanent link">&para;</a></h3>
+<p>Bronze tables replicate the source exactly. <strong>Do not rename columns.</strong> Renaming at Bronze breaks reprocessability and makes it impossible to trace a Bronze value back to the source system.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Copy column names verbatim from source</td>
+<td><code>ITEMNMBR</code>, <code>CUSTNMBR</code>, <code>TRXDATE</code></td>
+</tr>
+<tr>
+<td>Add audit columns with <code>_</code> prefix</td>
+<td><code>_ingested_at TIMESTAMP</code>, <code>_source_system STRING</code></td>
+</tr>
+<tr>
+<td>Table names: <code>{source_db}_{source_table}</code> in <code>lowercase_snake</code></td>
+<td><code>mkcgp_sop10100</code>, <code>mkcgp_rm00101</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bronze audit columns (added at every ingest, never from source):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_ingested_at</code></td>
+<td><code>TIMESTAMP</code></td>
+<td>When the row was written to Bronze</td>
+</tr>
+<tr>
+<td><code>_source_system</code></td>
+<td><code>STRING</code></td>
+<td>Source identifier (<code>mkcgp</code>, <code>agvantage</code>, <code>sharepoint</code>)</td>
+</tr>
+<tr>
+<td><code>_source_table</code></td>
+<td><code>STRING</code></td>
+<td>Fully qualified source table name</td>
+</tr>
+<tr>
+<td><code>_pipeline_run_id</code></td>
+<td><code>STRING</code></td>
+<td>Fabric Pipeline run ID for traceability</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="silver-canonical-snake_case-rename">Silver — Canonical snake_case Rename<a class="headerlink" href="#silver-canonical-snake_case-rename" title="Permanent link">&para;</a></h3>
+<p>Silver is where source-native names are translated to canonical MKC names. <strong>Every column rename happens here and only here.</strong> Downstream layers inherit the Silver name without further renaming.</p>
+<h4 id="rename-rules">Rename rules<a class="headerlink" href="#rename-rules" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Source Name</th>
+<th>Silver Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All lowercase, underscore-separated</td>
+<td><code>ITEMNMBR</code></td>
+<td><code>item_number</code></td>
+</tr>
+<tr>
+<td>Spell out abbreviations</td>
+<td><code>TRXDATE</code></td>
+<td><code>transaction_date</code></td>
+</tr>
+<tr>
+<td>Use consistent suffixes (see table below)</td>
+<td><code>CUSTNMBR</code></td>
+<td><code>customer_id</code></td>
+</tr>
+<tr>
+<td>Disambiguate with entity prefix when joining</td>
+<td><code>NAME</code> (from customer)</td>
+<td><code>customer_name</code></td>
+</tr>
+<tr>
+<td>Add <code>_source_company</code> discriminator on unions</td>
+<td>—</td>
+<td><code>_source_company STRING</code> (<code>mkcgp</code>, <code>mwfgp</code>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="standard-column-suffixes">Standard column suffixes<a class="headerlink" href="#standard-column-suffixes" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Suffix</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_id</code></td>
+<td>Natural / business key from source</td>
+<td><code>customer_id</code>, <code>vendor_id</code>, <code>item_code</code></td>
+</tr>
+<tr>
+<td><code>_key</code></td>
+<td>Surrogate integer key (added at Gold)</td>
+<td><code>customer_key</code>, <code>date_key</code></td>
+</tr>
+<tr>
+<td><code>_date</code></td>
+<td>Calendar date (<code>DATE</code> type)</td>
+<td><code>transaction_date</code>, <code>due_date</code></td>
+</tr>
+<tr>
+<td><code>_at</code></td>
+<td>Timestamp (<code>TIMESTAMP</code> type)</td>
+<td><code>created_at</code>, <code>updated_at</code></td>
+</tr>
+<tr>
+<td><code>_amount</code></td>
+<td>Monetary value</td>
+<td><code>invoice_amount</code>, <code>open_amount</code></td>
+</tr>
+<tr>
+<td><code>_qty</code> or <code>_quantity</code></td>
+<td>Unit count</td>
+<td><code>quantity_bushels</code>, <code>order_quantity</code></td>
+</tr>
+<tr>
+<td><code>_name</code></td>
+<td>Human-readable label</td>
+<td><code>customer_name</code>, <code>location_name</code></td>
+</tr>
+<tr>
+<td><code>_type</code></td>
+<td>Category/enum</td>
+<td><code>transaction_type</code>, <code>movement_type</code></td>
+</tr>
+<tr>
+<td><code>_flag</code></td>
+<td>Boolean indicator</td>
+<td><code>is_active_flag</code>, <code>is_intercompany_flag</code></td>
+</tr>
+<tr>
+<td><code>_pct</code></td>
+<td>Percentage (0–100 scale)</td>
+<td><code>margin_pct</code>, <code>discount_pct</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="silver-table-names">Silver table names<a class="headerlink" href="#silver-table-names" title="Permanent link">&para;</a></h4>
+<p>Silver tables use <strong>PascalCase</strong> entity names that reflect the business concept, not the source table:</p>
+<table>
+<thead>
+<tr>
+<th>Bronze source</th>
+<th>Silver entity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mkcgp_sop10100</code></td>
+<td><code>GrainSaleTransaction</code></td>
+</tr>
+<tr>
+<td><code>mkcgp_iv30300</code></td>
+<td><code>InventoryMovement</code></td>
+</tr>
+<tr>
+<td><code>mkcgp_rm00101</code></td>
+<td><code>CustomerMaster</code></td>
+</tr>
+<tr>
+<td><code>mkcgp_sy01400</code></td>
+<td><code>VendorMaster</code></td>
+</tr>
+<tr>
+<td><code>mkcgp_gl10000</code></td>
+<td><code>GLTransaction</code></td>
+</tr>
+<tr>
+<td><code>agvantage_field_applications</code></td>
+<td><code>FieldApplication</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="gold-surrogate-keys-pascalcase-tables">Gold — Surrogate Keys + PascalCase Tables<a class="headerlink" href="#gold-surrogate-keys-pascalcase-tables" title="Permanent link">&para;</a></h3>
+<p>Gold inherits Silver's <code>snake_case</code> column names unchanged. The only additions are:</p>
+<ul>
+<li><strong>Surrogate keys</strong> (<code>{entity}_key INTEGER</code>) generated with <code>ROW_NUMBER()</code> or a sequence</li>
+<li><strong>Derived/aggregated columns</strong> following the same <code>snake_case</code> rules as Silver</li>
+<li><strong>Table names</strong> use <code>Fact{Subject}</code> / <code>Dim{Entity}</code> PascalCase</li>
+</ul>
+<h4 id="surrogate-key-pattern">Surrogate key pattern<a class="headerlink" href="#surrogate-key-pattern" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Gold dimension load — add surrogate key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql.window</span><span class="w"> </span><span class="kn">import</span> <span class="n">Window</span>
+
+<span class="n">dim_df</span> <span class="o">=</span> <span class="n">silver_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+    <span class="s2">&quot;customer_key&quot;</span><span class="p">,</span>
+    <span class="n">F</span><span class="o">.</span><span class="n">row_number</span><span class="p">()</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">Window</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s2">&quot;customer_id&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+</code></pre></div>
+<h4 id="fact-table-column-order-convention">Fact table column order convention<a class="headerlink" href="#fact-table-column-order-convention" title="Permanent link">&para;</a></h4>
+<p>Fact tables should follow this column order for consistency:</p>
+<ol>
+<li>Surrogate keys (<code>date_key</code>, <code>location_key</code>, …)</li>
+<li>Natural/degenerate keys (<code>transaction_id</code>, <code>order_number</code>)</li>
+<li>Measures / numeric columns (<code>total_bushels</code>, <code>amount_usd</code>)</li>
+<li>Audit columns (<code>_loaded_at</code>)</li>
+</ol>
+<hr />
+<h3 id="semantic-model-inherit-rename-for-readability">Semantic Model — Inherit + Rename for Readability<a class="headerlink" href="#semantic-model-inherit-rename-for-readability" title="Permanent link">&para;</a></h3>
+<p>DirectLake semantic models inherit Gold column names. Rename only when the technical name would confuse business users in report field lists:</p>
+<table>
+<thead>
+<tr>
+<th>Gold column</th>
+<th>Semantic Model column</th>
+<th>Rename justified?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>quantity_bushels</code></td>
+<td><code>Quantity (Bushels)</code></td>
+<td>Yes — unit clarifies meaning</td>
+</tr>
+<tr>
+<td><code>amount_usd</code></td>
+<td><code>Amount (USD)</code></td>
+<td>Yes — currency clarifies meaning</td>
+</tr>
+<tr>
+<td><code>date_key</code></td>
+<td><em>(hidden — use <code>full_date</code>)</em></td>
+<td>Yes — surrogate key hidden</td>
+</tr>
+<tr>
+<td><code>customer_id</code></td>
+<td><code>Customer ID</code></td>
+<td>Optional — usually kept as-is</td>
+</tr>
+<tr>
+<td><code>transaction_type</code></td>
+<td><code>Transaction Type</code></td>
+<td>Title Case rename in model</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb:</strong> hide surrogate <code>_key</code> columns; rename units/currencies for clarity; leave natural IDs and descriptive columns as-is.</p>
+<hr />
+<h3 id="cross-layer-column-traceability-example">Cross-Layer Column Traceability Example<a class="headerlink" href="#cross-layer-column-traceability-example" title="Permanent link">&para;</a></h3>
+<p>The table below traces a single business value — grain sale price — from the GP source to a DAX measure:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Object</th>
+<th>Column Name</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source (GP)</td>
+<td><code>SOP10100</code></td>
+<td><code>UNITPRCE</code></td>
+<td>Source abbreviated name</td>
+</tr>
+<tr>
+<td>Bronze</td>
+<td><code>mkcgp_sop10100</code></td>
+<td><code>UNITPRCE</code></td>
+<td>Mirrored verbatim</td>
+</tr>
+<tr>
+<td>Silver</td>
+<td><code>GrainSaleTransaction</code></td>
+<td><code>price_per_unit</code></td>
+<td>Renamed at Silver transform</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td><code>FactGrainSales</code></td>
+<td><code>price_per_unit</code></td>
+<td>Inherited unchanged</td>
+</tr>
+<tr>
+<td>Semantic Model</td>
+<td><code>FactGrainSales</code></td>
+<td><code>Price per Unit</code></td>
+<td>Title Case for field list</td>
+</tr>
+<tr>
+<td>DAX Measure</td>
+<td>—</td>
+<td><code>[Avg Grain Price]</code></td>
+<td>Aggregation over <code>price_per_unit</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="schema-registry">Schema Registry<a class="headerlink" href="#schema-registry" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-is">What It Is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h3>
+<p><code>schema_registry.yml</code> is the machine-readable, version-controlled source of truth for every Bronze→Silver column rename. It lives in the repository root alongside the notebooks and is reviewed in every PR that touches source table mappings.</p>
+<div class="highlight"><pre><span></span><code>MKC PowerBI Inventory/
+├── schema_registry.yml   ← single source of truth for column renames
+├── validate_schema.py    ← offline + online validator
+└── ...
+</code></pre></div>
+<h3 id="why-it-exists">Why It Exists<a class="headerlink" href="#why-it-exists" title="Permanent link">&para;</a></h3>
+<p>The three-layer contract above is <em>aspirational</em> unless it is enforced. Without a registry:</p>
+<ul>
+<li>A developer can rename <code>UNITPRCE</code> to <code>unit_price</code> in Dev and <code>price_unit</code> in Prod — the report breaks silently.</li>
+<li>No reviewer can tell at a glance whether a new Silver column follows the suffix rules.</li>
+<li>Drift between environments is invisible until a semantic model refresh fails.</li>
+</ul>
+<p>The registry makes drift structurally impossible: both Dev and Prod deploy from the same branch, so the <code>schema_registry.yml</code> they read is identical.</p>
+<h3 id="registry-structure">Registry Structure<a class="headerlink" href="#registry-structure" title="Permanent link">&para;</a></h3>
+<p>Each entry maps a Bronze source table to its Silver entity and lists every column rename:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">tables</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mkcgp_sop10100</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">source_db</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mkcgp</span>
+<span class="w">    </span><span class="nt">source_table</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SOP10100</span>
+<span class="w">    </span><span class="nt">silver_entity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GrainSaleTransaction</span>
+<span class="w">    </span><span class="nt">columns</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">SOPNUMBE</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> silver</span><span class="p">:</span><span class="w"> </span><span class="nv">transaction_number</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="nv">STRING</span><span class="p p-Indicator">,</span><span class="nt">        description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Sales</span><span class="nv"> </span><span class="s">order</span><span class="nv"> </span><span class="s">number&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">CUSTNMBR</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> silver</span><span class="p">:</span><span class="w"> </span><span class="nv">customer_id</span><span class="p p-Indicator">,</span><span class="nt">        type</span><span class="p">:</span><span class="w"> </span><span class="nv">STRING</span><span class="p p-Indicator">,</span><span class="nt">        description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Customer</span><span class="nv"> </span><span class="s">ID</span><span class="nv"> </span><span class="s">(FK</span><span class="nv"> </span><span class="s">DimCustomer)&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">UNITPRCE</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> silver</span><span class="p">:</span><span class="w"> </span><span class="nv">price_per_unit</span><span class="p p-Indicator">,</span><span class="nt">     type</span><span class="p">:</span><span class="w"> </span><span class="nv">DECIMAL(18</span><span class="p p-Indicator">,</span><span class="nv">4)</span><span class="p p-Indicator">,</span><span class="nt"> description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Unit</span><span class="nv"> </span><span class="s">price</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">USD&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="nt">TRXDATE</span><span class="p">:</span><span class="w">  </span><span class="p p-Indicator">{</span><span class="nt"> silver</span><span class="p">:</span><span class="w"> </span><span class="nv">transaction_date</span><span class="p p-Indicator">,</span><span class="nt">   type</span><span class="p">:</span><span class="w"> </span><span class="nv">DATE</span><span class="p p-Indicator">,</span><span class="nt">          description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Transaction</span><span class="nv"> </span><span class="s">date&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</code></pre></div>
+<p>Audit columns (<code>_ingested_at</code>, <code>_source_system</code>, <code>_source_table</code>, <code>_pipeline_run_id</code>) are <strong>not listed</strong> — they are added automatically by the Bronze ingest template.</p>
+<h3 id="onboarding-a-new-source-table">Onboarding a New Source Table<a class="headerlink" href="#onboarding-a-new-source-table" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Add an entry to <code>schema_registry.yml</code> with all source→silver column mappings.</li>
+<li>Run the validator locally to confirm no naming violations:
+   <div class="highlight"><pre><span></span><code>python<span class="w"> </span>validate_schema.py<span class="w"> </span>--table<span class="w"> </span>mkcgp_new_table
+</code></pre></div></li>
+<li>Write the Silver notebook using <strong>only</strong> the registered Silver column names.</li>
+<li>Open a PR — CI runs <code>validate_schema.py</code> automatically and fails if any rule is broken.</li>
+</ol>
+<h3 id="running-the-validator">Running the Validator<a class="headerlink" href="#running-the-validator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Validate all tables (offline — no credentials needed)</span>
+python<span class="w"> </span>validate_schema.py
+
+<span class="c1"># Validate a single table</span>
+python<span class="w"> </span>validate_schema.py<span class="w"> </span>--table<span class="w"> </span>mkcgp_sop10100
+
+<span class="c1"># Online mode: compare registry against actual Delta schemas in OneLake</span>
+python<span class="w"> </span>validate_schema.py<span class="w"> </span>--live<span class="w"> </span>--env<span class="w"> </span>dev
+python<span class="w"> </span>validate_schema.py<span class="w"> </span>--live<span class="w"> </span>--env<span class="w"> </span>prod<span class="w"> </span>--workspace<span class="w"> </span>MKC-Silver-Prod
+</code></pre></div>
+<h3 id="what-ci-checks">What CI Checks<a class="headerlink" href="#what-ci-checks" title="Permanent link">&para;</a></h3>
+<p>The offline validator (run on every PR) enforces:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Example violation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Silver names must be <code>snake_case</code></td>
+<td><code>CustomerName</code> instead of <code>customer_name</code></td>
+</tr>
+<tr>
+<td>Silver names must end with a recognised suffix</td>
+<td><code>price_unit</code> (no valid suffix)</td>
+</tr>
+<tr>
+<td>No duplicate Silver name within the same table</td>
+<td>Two source columns mapped to <code>transaction_date</code></td>
+</tr>
+<tr>
+<td>Every column entry must have a <code>type</code> field</td>
+<td>Missing <code>type:</code> in YAML</td>
+</tr>
+</tbody>
+</table>
+<p>See the <a href="../cicd/">CI/CD page</a> for the pipeline step that runs this check.</p>
+<hr />
+<h2 id="notebook-parameter-cells">Notebook Parameter Cells<a class="headerlink" href="#notebook-parameter-cells" title="Permanent link">&para;</a></h2>
+<p>Parameters injected by CI/CD use <code>SCREAMING_SNAKE_CASE</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># parameters  ← Fabric &quot;Parameter Cell&quot; tag required</span>
+<span class="n">ENV</span>        <span class="o">=</span> <span class="s2">&quot;dev&quot;</span>          <span class="c1"># overridden by CI/CD to &quot;prod&quot;</span>
+<span class="n">WORKSPACE</span>  <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;MKC-Bronze-</span><span class="si">{</span><span class="n">ENV</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">LAYER</span>      <span class="o">=</span> <span class="s2">&quot;bronze&quot;</span>
+<span class="n">SOURCE_DB</span>  <span class="o">=</span> <span class="s2">&quot;mkcgp&quot;</span>
+<span class="n">SOURCE_TABLE</span> <span class="o">=</span> <span class="s2">&quot;sop10100&quot;</span>
+</code></pre></div>
+<p>Local/derived variables inside the notebook use <code>snake_case</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">bronze_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;abfss://</span><span class="si">{</span><span class="n">WORKSPACE</span><span class="si">}</span><span class="s2">@onelake.dfs.fabric.microsoft.com/Bronze.Lakehouse/Tables/</span><span class="si">{</span><span class="n">SOURCE_DB</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SOURCE_TABLE</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">watermark_col</span> <span class="o">=</span> <span class="s2">&quot;rowversion&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="onelake-path-convention">OneLake Path Convention<a class="headerlink" href="#onelake-path-convention" title="Permanent link">&para;</a></h2>
+<p>OneLake paths follow the workspace naming pattern so a single <code>ENV</code> parameter covers all layers:</p>
+<div class="highlight"><pre><span></span><code>abfss://MKC-{Layer}-{ENV}@onelake.dfs.fabric.microsoft.com/{Layer}.Lakehouse/Tables/{table_name}
+</code></pre></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>abfss://MKC-Bronze-Prod@onelake.dfs.fabric.microsoft.com/Bronze.Lakehouse/Tables/mkcgp_sop10100
+abfss://MKC-Silver-Dev@onelake.dfs.fabric.microsoft.com/Silver.Lakehouse/Tables/GrainSaleTransaction
+abfss://MKC-Gold-Prod@onelake.dfs.fabric.microsoft.com/Gold.Lakehouse/Tables/FactGrainSales
+</code></pre></div>
+<hr />
+<h2 id="identity-access-names">Identity &amp; Access Names<a class="headerlink" href="#identity-access-names" title="Permanent link">&para;</a></h2>
+<p>See <a href="../../06_governance/entra-rbac/">Entra ID &amp; RBAC</a> for the full Entra group and service principal naming conventions. Summary:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workspace member groups</td>
+<td><code>sg-fabric-{domain}-members</code></td>
+</tr>
+<tr>
+<td>Workspace viewer groups</td>
+<td><code>sg-fabric-{domain}-viewers</code></td>
+</tr>
+<tr>
+<td>RLS filter groups</td>
+<td><code>sg-pbi-{domain}-{filter}</code></td>
+</tr>
+<tr>
+<td>CI/CD service principals</td>
+<td><code>sp-fabric-cicd</code></td>
+</tr>
+<tr>
+<td>Purview scanner SP</td>
+<td><code>sp-fabric-purview</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Pattern</th>
+<th>Case</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workspace</td>
+<td><code>MKC-{Layer}-{Env}</code></td>
+<td>PascalCase</td>
+<td><code>MKC-Bronze-Prod</code></td>
+</tr>
+<tr>
+<td>Lakehouse</td>
+<td><code>{Layer}.Lakehouse</code></td>
+<td>PascalCase</td>
+<td><code>Bronze.Lakehouse</code></td>
+</tr>
+<tr>
+<td>Notebook</td>
+<td><code>nb-{layer}-{action}-{subject}</code></td>
+<td>kebab-case</td>
+<td><code>nb-silver-transform-grain-sale-transaction</code></td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td><code>pl-{layer}-{subject}</code></td>
+<td>kebab-case</td>
+<td><code>pl-bronze-gp-daily-ingest</code></td>
+</tr>
+<tr>
+<td>Dataflow Gen2</td>
+<td><code>dfw-{source}-{subject}</code></td>
+<td>kebab-case</td>
+<td><code>dfw-agvantage-field-applications</code></td>
+</tr>
+<tr>
+<td>Semantic Model</td>
+<td><code>{Domain}.SemanticModel</code></td>
+<td>PascalCase</td>
+<td><code>Sales.SemanticModel</code></td>
+</tr>
+<tr>
+<td>Report</td>
+<td><code>{Subject} {Type}</code></td>
+<td>Title Case</td>
+<td><code>Grain Sales Dashboard</code></td>
+</tr>
+<tr>
+<td>DAX Measure</td>
+<td><code>[{Aggregation} {Subject}]</code></td>
+<td>Title Case</td>
+<td><code>[Total Grain Revenue]</code></td>
+</tr>
+<tr>
+<td>Bronze table</td>
+<td><code>{source_db}_{source_table}</code></td>
+<td>snake_case</td>
+<td><code>mkcgp_sop10100</code></td>
+</tr>
+<tr>
+<td>Silver table</td>
+<td><code>{BusinessEntity}</code></td>
+<td>PascalCase</td>
+<td><code>GrainSaleTransaction</code></td>
+</tr>
+<tr>
+<td>Gold Fact table</td>
+<td><code>Fact{Subject}</code></td>
+<td>PascalCase</td>
+<td><code>FactGrainSales</code></td>
+</tr>
+<tr>
+<td>Gold Dim table</td>
+<td><code>Dim{Entity}</code></td>
+<td>PascalCase</td>
+<td><code>DimCustomer</code></td>
+</tr>
+<tr>
+<td>Column (Silver/Gold)</td>
+<td><code>{entity}_{suffix}</code></td>
+<td>snake_case</td>
+<td><code>customer_id</code>, <code>transaction_date</code></td>
+</tr>
+<tr>
+<td>Notebook parameter</td>
+<td><code>SCREAMING_SNAKE_CASE</code></td>
+<td>UPPER</td>
+<td><code>SOURCE_TABLE</code>, <code>ENV</code></td>
+</tr>
+<tr>
+<td>Notebook variable</td>
+<td><code>snake_case</code></td>
+<td>lower</td>
+<td><code>bronze_path</code>, <code>watermark_col</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "content.code.copy", "content.code.annotate", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

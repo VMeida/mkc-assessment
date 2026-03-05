@@ -2,158 +2,162 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/01_foundation/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/01_foundation/current-state/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/01_foundation/executive-summary/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/01_foundation/maturity-assessment/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/01_foundation/roadmap/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/01_foundation/target-state/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/02_devops/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/02_devops/cicd/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/02_devops/environments/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/02_devops/git-workflow/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://VMeida.github.io/mkc-assessment/02_devops/naming-conventions/</loc>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/02_devops/testing/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/03_data-consumption/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/03_data-consumption/dataflow-inventory/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/03_data-consumption/self-service/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/03_data-consumption/source-inventory/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/03_data-consumption/workspace-catalog/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/04_fabric-architecture/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/04_fabric-architecture/medallion/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/04_fabric-architecture/onelake/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/04_fabric-architecture/star-schema/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/04_fabric-architecture/vendor-independence/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/04_fabric-architecture/workspace-design/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/05_ai-mlops/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/05_ai-mlops/cost-scenarios/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/05_ai-mlops/data-agents/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/05_ai-mlops/feature-store/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/05_ai-mlops/llm-architecture/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/05_ai-mlops/mlops-pipeline/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/06_governance/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/06_governance/compliance/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/06_governance/entra-rbac/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/06_governance/purview/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/06_governance/rls-ols/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/07_finops/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/07_finops/observability/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/07_finops/optimization/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/07_finops/scenarios/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
     <url>
          <loc>https://VMeida.github.io/mkc-assessment/07_finops/sku-reference/</loc>
-         <lastmod>2026-03-03</lastmod>
+         <lastmod>2026-03-05</lastmod>
     </url>
 </urlset>

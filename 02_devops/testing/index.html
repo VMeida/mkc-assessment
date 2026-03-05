@@ -1016,6 +1016,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#unit-test-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Test Roadmap
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Unit Test Roadmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-now-low-friction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Now (low friction)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-medium-term" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Medium term
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-future" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Future
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1-unit-tests-notebook-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2149,6 +2199,31 @@
           │     Unit (Notebook functions)      │  ← pytest on transformation functions
           └────────────────────────────────────┘
 </code></pre></div>
+<h2 id="unit-test-roadmap">Unit Test Roadmap<a class="headerlink" href="#unit-test-roadmap" title="Permanent link">&para;</a></h2>
+<p>Fabric Notebooks are not natively testable with vanilla pytest inside a Spark cluster. The recommended approach extracts logic progressively to enable local testing.</p>
+<h3 id="phase-1-now-low-friction">Phase 1 — Now (low friction)<a class="headerlink" href="#phase-1-now-low-friction" title="Permanent link">&para;</a></h3>
+<p>Extract all transformation logic into a <code>src/</code> pure-Python package (no Spark imports). This allows full local and CI testing with no Fabric connection:</p>
+<ul>
+<li><strong>Structure:</strong> <code>src/transforms/</code> contains pure functions; notebooks import from <code>src/</code></li>
+<li><strong>Tools:</strong> <code>pytest</code>, <code>pytest-cov</code>, <code>ruff</code> (already in CI), <code>pandas</code> mocks</li>
+<li><strong>Coverage gate:</strong> CI fails if <code>src/</code> coverage drops below 80% (<code>pytest --cov=src --cov-fail-under=80</code>)</li>
+<li><strong>Target:</strong> 80% coverage on all <code>src/transforms/</code> functions</li>
+</ul>
+<h3 id="phase-2-medium-term">Phase 2 — Medium term<a class="headerlink" href="#phase-2-medium-term" title="Permanent link">&para;</a></h3>
+<p>Test DataFrame transforms and notebooks without a live Spark cluster:</p>
+<ul>
+<li><strong><code>pytest-spark</code></strong> or a local <strong>DuckDB</strong> fixture for DataFrame-level transform tests</li>
+<li><strong><code>nbmake</code></strong> — runs notebooks as tests end-to-end without Spark</li>
+<li><strong><code>papermill</code></strong> — parameterized notebook execution for environment-based testing</li>
+<li><strong>Gate:</strong> same 80% threshold enforced in CI; extend coverage to DataFrame-level tests</li>
+</ul>
+<h3 id="phase-3-future">Phase 3 — Future<a class="headerlink" href="#phase-3-future" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Microsoft Fabric native test execution</strong> for Notebooks (currently on roadmap; evaluate when GA)</li>
+<li><strong>Fabric Data Factory unit testing</strong> once generally available</li>
+<li><strong>Great Expectations</strong> or <strong>Soda Core</strong> at the DQ layer for declarative data contracts</li>
+</ul>
+<hr />
 <h2 id="1-unit-tests-notebook-functions">1. Unit Tests — Notebook Functions<a class="headerlink" href="#1-unit-tests-notebook-functions" title="Permanent link">&para;</a></h2>
 <p>PySpark transformation functions are extracted into testable Python modules and tested with <strong>pytest</strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># tests/test_transforms.py</span>
