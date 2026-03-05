@@ -10,8 +10,7 @@ flowchart LR
     B -->|Pull Request| C[dev branch]
     C -->|Fabric Sync| D["Fabric Dev Workspace<br/>(F8)"]
     D -->|PR + DQ tests pass| E[main branch]
-    E -->|Fabric Sync| F["Fabric Test Workspace<br/>(F8)"]
-    F -->|Approval gate| G["Fabric Prod Workspace<br/>(F32)"]
+    E -->|Manual approval gate| F["Fabric Prod Workspace<br/>(F32)"]
 ```
 
 ## Branch Strategy
@@ -19,9 +18,8 @@ flowchart LR
 | Branch | Synced Workspace | Purpose |
 |--------|-----------------|---------|
 | `feature/*` | None (PR only) | Developer sandbox for new features |
-| `dev` | Dev Workspace (F8) | Integration testing of in-progress work |
-| `main` | Test Workspace (F8) | Staging for UAT and QA sign-off |
-| `release/vX.Y` | Prod Workspace (F32) | Production-deployed, tagged versions |
+| `dev` | Dev Workspace (F8) | Integration of in-progress work; UAT with last-90-days snapshot |
+| `main` | Prod Workspace (F32) | Production-deployed; requires manual GitHub Environments approval |
 
 ## Repository Structure
 
@@ -49,10 +47,12 @@ mkc-fabric/
 
 ## Pull Request Rules
 
-1. **Minimum 1 reviewer** for any change to `dev` or `main`
-2. **CI checks must pass** before merge (lint + DQ smoke test)
-3. **No direct commits** to `main` or `release/*` branches
-4. **Squash merges** preferred — keeps `main` history clean
+1. **feature → dev only** — all feature branches target `dev` via PR; direct PRs to `main` are not permitted
+2. **Minimum 1 reviewer** for any change to `dev` or `main`
+3. **CI checks must pass** before merge (lint + DQ smoke test + coverage gate)
+4. **No direct commits** to `main`
+5. **dev → main requires approval** — the `main` branch is protected by a GitHub Environments approval gate (replaces the former Test stage gate)
+6. **Squash merges** preferred — keeps `main` history clean
 
 ## Workspace-to-Branch Mapping
 
@@ -61,8 +61,7 @@ Fabric workspaces are configured in the Fabric portal under **Workspace Settings
 | Workspace | Repository Branch | Auto-sync |
 |-----------|------------------|-----------|
 | MKC-Dev | `dev` | On push |
-| MKC-Test | `main` | Manual trigger |
-| MKC-Prod | `release/vX.Y` | Manual after approval |
+| MKC-Prod | `main` | Manual after approval |
 
 !!! tip "Notebook Parameters"
     Use Fabric Notebook parameters (top-cell `parameters` tag) combined with environment variable substitution in CI/CD to point notebooks at Dev vs. Prod OneLake paths without code changes.

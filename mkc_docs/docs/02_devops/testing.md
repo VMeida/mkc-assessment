@@ -14,6 +14,36 @@
           └────────────────────────────────────┘
 ```
 
+## Unit Test Roadmap
+
+Fabric Notebooks are not natively testable with vanilla pytest inside a Spark cluster. The recommended approach extracts logic progressively to enable local testing.
+
+### Phase 1 — Now (low friction)
+
+Extract all transformation logic into a `src/` pure-Python package (no Spark imports). This allows full local and CI testing with no Fabric connection:
+
+- **Structure:** `src/transforms/` contains pure functions; notebooks import from `src/`
+- **Tools:** `pytest`, `pytest-cov`, `ruff` (already in CI), `pandas` mocks
+- **Coverage gate:** CI fails if `src/` coverage drops below 80% (`pytest --cov=src --cov-fail-under=80`)
+- **Target:** 80% coverage on all `src/transforms/` functions
+
+### Phase 2 — Medium term
+
+Test DataFrame transforms and notebooks without a live Spark cluster:
+
+- **`pytest-spark`** or a local **DuckDB** fixture for DataFrame-level transform tests
+- **`nbmake`** — runs notebooks as tests end-to-end without Spark
+- **`papermill`** — parameterized notebook execution for environment-based testing
+- **Gate:** same 80% threshold enforced in CI; extend coverage to DataFrame-level tests
+
+### Phase 3 — Future
+
+- **Microsoft Fabric native test execution** for Notebooks (currently on roadmap; evaluate when GA)
+- **Fabric Data Factory unit testing** once generally available
+- **Great Expectations** or **Soda Core** at the DQ layer for declarative data contracts
+
+---
+
 ## 1. Unit Tests — Notebook Functions
 
 PySpark transformation functions are extracted into testable Python modules and tested with **pytest**:
