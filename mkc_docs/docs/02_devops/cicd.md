@@ -6,8 +6,8 @@ Two GitHub Actions workflows handle the full CI/CD lifecycle:
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
-| `ci.yml` | Pull Request to `dev` or `main` | Lint notebooks, run DQ checks, validate pipeline YAML |
-| `promote.yml` | Push to `main` (after PR merge) | Deploy workspace items to Test via Fabric REST API; gate before Prod |
+| `ci.yml` | Pull Request to `dev` or `main` | Lint notebooks, enforce coverage gate, run DQ checks, validate pipeline YAML |
+| `promote.yml` | Push to `main` (after PR merge) | Deploy workspace items to Prod via Fabric REST API with manual approval gate |
 
 ## `ci.yml` — Continuous Integration
 
@@ -26,9 +26,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install nbqa ruff
+      - run: pip install nbqa ruff pytest pytest-cov pandas
       - name: Lint notebooks
         run: nbqa ruff workspaces/dev/notebooks/ --select E,W,F
+      - name: Validate schema registry
+        run: python validate_schema.py
+      - name: Unit tests with coverage gate
+        run: pytest tests/ --cov=src --cov-fail-under=80 -q
 
   data-quality:
     runs-on: ubuntu-latest
@@ -52,6 +56,9 @@ jobs:
         run: python scripts/validate_definitions.py workspaces/dev/pipelines/
 ```
 
+!!! info "Schema validation step"
+    `python validate_schema.py` reads `schema_registry.yml` and checks every Silver column name for compliance with the naming-convention rules (snake_case, recognised suffix, no duplicates within a table). The PR fails immediately if any violation is found. No live Fabric connection is required — the check is purely offline. See [Naming Conventions — Schema Registry](naming-conventions.md#schema-registry) for the full rule set.
+
 ## `promote.yml` — Workspace Promotion
 
 ```yaml
@@ -62,29 +69,17 @@ on:
     branches: [main]
 
 jobs:
-  deploy-to-test:
+  deploy-to-prod:
     runs-on: ubuntu-latest
-    environment: test
+    environment: production   # requires manual approval in GitHub Environments
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install requests msal
-      - name: Deploy to Test Workspace
-        run: python scripts/deploy.py --workspace MKC-Test --branch main
-        env:
-          FABRIC_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
-          FABRIC_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
-          FABRIC_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
-
-  deploy-to-prod:
-    runs-on: ubuntu-latest
-    needs: deploy-to-test
-    environment: production   # requires manual approval in GitHub Environments
-    steps:
       - name: Deploy to Prod Workspace
-        run: python scripts/deploy.py --workspace MKC-Prod --branch release/v${{ github.ref_name }}
+        run: python scripts/deploy.py --workspace MKC-Prod --branch main
         env:
           FABRIC_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
           FABRIC_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
@@ -135,4 +130,4 @@ All secrets are stored in **GitHub Environments** (never in repository files) an
 | `DEV_SQL_CONNECTION_STRING` | Read-only connection for DQ smoke tests |
 
 !!! warning "No Direct Prod Deployments"
-    The `deploy-to-prod` job requires a manual approval step via **GitHub Environments** protection rules. No code reaches Prod without an explicit human sign-off.
+    The `deploy-to-prod` job requires a manual approval step via **GitHub Environments** protection rules. No code reaches Prod without an explicit human sign-off. This gate replaces the former Test environment stage — UAT is conducted against the Dev workspace using a production-like data snapshot (last 90 days).

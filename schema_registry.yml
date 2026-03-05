@@ -1,0 +1,64 @@
+# schema_registry.yml
+# Single source of truth for Bronze→Silver column renames.
+# Add a new entry whenever a new source table is onboarded.
+# Run: python validate_schema.py  to check for naming violations.
+#
+# Audit columns (_ingested_at, _source_system, _source_table, _pipeline_run_id)
+# are NOT listed here — they are added automatically by the Bronze ingest template.
+
+tables:
+
+  mkcgp_sop10100:
+    source_db: mkcgp
+    source_table: SOP10100
+    silver_entity: GrainSaleTransaction
+    columns:
+      SOPNUMBE:  { silver: transaction_number,   type: STRING,        description: "Sales order number" }
+      CUSTNMBR:  { silver: customer_id,          type: STRING,        description: "Customer ID (FK DimCustomer)" }
+      UNITPRCE:  { silver: price_per_unit,        type: DECIMAL(18,4), description: "Unit price in USD" }
+      TRXDATE:   { silver: transaction_date,      type: DATE,          description: "Transaction date" }
+      QUANTITY:  { silver: quantity_ordered,      type: DECIMAL(18,4), description: "Ordered quantity" }
+      LOCNCODE:  { silver: location_id,           type: STRING,        description: "Location code (FK DimLocation)" }
+
+  mkcgp_iv30300:
+    source_db: mkcgp
+    source_table: IV30300
+    silver_entity: InventoryMovement
+    columns:
+      ITEMNMBR:  { silver: item_number,           type: STRING,        description: "Item number (FK DimItem)" }
+      TRXQTY:    { silver: quantity_change,        type: DECIMAL(18,4), description: "Quantity moved (signed)" }
+      TRXDATE:   { silver: transaction_date,      type: DATE,          description: "Transaction date" }
+      LOCNCODE:  { silver: location_id,           type: STRING,        description: "Location code" }
+      TRXTYPE:   { silver: movement_type,         type: STRING,        description: "Receipt/Issue/Transfer/Adjustment" }
+
+  mkcgp_rm00101:
+    source_db: mkcgp
+    source_table: RM00101
+    silver_entity: CustomerMaster
+    columns:
+      CUSTNMBR:  { silver: customer_id,           type: STRING,        description: "Customer account number" }
+      CUSTNAME:  { silver: customer_name,         type: STRING,        description: "Customer display name" }
+      CUSTCLAS:  { silver: customer_class,        type: STRING,        description: "Customer classification code" }
+      CRLMTAMT:  { silver: credit_limit,          type: DECIMAL(18,2), description: "Credit limit in USD" }
+      SLPRSNID:  { silver: salesperson_id,        type: STRING,        description: "Assigned salesperson ID" }
+
+  mkcgp_sy01400:
+    source_db: mkcgp
+    source_table: SY01400
+    silver_entity: VendorMaster
+    columns:
+      VENDORID:  { silver: vendor_id,             type: STRING,        description: "Vendor account number" }
+      VENDNAME:  { silver: vendor_name,           type: STRING,        description: "Vendor display name" }
+      PYMTRMID:  { silver: payment_terms,         type: STRING,        description: "Payment terms code" }
+
+  mkcgp_gl10000:
+    source_db: mkcgp
+    source_table: GL10000
+    silver_entity: GLTransaction
+    columns:
+      JRNENTRY:  { silver: journal_entry,         type: STRING,        description: "Journal entry number" }
+      ACTINDX:   { silver: account_index,         type: INTEGER,       description: "Account index (FK account master)" }
+      DEBITAMT:  { silver: debit_amount,          type: DECIMAL(18,2), description: "Debit amount" }
+      CRDTAMNT:  { silver: credit_amount,         type: DECIMAL(18,2), description: "Credit amount" }
+      TRXDATE:   { silver: transaction_date,      type: DATE,          description: "Posting date" }
+      ORTRXDESC: { silver: transaction_description, type: STRING,      description: "Transaction narrative" }
