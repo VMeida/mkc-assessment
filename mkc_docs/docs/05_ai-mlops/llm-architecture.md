@@ -37,7 +37,7 @@ flowchart LR
 | **Compliance** | SOC2 Type II, HIPAA, ISO27001, GDPR | Meets agricultural co-op data handling requirements |
 | **No model training on data** | Confirmed via Data Protection Addendum | Microsoft does not use customer prompts to train models |
 | **Governance** | Azure APIM as LLM Gateway | Per-workspace token quotas, full audit log, chargeback by workspace |
-| **Model availability** | GPT-4o, GPT-4o-mini, text-embedding-3-large | State-of-the-art models with Microsoft SLA |
+| **Model availability** | GPT-4o, GPT-4o-mini, o1, o3-mini, GPT-5 (preview), text-embedding-3-large | State-of-the-art models with Microsoft SLA |
 | **Alternatives considered** | Azure AI Foundry model hub, on-prem Ollama, public OpenAI API | Azure OpenAI wins on compliance + native Fabric/Entra integration |
 
 ## Security Architecture
@@ -130,11 +130,19 @@ The APIM LLM Gateway enforces per-workspace token quotas and logs all usage:
 
 ## Available Models
 
-| Model | Input $/1M tokens | Output $/1M tokens | Use Case |
-|-------|------------------|-------------------|---------|
-| GPT-4o | $2.50 | $10.00 | Complex multi-table NL→DAX, reasoning |
-| GPT-4o-mini | $0.15 | $0.60 | Simple lookups, high-volume queries, classification |
-| text-embedding-3-large | $0.13 | — | Semantic search, RAG pipeline |
-| text-embedding-3-small | $0.02 | — | High-volume embedding |
+| Model | Input $/1M tokens | Output $/1M tokens | Context | Use Case |
+|-------|------------------|-------------------|---------|---------|
+| **GPT-4o** | $2.50 | $10.00 | 128K | Complex multi-table NL→DAX, reasoning — **primary model** |
+| **GPT-4o-mini** | $0.15 | $0.60 | 128K | Simple lookups, high-volume queries, classification |
+| o1 | $15.00 | $60.00 | 200K | Multi-step reasoning, audit logic, compliance checks |
+| o3-mini | $1.10 | $4.40 | 200K | Cost-efficient reasoning for structured validation tasks |
+| GPT-5 *(preview)* | ~$15.00* | ~$60.00* | 256K+ | Autonomous agents, deep research — verify pricing at GA |
+| GPT-5-mini *(preview)* | ~$1.50* | ~$6.00* | 128K | Balanced cost/quality for high-volume agent tasks |
+| GPT-4 Turbo | $10.00 | $30.00 | 128K | Legacy; superseded by GPT-4o — avoid for new deployments |
+| GPT-4 (0613) | $30.00 | $60.00 | 8K | Deprecating — migrate to GPT-4o |
+| text-embedding-3-large | $0.13 | — | — | Semantic search, RAG pipeline |
+| text-embedding-3-small | $0.02 | — | — | High-volume embedding |
 
-> Prices as of February 2026 (East US region). See [Cost Scenarios](cost-scenarios.md) for full analysis.
+*GPT-5 pricing estimated — confirm at [Azure OpenAI pricing page](https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/) before budgeting.
+
+> Prices as of March 2026 (East US region). See [Cost Scenarios](cost-scenarios.md) for full MKC usage projections and [Azure OpenAI Integration](azure-openai-integration.md) for model selection guidance.

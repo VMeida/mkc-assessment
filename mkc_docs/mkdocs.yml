@@ -93,6 +93,7 @@ nav:
   - AI, Data Science & MLOps:
     - 05_ai-mlops/index.md
     - Enterprise LLM Architecture: 05_ai-mlops/llm-architecture.md
+    - Azure OpenAI Integration: 05_ai-mlops/azure-openai-integration.md
     - Fabric Data Agents: 05_ai-mlops/data-agents.md
     - MLOps Pipeline: 05_ai-mlops/mlops-pipeline.md
     - Feature Store: 05_ai-mlops/feature-store.md

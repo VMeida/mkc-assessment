@@ -9,14 +9,40 @@ MKC's AI platform has **two completely separate cost components** that are often
 
     **Azure OpenAI** = **variable** per-token cost, billed separately based on actual LLM usage. This is additive to the Fabric cost.
 
-## Azure OpenAI Pricing (East US, Feb 2026)
+## Azure OpenAI Pricing (East US, March 2026)
+
+### GPT-4 Family
 
 | Model | Input $/1M tokens | Output $/1M tokens | Best For |
 |-------|------------------|-------------------|---------|
-| **GPT-4o** | $2.50 | $10.00 | Complex multi-table NL→DAX, reasoning |
-| **GPT-4o-mini** | $0.15 | $0.60 | Simple lookups, high-volume queries |
-| text-embedding-3-large | $0.13 | — | Semantic search, RAG pipeline |
-| text-embedding-3-small | $0.02 | — | High-volume embedding |
+| **GPT-4o** | $2.50 | $10.00 | Complex multi-table NL→DAX, reasoning — **MKC primary** |
+| **GPT-4o-mini** | $0.15 | $0.60 | Simple lookups, classification, high-volume queries |
+| GPT-4 Turbo | $10.00 | $30.00 | Legacy; superseded by GPT-4o — avoid for new work |
+| GPT-4 (0613) | $30.00 | $60.00 | Legacy; deprecating — migrate to GPT-4o |
+
+### Reasoning Models (o-series)
+
+| Model | Input $/1M tokens | Output $/1M tokens | Best For |
+|-------|------------------|-------------------|---------|
+| o1 | $15.00 | $60.00 | Multi-step reasoning, compliance logic, complex audit queries |
+| o3-mini | $1.10 | $4.40 | Cost-efficient reasoning for structured data validation |
+
+### GPT-5 (Preview — Estimated)
+
+!!! warning "GPT-5 Pricing — Indicative Only"
+    GPT-5 entered Azure OpenAI preview in early 2026. Prices below are estimates — confirm at the [Azure OpenAI pricing page](https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/) before using in budget models.
+
+| Model | Input $/1M tokens | Output $/1M tokens | Best For |
+|-------|------------------|-------------------|---------|
+| GPT-5 | ~$15.00* | ~$60.00* | Autonomous agents, deep research, multi-document synthesis |
+| GPT-5-mini | ~$1.50* | ~$6.00* | Balanced cost/quality at scale once GA |
+
+### Embedding Models
+
+| Model | Price $/1M tokens | Best For |
+|-------|------------------|---------|
+| text-embedding-3-large | $0.13 | Semantic search, RAG pipeline |
+| text-embedding-3-small | $0.02 | High-volume embedding |
 
 ## Token Consumption Per Data Agent Query
 
@@ -99,8 +125,12 @@ Route queries by complexity using a lightweight classifier:
 | 100% GPT-4o | $0.0110 | $2,475 |
 | 100% GPT-4o-mini | $0.0007 | $158 |
 | **60% mini + 40% GPT-4o** (hybrid) | **$0.0046** | **$1,040** |
+| 100% o1 (reasoning) | $0.0705 | $15,863 |
+| 100% o3-mini (reasoning) | $0.0052 | $1,170 |
+| 100% GPT-5* (estimated) | ~$0.0705 | ~$15,863 |
+| 100% GPT-5-mini* (estimated) | ~$0.0071 | ~$1,598 |
 
-Hybrid routing saves **58% vs. all-GPT-4o** with minimal quality impact on simple queries.
+Hybrid routing (GPT-4o-mini + GPT-4o) saves **58% vs. all-GPT-4o** with minimal quality impact on simple queries. o-series and GPT-5 models are only cost-justified for specialised tasks (compliance reasoning, autonomous agents) — not for standard NL→DAX at MKC's current query volumes.
 
 ```python
 # Hybrid routing — GPT-4o-mini classifies, then routes

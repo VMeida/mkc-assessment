@@ -5,6 +5,7 @@ This section covers MKC's AI platform strategy, Data Agent deployment, and machi
 | Page | Description |
 |------|-------------|
 | [Enterprise LLM Architecture](llm-architecture.md) | Azure OpenAI Service design — Private Endpoint, APIM gateway, security model, deployment options |
+| [Azure OpenAI Integration](azure-openai-integration.md) | Full model catalogue (GPT-4, GPT-4o, GPT-5), M365 Copilot vs. Azure OpenAI, Teams deployment patterns, Microsoft Graph integration diagrams |
 | [Fabric Data Agents](data-agents.md) | Natural-language querying per workspace group — scope, query flow, security |
 | [MLOps Pipeline](mlops-pipeline.md) | ML Notebooks, MLflow experiment tracking, model registry, model serving |
 | [Feature Store](feature-store.md) | Gold-layer Delta feature tables for ML training and inference |
