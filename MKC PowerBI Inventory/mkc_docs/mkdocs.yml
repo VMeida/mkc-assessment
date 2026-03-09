@@ -1,0 +1,111 @@
+site_name: MKC · Data Strategy Assessment
+site_description: Microsoft Fabric Medallion Architecture — Assessment, Architecture & Roadmap
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - toc.integrate
+    - content.code.copy
+    - content.code.annotate
+    - search.highlight
+    - search.suggest
+
+hooks:
+  - hooks/wip_badge.py
+
+extra:
+  status:
+    wip: Work in Progress
+
+plugins:
+  - search
+  - mermaid2:
+      version: 10.6.1
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Foundation & Strategy:
+    - 01_foundation/index.md
+    - Executive Summary: 01_foundation/executive-summary.md
+    - Current State: 01_foundation/current-state.md
+    - Target State: 01_foundation/target-state.md
+    - Data Maturity: 01_foundation/maturity-assessment.md
+    - Roadmap: 01_foundation/roadmap.md
+  - DevOps & Automation:
+    - 02_devops/index.md
+    - Naming Conventions: 02_devops/naming-conventions.md
+    - Git Workflow: 02_devops/git-workflow.md
+    - CI/CD Pipelines: 02_devops/cicd.md
+    - Environments: 02_devops/environments.md
+    - Testing Strategy: 02_devops/testing.md
+  - Data Consumption:
+    - 03_data-consumption/index.md
+    - Workspace Catalog: 03_data-consumption/workspace-catalog.md
+    - Dataflow Inventory: 03_data-consumption/dataflow-inventory.md
+    - Source Inventory: 03_data-consumption/source-inventory.md
+    - Self-Service Strategy: 03_data-consumption/self-service.md
+  - Fabric Architecture:
+    - 04_fabric-architecture/index.md
+    - Medallion Layers: 04_fabric-architecture/medallion.md
+    - OneLake & Delta: 04_fabric-architecture/onelake.md
+    - Star Schema: 04_fabric-architecture/star-schema.md
+    - Workspace Design: 04_fabric-architecture/workspace-design.md
+    - Vendor Independence: 04_fabric-architecture/vendor-independence.md
+  - AI, Data Science & MLOps:
+    - 05_ai-mlops/index.md
+    - Enterprise LLM Architecture: 05_ai-mlops/llm-architecture.md
+    - Fabric Data Agents: 05_ai-mlops/data-agents.md
+    - MLOps Pipeline: 05_ai-mlops/mlops-pipeline.md
+    - Feature Store: 05_ai-mlops/feature-store.md
+    - Cost Scenarios: 05_ai-mlops/cost-scenarios.md
+  - Governance & Security:
+    - 06_governance/index.md
+    - RLS & OLS: 06_governance/rls-ols.md
+    - Microsoft Purview: 06_governance/purview.md
+    - Entra ID & RBAC: 06_governance/entra-rbac.md
+    - Compliance: 06_governance/compliance.md
+  - FinOps & Observability:
+    - 07_finops/index.md
+    - SKU Reference: 07_finops/sku-reference.md
+    - Deployment Scenarios: 07_finops/scenarios.md
+    - Cost Optimization: 07_finops/optimization.md
+    - Observability: 07_finops/observability.md

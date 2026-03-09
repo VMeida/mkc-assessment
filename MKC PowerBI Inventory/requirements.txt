@@ -1,0 +1,15 @@
+pandas>=2.0
+openpyxl>=3.1
+networkx>=3.0
+graphviz==0.20.3
+pyvis>=0.3
+matplotlib>=3.7
+streamlit>=1.30
+st-cytoscape>=0.0.5
+diagrams>=0.25.0
+
+# MkDocs documentation
+mkdocs>=1.6
+mkdocs-material>=9.7
+mkdocs-mermaid2-plugin>=1.2
+pymdown-extensions>=10.0
