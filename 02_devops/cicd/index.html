@@ -979,6 +979,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2288,6 +2299,38 @@
 <p class="admonition-title">No Direct Prod Deployments</p>
 <p>The <code>deploy-to-prod</code> job requires a manual approval step via <strong>GitHub Environments</strong> protection rules. No code reaches Prod without an explicit human sign-off. This gate replaces the former Test environment stage — UAT is conducted against the Dev workspace using a production-like data snapshot (last 90 days).</p>
 </div>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/cicd/git-integration/intro-to-git-integration">Fabric Git integration overview</a></td>
+<td>Connecting Fabric workspaces to GitHub or Azure DevOps branches</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/fabric/articles/">Fabric REST API reference</a></td>
+<td>REST endpoints for workspace management, pipeline runs, and Git sync</td>
+</tr>
+<tr>
+<td><a href="https://docs.github.com/en/actions">GitHub Actions documentation</a></td>
+<td>Workflow YAML syntax, runners, secrets, and environment protection rules</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/cicd/deployment-pipelines/intro-to-deployment-pipelines">Fabric deployment pipelines</a></td>
+<td>Built-in Fabric promotion pipelines for Dev → Test → Prod workspace promotion</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/entra/msal/python/">MSAL Python library</a></td>
+<td>Microsoft Authentication Library for acquiring Entra ID tokens in CI/CD scripts</td>
+</tr>
+</tbody>
+</table>
 
 
 

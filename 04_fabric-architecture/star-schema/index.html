@@ -624,6 +624,15 @@
     </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#references">
+<span class="md-ellipsis">
+      
+        References
+      
+    </span>
+</a>
+</li>
 </ul>
 </nav>
 </li>
@@ -1168,6 +1177,38 @@
 <p class="admonition-title">Conformed Dimensions</p>
 <p>All three semantic models share the same <code>DimDate</code>, <code>DimLocation</code>, <code>DimCustomer</code> etc. from Gold. This means cross-model analysis (e.g., Sales + Financial margin) is possible in composite models without data inconsistencies.</p>
 </div>
+<hr/>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema">Star schema guidance for Power BI</a></td>
+<td>Dimensional modelling best practices: fact tables, dimensions, and relationships</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/dax/dax-function-reference">DAX function reference</a></td>
+<td>Complete reference for all DAX functions used in semantic model measures</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview">DirectLake semantic models</a></td>
+<td>How DirectLake reads Gold Delta tables without importing copies</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls">Row-Level Security in Power BI</a></td>
+<td>Defining RLS roles and DAX filter expressions in semantic models</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/power-bi/guidance/star-schema#role-playing-dimensions">Conformed dimensions guidance</a></td>
+<td>Role-playing and conformed dimension patterns for multi-model analytics</td>
+</tr>
+</tbody>
+</table>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>

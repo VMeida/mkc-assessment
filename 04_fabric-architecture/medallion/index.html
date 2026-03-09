@@ -1421,6 +1421,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2367,6 +2378,38 @@
 <span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">date_key</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">location_key</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">item_key</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">customer_key</span><span class="p">;</span>
 </code></pre></div>
 <p>Gold Lakehouse tables are exposed as <strong>External Tables</strong> in Fabric Warehouse, so any JDBC/ODBC client can query them via T-SQL without duplicating data.</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture">Medallion lakehouse architecture</a></td>
+<td>Official Bronze → Silver → Gold layering guidance for OneLake</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview">Fabric Lakehouse overview</a></td>
+<td>Delta Parquet storage, SQL analytics endpoint, and lakehouse design</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/databricks/delta/merge">Delta Lake MERGE INTO</a></td>
+<td>MERGE INTO upsert semantics for Silver-layer deduplication</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/data-engineering/author-execute-notebook">Author and run Fabric Notebooks</a></td>
+<td>Creating PySpark notebooks, parameters, and scheduling in Fabric</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/data-factory/dataflows-gen2-overview">Dataflow Gen2 overview</a></td>
+<td>Power Query-based dataflows with Lakehouse output for API and SaaS sources</td>
+</tr>
+</tbody>
+</table>
 
 
 

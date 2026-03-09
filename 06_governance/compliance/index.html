@@ -2057,6 +2057,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2496,6 +2507,42 @@
 <p class="admonition-title">Bronze is Append-Only</p>
 <p>Because Bronze is an append-only audit trail, GDPR deletion requests cannot be applied to Bronze. Bronze data for a GDPR-subject must be flagged with a <code>gdpr_delete_flag</code> column and explicitly excluded from Silver transformation queries. This is the standard approach for Delta Lake GDPR compliance.</p>
 </div>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://servicetrust.microsoft.com/">Microsoft Service Trust Portal</a></td>
+<td>SOC 2, ISO 27001, HIPAA, and other compliance audit reports for Microsoft services</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/compliance/regulatory/offering-home">Microsoft compliance offerings</a></td>
+<td>Full catalogue of regulatory certifications held by Microsoft cloud services</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy">Azure OpenAI data privacy and security</a></td>
+<td>Data Protection Addendum — no training on customer prompts, GDPR compliance</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/security/security-overview">Microsoft Fabric security documentation</a></td>
+<td>Encryption, network isolation, audit logging, and compliance posture for Fabric</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/compliance/offerings/offering-gdpr">GDPR compliance on Azure</a></td>
+<td>Azure tools and guidance for meeting GDPR data subject rights requirements</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/databricks/security/privacy/gdpr-delta">Delta Lake GDPR delete pattern</a></td>
+<td>Right-to-erasure implementation using Delta MERGE and flagging in append-only tables</td>
+</tr>
+</tbody>
+</table>
 
 
 

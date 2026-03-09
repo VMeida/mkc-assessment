@@ -2301,6 +2301,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2694,6 +2705,42 @@ Connect to: Your Fabric capacity workspace
 <td><strong>Total potential saving</strong></td>
 <td><strong>~$3,400+/month</strong></td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/admin/capacity-settings#pause-and-resume-a-capacity">Pause and resume Fabric capacity</a></td>
+<td>Admin portal and REST API for automating capacity pause schedules</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations">Azure reserved capacity</a></td>
+<td>1-year reservation discounts (~25%) for Fabric, Azure services, and SQL</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/databricks/delta/clustering">Delta Lake OPTIMIZE and liquid clustering</a></td>
+<td>File compaction and co-location to reduce CU consumption on Gold reads</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview">DirectLake mode overview</a></td>
+<td>Zero-copy semantic model access — no import duplication, sub-second refresh</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/fabric/enterprise/metrics-app">Microsoft Fabric Capacity Metrics app</a></td>
+<td>AppSource app for real-time and historical CU usage monitoring by workspace</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview">Azure Blob Storage lifecycle management</a></td>
+<td>Automating cold-tier archival of old Bronze Delta partitions via ADLS Gen2 policy</td>
 </tr>
 </tbody>
 </table>
