@@ -8,7 +8,7 @@
 <meta content="Microsoft Fabric Medallion Architecture — Assessment, Architecture &amp; Roadmap" name="description"/>
 <link href="https://VMeida.github.io/mkc-assessment/05_ai-mlops/llm-architecture/" rel="canonical"/>
 <link href="../" rel="prev"/>
-<link href="../data-agents/" rel="next"/>
+<link href="../azure-openai-integration/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.3" name="generator"/>
 <title>Enterprise LLM Architecture - MKC · Data Strategy Assessment</title>
@@ -727,6 +727,18 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="../azure-openai-integration/">
+<span class="md-ellipsis">
+    
+  
+    Azure OpenAI Integration
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../data-agents/">
 <span class="md-ellipsis">
     
@@ -1006,7 +1018,7 @@
 </tr>
 <tr>
 <td><strong>Model availability</strong></td>
-<td>GPT-4o, GPT-4o-mini, text-embedding-3-large</td>
+<td>GPT-4o, GPT-4o-mini, o1, o3-mini, GPT-5 (preview), text-embedding-3-large</td>
 <td>State-of-the-art models with Microsoft SLA</td>
 </tr>
 <tr>
@@ -1127,25 +1139,71 @@ Azure OpenAI Service
 <th>Model</th>
 <th>Input $/1M tokens</th>
 <th>Output $/1M tokens</th>
+<th>Context</th>
 <th>Use Case</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GPT-4o</td>
+<td><strong>GPT-4o</strong></td>
 <td>$2.50</td>
 <td>$10.00</td>
-<td>Complex multi-table NL→DAX, reasoning</td>
+<td>128K</td>
+<td>Complex multi-table NL→DAX, reasoning — <strong>primary model</strong></td>
 </tr>
 <tr>
-<td>GPT-4o-mini</td>
+<td><strong>GPT-4o-mini</strong></td>
 <td>$0.15</td>
 <td>$0.60</td>
+<td>128K</td>
 <td>Simple lookups, high-volume queries, classification</td>
+</tr>
+<tr>
+<td>o1</td>
+<td>$15.00</td>
+<td>$60.00</td>
+<td>200K</td>
+<td>Multi-step reasoning, audit logic, compliance checks</td>
+</tr>
+<tr>
+<td>o3-mini</td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>200K</td>
+<td>Cost-efficient reasoning for structured validation tasks</td>
+</tr>
+<tr>
+<td>GPT-5 <em>(preview)</em></td>
+<td>~$15.00*</td>
+<td>~$60.00*</td>
+<td>256K+</td>
+<td>Autonomous agents, deep research — verify pricing at GA</td>
+</tr>
+<tr>
+<td>GPT-5-mini <em>(preview)</em></td>
+<td>~$1.50*</td>
+<td>~$6.00*</td>
+<td>128K</td>
+<td>Balanced cost/quality for high-volume agent tasks</td>
+</tr>
+<tr>
+<td>GPT-4 Turbo</td>
+<td>$10.00</td>
+<td>$30.00</td>
+<td>128K</td>
+<td>Legacy; superseded by GPT-4o — avoid for new deployments</td>
+</tr>
+<tr>
+<td>GPT-4 (0613)</td>
+<td>$30.00</td>
+<td>$60.00</td>
+<td>8K</td>
+<td>Deprecating — migrate to GPT-4o</td>
 </tr>
 <tr>
 <td>text-embedding-3-large</td>
 <td>$0.13</td>
+<td>—</td>
 <td>—</td>
 <td>Semantic search, RAG pipeline</td>
 </tr>
@@ -1153,12 +1211,14 @@ Azure OpenAI Service
 <td>text-embedding-3-small</td>
 <td>$0.02</td>
 <td>—</td>
+<td>—</td>
 <td>High-volume embedding</td>
 </tr>
 </tbody>
 </table>
+<p>*GPT-5 pricing estimated — confirm at <a href="https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/">Azure OpenAI pricing page</a> before budgeting.</p>
 <blockquote>
-<p>Prices as of February 2026 (East US region). See <a href="../cost-scenarios/">Cost Scenarios</a> for full analysis.</p>
+<p>Prices as of March 2026 (East US region). See <a href="../cost-scenarios/">Cost Scenarios</a> for full MKC usage projections and <a href="../azure-openai-integration/">Azure OpenAI Integration</a> for model selection guidance.</p>
 </blockquote>
 </article>
 </div>

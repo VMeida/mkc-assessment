@@ -1,0 +1,1877 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Microsoft Fabric Medallion Architecture — Assessment, Architecture &amp; Roadmap" name="description"/>
+<link href="https://VMeida.github.io/mkc-assessment/05_ai-mlops/azure-openai-integration/" rel="canonical"/>
+<link href="../llm-architecture/" rel="prev"/>
+<link href="../data-agents/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.3" name="generator"/>
+<title>Azure OpenAI Integration - MKC · Data Strategy Assessment</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#azure-openai-integration">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="MKC · Data Strategy Assessment" class="md-header__button md-logo" data-md-component="logo" href="../.." title="MKC · Data Strategy Assessment">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            MKC · Data Strategy Assessment
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Azure OpenAI Integration
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../01_foundation/">
+          
+  
+  
+    
+  
+  Foundation &amp; Strategy
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../02_devops/">
+          
+  
+  
+    
+  
+  DevOps &amp; Automation
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../03_data-consumption/">
+          
+  
+  
+    
+  
+  Data Consumption
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../04_fabric-architecture/">
+          
+  
+  
+    
+  
+  Fabric Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../">
+          
+  
+  
+    
+  
+  AI, Data Science &amp; MLOps
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../06_governance/">
+          
+  
+  
+    
+  
+  Governance &amp; Security
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../07_finops/">
+          
+  
+  
+    
+  
+  FinOps &amp; Observability
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="MKC · Data Strategy Assessment" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="MKC · Data Strategy Assessment">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    MKC · Data Strategy Assessment
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01_foundation/">
+<span class="md-ellipsis">
+    
+  
+    Foundation &amp; Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Foundation &amp; Strategy
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/executive-summary/">
+<span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/current-state/">
+<span class="md-ellipsis">
+    
+  
+    Current State
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/target-state/">
+<span class="md-ellipsis">
+    
+  
+    Target State
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/maturity-assessment/">
+<span class="md-ellipsis">
+    
+  
+    Data Maturity
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02_devops/">
+<span class="md-ellipsis">
+    
+  
+    DevOps &amp; Automation
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    DevOps &amp; Automation
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/git-workflow/">
+<span class="md-ellipsis">
+    
+  
+    Git Workflow
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/cicd/">
+<span class="md-ellipsis">
+    
+  
+    CI/CD Pipelines
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/environments/">
+<span class="md-ellipsis">
+    
+  
+    Environments
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/testing/">
+<span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03_data-consumption/">
+<span class="md-ellipsis">
+    
+  
+    Data Consumption
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Consumption
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/workspace-catalog/">
+<span class="md-ellipsis">
+    
+  
+    Workspace Catalog
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/dataflow-inventory/">
+<span class="md-ellipsis">
+    
+  
+    Dataflow Inventory
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/source-inventory/">
+<span class="md-ellipsis">
+    
+  
+    Source Inventory
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/self-service/">
+<span class="md-ellipsis">
+    
+  
+    Self-Service Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04_fabric-architecture/">
+<span class="md-ellipsis">
+    
+  
+    Fabric Architecture
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Fabric Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/medallion/">
+<span class="md-ellipsis">
+    
+  
+    Medallion Layers
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/onelake/">
+<span class="md-ellipsis">
+    
+  
+    OneLake &amp; Delta
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/star-schema/">
+<span class="md-ellipsis">
+    
+  
+    Star Schema
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/workspace-design/">
+<span class="md-ellipsis">
+    
+  
+    Workspace Design
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/vendor-independence/">
+<span class="md-ellipsis">
+    
+  
+    Vendor Independence
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    AI, Data Science &amp; MLOps
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    AI, Data Science &amp; MLOps
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../llm-architecture/">
+<span class="md-ellipsis">
+    
+  
+    Enterprise LLM Architecture
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Azure OpenAI Integration
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Azure OpenAI Integration
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#model-catalogue-pricing">
+<span class="md-ellipsis">
+      
+        Model Catalogue &amp; Pricing
+      
+    </span>
+</a>
+<nav aria-label="Model Catalogue &amp; Pricing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gpt-4-family">
+<span class="md-ellipsis">
+      
+        GPT-4 Family
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reasoning-models-o-series">
+<span class="md-ellipsis">
+      
+        Reasoning Models (o-series)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gpt-5-preview-early-2026">
+<span class="md-ellipsis">
+      
+        GPT-5 (Preview, Early 2026)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#embedding-models">
+<span class="md-ellipsis">
+      
+        Embedding Models
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#model-selection-decision-tree">
+<span class="md-ellipsis">
+      
+        Model Selection Decision Tree
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#microsoft-365-copilot-vs-azure-openai-service">
+<span class="md-ellipsis">
+      
+        Microsoft 365 Copilot vs. Azure OpenAI Service
+      
+    </span>
+</a>
+<nav aria-label="Microsoft 365 Copilot vs. Azure OpenAI Service" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-each-is">
+<span class="md-ellipsis">
+      
+        What Each Is
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#why-they-cannot-be-directly-integrated">
+<span class="md-ellipsis">
+      
+        Why They Cannot Be Directly Integrated
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#billing-comparison">
+<span class="md-ellipsis">
+      
+        Billing Comparison
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pros-and-cons">
+<span class="md-ellipsis">
+      
+        Pros and Cons
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#deployment-patterns">
+<span class="md-ellipsis">
+      
+        Deployment Patterns
+      
+    </span>
+</a>
+<nav aria-label="Deployment Patterns" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#teams-integration">
+<span class="md-ellipsis">
+      
+        Teams Integration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#power-platform-integration">
+<span class="md-ellipsis">
+      
+        Power Platform Integration
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#integration-architecture-diagrams">
+<span class="md-ellipsis">
+      
+        Integration Architecture Diagrams
+      
+    </span>
+</a>
+<nav aria-label="Integration Architecture Diagrams" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#full-microsoft-365-azure-openai-platform">
+<span class="md-ellipsis">
+      
+        Full Microsoft 365 + Azure OpenAI Platform
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#teams-bot-with-graph-enrichment-sequence">
+<span class="md-ellipsis">
+      
+        Teams Bot with Graph Enrichment — Sequence
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#m365-copilot-vs-azure-openai-architecture-comparison">
+<span class="md-ellipsis">
+      
+        M365 Copilot vs. Azure OpenAI — Architecture Comparison
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#copilot-studio-connector-to-azure-openai">
+<span class="md-ellipsis">
+      
+        Copilot Studio Connector to Azure OpenAI
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#security-governance">
+<span class="md-ellipsis">
+      
+        Security &amp; Governance
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#further-reading">
+<span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../data-agents/">
+<span class="md-ellipsis">
+    
+  
+    Fabric Data Agents
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mlops-pipeline/">
+<span class="md-ellipsis">
+    
+  
+    MLOps Pipeline
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../feature-store/">
+<span class="md-ellipsis">
+    
+  
+    Feature Store
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../cost-scenarios/">
+<span class="md-ellipsis">
+    
+  
+    Cost Scenarios
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06_governance/">
+<span class="md-ellipsis">
+    
+  
+    Governance &amp; Security
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance &amp; Security
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/rls-ols/">
+<span class="md-ellipsis">
+    
+  
+    RLS &amp; OLS
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/purview/">
+<span class="md-ellipsis">
+    
+  
+    Microsoft Purview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/entra-rbac/">
+<span class="md-ellipsis">
+    
+  
+    Entra ID &amp; RBAC
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/compliance/">
+<span class="md-ellipsis">
+    
+  
+    Compliance
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07_finops/">
+<span class="md-ellipsis">
+    
+  
+    FinOps &amp; Observability
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    FinOps &amp; Observability
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/sku-reference/">
+<span class="md-ellipsis">
+    
+  
+    SKU Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/scenarios/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Scenarios
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/optimization/">
+<span class="md-ellipsis">
+    
+  
+    Cost Optimization
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/observability/">
+<span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="azure-openai-integration">Azure OpenAI Integration<a class="headerlink" href="#azure-openai-integration" title="Permanent link">¶</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<p>Azure OpenAI Service is the enterprise API layer that powers MKC's AI platform — from Fabric Data Agents to custom Teams bots and Power Platform automation. This page covers the full model catalogue and pricing, contrasts Azure OpenAI with Microsoft 365 Copilot (and why they cannot be interchanged), and shows concrete deployment patterns for Teams, Power Platform, and Microsoft Graph integrations.</p>
+<hr/>
+<h2 id="model-catalogue-pricing">Model Catalogue &amp; Pricing<a class="headerlink" href="#model-catalogue-pricing" title="Permanent link">¶</a></h2>
+<p>All models below are available through <strong>Azure OpenAI Service</strong> in the East US region. Pricing is per million tokens (input / output separately billed).</p>
+<h3 id="gpt-4-family">GPT-4 Family<a class="headerlink" href="#gpt-4-family" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Azure Deployment Name</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Context</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GPT-4o</strong></td>
+<td><code>gpt-4o</code></td>
+<td>$2.50</td>
+<td>$10.00</td>
+<td>128K</td>
+<td>Complex multi-table NL→DAX, reasoning</td>
+</tr>
+<tr>
+<td><strong>GPT-4o-mini</strong></td>
+<td><code>gpt-4o-mini</code></td>
+<td>$0.15</td>
+<td>$0.60</td>
+<td>128K</td>
+<td>Simple lookups, classification, high-volume</td>
+</tr>
+<tr>
+<td>GPT-4 Turbo</td>
+<td><code>gpt-4</code> (<code>1106-preview</code>)</td>
+<td>$10.00</td>
+<td>$30.00</td>
+<td>128K</td>
+<td>Legacy; superseded by GPT-4o at lower cost</td>
+</tr>
+<tr>
+<td>GPT-4 (0613)</td>
+<td><code>gpt-4</code> (<code>0613</code>)</td>
+<td>$30.00</td>
+<td>$60.00</td>
+<td>8K</td>
+<td>Legacy; being deprecated — avoid for new work</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">GPT-4 (0613) Deprecation</p>
+<p>Microsoft is retiring GPT-4 (0613) deployments. Migrate existing workloads to <strong>GPT-4o</strong> which delivers better quality at 12× lower cost.</p>
+</div>
+<h3 id="reasoning-models-o-series">Reasoning Models (o-series)<a class="headerlink" href="#reasoning-models-o-series" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Context</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>o1</strong></td>
+<td>$15.00</td>
+<td>$60.00</td>
+<td>200K</td>
+<td>Multi-step planning, complex code generation, audit logic</td>
+</tr>
+<tr>
+<td><strong>o3-mini</strong></td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>200K</td>
+<td>Cost-efficient reasoning for structured tasks and data validation</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">When to Use Reasoning Models</p>
+<p>o-series models use chain-of-thought internally before responding. They are significantly slower than GPT-4o but excel at tasks requiring verifiable logical steps — e.g. compliance rule checking, financial reconciliation logic, or generating complex multi-join DAX. For NL→DAX at MKC's current query complexity, GPT-4o remains the better default.</p>
+</div>
+<h3 id="gpt-5-preview-early-2026">GPT-5 (Preview, Early 2026)<a class="headerlink" href="#gpt-5-preview-early-2026" title="Permanent link">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">GPT-5 — Verify Pricing Before Committing</p>
+<p>GPT-5 entered Azure OpenAI preview in early 2026. Prices below are indicative estimates based on early announcements. Confirm at the <a href="https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/">Azure OpenAI pricing page</a> before building cost models around this model.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Context</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GPT-5</strong></td>
+<td>~$15.00*</td>
+<td>~$60.00*</td>
+<td>256K+</td>
+<td>Most complex autonomous agent tasks, deep research, multi-document synthesis</td>
+</tr>
+<tr>
+<td><strong>GPT-5-mini</strong></td>
+<td>~$1.50*</td>
+<td>~$6.00*</td>
+<td>128K</td>
+<td>Balanced cost/quality for production workloads at scale</td>
+</tr>
+</tbody>
+</table>
+<p>*Estimated — confirm at GA before using in budget projections.</p>
+<h3 id="embedding-models">Embedding Models<a class="headerlink" href="#embedding-models" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Price $/1M tokens</th>
+<th>Dimensions</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text-embedding-3-large</td>
+<td>$0.13</td>
+<td>3,072</td>
+<td>Semantic search, RAG pipelines, high-accuracy retrieval</td>
+</tr>
+<tr>
+<td>text-embedding-3-small</td>
+<td>$0.02</td>
+<td>1,536</td>
+<td>High-volume embedding, cost-sensitive workloads</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>All prices East US region, March 2026. See <a href="../cost-scenarios/">Cost Scenarios</a> for full MKC usage projections.</p>
+</blockquote>
+<h3 id="model-selection-decision-tree">Model Selection Decision Tree<a class="headerlink" href="#model-selection-decision-tree" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    Q1{Task type?}
+    Q1 --&gt;|"NL → DAX / SQL<br/>simple query"| A1[GPT-4o-mini<br/>$0.15 / $0.60]
+    Q1 --&gt;|"NL → DAX / SQL<br/>complex multi-table"| A2[GPT-4o<br/>$2.50 / $10.00]
+    Q1 --&gt;|"Multi-step reasoning<br/>audit / compliance logic"| A3[o3-mini or o1<br/>$1.10–$15 / $4.40–$60]
+    Q1 --&gt;|"Embedding / semantic search"| A4[text-embedding-3-small<br/>or 3-large]
+    Q1 --&gt;|"Autonomous agent<br/>deep research (future)"| A5[GPT-5 preview<br/>~$15 / ~$60*]
+
+    A1 --&gt;|volume &gt; 1M queries/mo| HY[Consider Hybrid Routing<br/>or PTU reservation]
+    A2 --&gt;|volume &gt; 130K queries/mo| HY
+</code></pre>
+<hr/>
+<h2 id="microsoft-365-copilot-vs-azure-openai-service">Microsoft 365 Copilot vs. Azure OpenAI Service<a class="headerlink" href="#microsoft-365-copilot-vs-azure-openai-service" title="Permanent link">¶</a></h2>
+<p>These are two <strong>entirely separate Microsoft AI offerings</strong> operating at different layers of the Microsoft stack. A frequent misconception is that they are interchangeable or can be directly connected — they cannot.</p>
+<h3 id="what-each-is">What Each Is<a class="headerlink" href="#what-each-is" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Microsoft 365 Copilot</th>
+<th>Azure OpenAI Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Layer</strong></td>
+<td>Microsoft 365 SaaS product</td>
+<td>Azure cloud API (PaaS)</td>
+</tr>
+<tr>
+<td><strong>Access model</strong></td>
+<td>Per-seat licence; enabled by IT admin</td>
+<td>REST API / SDK; accessed via application code</td>
+</tr>
+<tr>
+<td><strong>Data grounding</strong></td>
+<td>Microsoft Graph only — emails, Teams messages, SharePoint, OneDrive, Calendar</td>
+<td>Any data you connect: Fabric, SQL, APIs, documents, custom databases</td>
+</tr>
+<tr>
+<td><strong>Underlying model</strong></td>
+<td>Microsoft-managed GPT-4 class; <strong>not user-selectable</strong></td>
+<td>You choose: GPT-4o, GPT-4o-mini, o1, GPT-5, etc.</td>
+</tr>
+<tr>
+<td><strong>Customisation</strong></td>
+<td>System prompt via Copilot Studio only; model is fixed</td>
+<td>Full control: system prompt, temperature, functions, RAG, fine-tuning</td>
+</tr>
+<tr>
+<td><strong>Who builds with it</strong></td>
+<td>End users + low-code IT (Copilot Studio)</td>
+<td>Developers via REST API / Python / Node.js SDK</td>
+</tr>
+<tr>
+<td><strong>UI surfaces</strong></td>
+<td>Word, Excel, Teams, Outlook, PowerPoint, Loop</td>
+<td>Any UI you build: Teams bot, web app, Power App, API</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-they-cannot-be-directly-integrated">Why They Cannot Be Directly Integrated<a class="headerlink" href="#why-they-cannot-be-directly-integrated" title="Permanent link">¶</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Architecture Boundary — Not a Configuration Issue</p>
+<p>Microsoft 365 Copilot runs on <strong>Microsoft's proprietary managed LLM infrastructure</strong>. There is no API, configuration flag, or administrative setting that lets you substitute your Azure OpenAI deployment as the engine, inject prompts into Copilot's reasoning, or read Copilot conversation transcripts programmatically from outside M365.</p>
+</div>
+<p>There are three root causes:</p>
+<p><strong>1. Separate data planes</strong></p>
+<p>M365 Copilot operates exclusively within the Microsoft 365 compliance boundary, grounded against Microsoft Graph data. Your Azure OpenAI resource sits in a separate Azure subscription resource group with its own network boundary (Private Endpoint, VNet). There is no native bridge between these two planes — Graph data does not flow into Azure OpenAI automatically, and Azure OpenAI responses cannot be injected into Copilot's context.</p>
+<p><strong>2. Authentication model mismatch</strong></p>
+<p>M365 Copilot authenticates via Microsoft Graph OAuth 2.0 delegated permissions. Azure OpenAI authenticates via Azure RBAC and Managed Identity (or API key). These identity systems are not interoperable at the data-plane level — a Graph delegated token cannot call the Azure OpenAI endpoint, and an Azure Managed Identity cannot read Graph mailbox data without a separate Graph API call with its own consent flow.</p>
+<p><strong>3. The model is not user-selectable</strong></p>
+<p>Microsoft operates the model that powers M365 Copilot on infrastructure it manages internally. You cannot replace it with, redirect it to, or augment it from your Azure OpenAI Service resource. Microsoft may update the underlying model version at any time without notice or opt-out.</p>
+<p><strong>Available bridge points (limited):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bridge</th>
+<th>What it Does</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Copilot Studio HTTP connector</strong></td>
+<td>Calls Azure OpenAI REST API as a custom action within a Copilot Studio agent</td>
+<td>Adds ~500ms latency per hop; Copilot Studio session billed separately</td>
+</tr>
+<tr>
+<td><strong>Microsoft Graph connectors</strong></td>
+<td>Indexes external data <em>into</em> M365 Copilot's grounding corpus</td>
+<td>Ingestion only, not real-time; cannot ground against live Fabric query results</td>
+</tr>
+<tr>
+<td><strong>Teams AI Library custom bot</strong></td>
+<td>Builds a separate AI app that <em>appears alongside</em> Copilot in Teams</td>
+<td>Completely separate bot — not the same as Copilot; no Copilot context shared</td>
+</tr>
+<tr>
+<td><strong>Declarative Agents (Copilot Studio)</strong></td>
+<td>Extends M365 Copilot with scoped instructions + Graph connector data</td>
+<td>Cannot use Azure OpenAI as the inference engine; model is still M365-managed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="billing-comparison">Billing Comparison<a class="headerlink" href="#billing-comparison" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Microsoft 365 Copilot</label><label for="__tabbed_1_2">Azure OpenAI Service</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>M365 licence prerequisite</strong></td>
+<td>$22–$36/user/month</td>
+<td>E3 or E5 licence required before Copilot can be assigned</td>
+</tr>
+<tr>
+<td><strong>Microsoft 365 Copilot add-on</strong></td>
+<td><strong>$30/user/month</strong></td>
+<td>Flat per-seat; usage is unlimited within Microsoft 365 surfaces</td>
+</tr>
+<tr>
+<td><strong>Minimum commitment</strong></td>
+<td>Annual (12 months)</td>
+<td>No monthly billing; no per-query pricing</td>
+</tr>
+<tr>
+<td><strong>Copilot Studio (optional)</strong></td>
+<td>$200/tenant/month</td>
+<td>Includes 25,000 messages/month; $0.01/message beyond</td>
+</tr>
+<tr>
+<td><strong>Microsoft Graph connectors</strong></td>
+<td>First 500 items/month free</td>
+<td>$0.00 per item ingested beyond free tier (via M365 add-on quota)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cost for 150 MKC users:</strong> ~$4,500/month (Copilot add-on alone, before M365 base licences)</p>
+<blockquote>
+<p>Token consumption is invisible and unlimited — included in the flat per-seat fee. You cannot see how many tokens each user consumes.</p>
+</blockquote>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model tokens (GPT-4o)</strong></td>
+<td>$2.50 / $10.00 per 1M</td>
+<td>Variable — pay only for what is consumed</td>
+</tr>
+<tr>
+<td><strong>Model tokens (GPT-4o-mini)</strong></td>
+<td>$0.15 / $0.60 per 1M</td>
+<td>16× cheaper than GPT-4o for simple queries</td>
+</tr>
+<tr>
+<td><strong>Azure APIM gateway</strong></td>
+<td>~$3–$50/month</td>
+<td>Scales with call volume; negligible at pilot scale</td>
+</tr>
+<tr>
+<td><strong>Private Endpoint</strong></td>
+<td>~$7.30/month</td>
+<td>Fixed network isolation cost</td>
+</tr>
+<tr>
+<td><strong>App Service / Bot hosting</strong></td>
+<td>~$50–$200/month</td>
+<td>For Teams bot or web application hosting</td>
+</tr>
+<tr>
+<td><strong>Log Analytics</strong></td>
+<td>~$2.30/GB ingested</td>
+<td>Full token audit trail</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cost for 150 MKC users (GPT-4o):</strong> ~$510–$750/month total (tokens + infrastructure)</p>
+<blockquote>
+<p>6–9× cheaper than M365 Copilot at the same user count for data querying use cases. Cost scales with usage, not headcount.</p>
+</blockquote>
+</div>
+</div>
+</input></input></div>
+<h3 id="pros-and-cons">Pros and Cons<a class="headerlink" href="#pros-and-cons" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Microsoft 365 Copilot</th>
+<th>Azure OpenAI Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pros</strong></td>
+<td>Zero development effort — works in Word, Excel, Teams, Outlook immediately</td>
+<td>Full model choice: GPT-4o-mini for cost, o1 for reasoning, GPT-5 for agents</td>
+</tr>
+<tr>
+<td></td>
+<td>Automatically grounded on existing M365 content (emails, Teams history, SharePoint docs)</td>
+<td>Pay per use — scales down to zero when idle; 6–9× cheaper at MKC's scale</td>
+</tr>
+<tr>
+<td></td>
+<td>IT-managed; no developers or infrastructure required</td>
+<td>Grounds against any data: Fabric Lakehouses, transactional databases, external APIs</td>
+</tr>
+<tr>
+<td></td>
+<td>Microsoft handles model versioning, safety filtering, compliance</td>
+<td>Fine-tuning and RAG on MKC proprietary data (e.g. grain pricing history, agronomy data)</td>
+</tr>
+<tr>
+<td></td>
+<td>Strong compliance posture within M365 boundary (Purview audit trail)</td>
+<td>Full prompt and token audit visibility via APIM + Log Analytics</td>
+</tr>
+<tr>
+<td><strong>Cons</strong></td>
+<td><strong>$30/user/month flat — $4,500/month for 150 users regardless of usage</strong></td>
+<td>Requires developer effort to build, test, and maintain applications</td>
+</tr>
+<tr>
+<td></td>
+<td>Model is fixed — no GPT-4o-mini, no reasoning models, no fine-tuning option</td>
+<td>UI must be built (Teams bot, web app, Power App) — not built-in to Office apps</td>
+</tr>
+<tr>
+<td></td>
+<td>Cannot ground against Fabric Lakehouses, transactional databases, or real-time data</td>
+<td>Content safety policies must be configured and tested explicitly</td>
+</tr>
+<tr>
+<td></td>
+<td>No programmatic API to query, extend, or audit Copilot reasoning</td>
+<td>APIM, Private Endpoint, Managed Identity infrastructure setup required</td>
+</tr>
+<tr>
+<td></td>
+<td>Annual licence commitment — no usage-based scaling</td>
+<td>Token cost grows linearly with query volume (predictable but not free)</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Knowledge workers needing document/email summarisation, meeting notes, drafting</td>
+<td>Data-driven AI: NL→DAX/SQL, operational queries, custom automation, agent workflows</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">MKC Recommendation</p>
+<p>For MKC's primary use case — <strong>structured data querying against Fabric semantic models</strong> — Azure OpenAI Service is the right platform. M365 Copilot does not ground against OneLake data and would cost ~$4,500/month for 150 users for capabilities that don't align with MKC's core need.</p>
+<p>If MKC already holds M365 E5 licences, evaluate Copilot as an <strong>incremental addition</strong> for knowledge worker use cases (meeting summarisation, email drafting, document Q&amp;A) — not as a replacement for the data agent platform.</p>
+</div>
+<hr/>
+<h2 id="deployment-patterns">Deployment Patterns<a class="headerlink" href="#deployment-patterns" title="Permanent link">¶</a></h2>
+<h3 id="teams-integration">Teams Integration<a class="headerlink" href="#teams-integration" title="Permanent link">¶</a></h3>
+<p>Three distinct approaches to surface Azure OpenAI inside Microsoft Teams, ordered by engineering complexity:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Teams AI Library — Custom Bot (Recommended)</label><label for="__tabbed_2_2">Copilot Studio — Low-code (IT-managed)</label><label for="__tabbed_2_3">Bot Framework SDK — Multi-channel</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The <strong>Teams AI Library</strong> (Node.js or C#) is Microsoft's recommended SDK for building AI-native Teams applications. It wraps the Bot Framework with Teams-specific abstractions and built-in Azure OpenAI integration.</p>
+<p><strong>Architecture:</strong></p>
+<pre class="mermaid"><code>flowchart LR
+    TU["Teams User<br/>(Chat / Channel)"]
+    Bot["Azure Bot Service<br/>Teams AI Library SDK"]
+    APIM["Azure APIM<br/>LLM Gateway"]
+    AOAI["Azure OpenAI<br/>GPT-4o"]
+    Graph["Microsoft Graph<br/>User profile · Calendar · Teams context"]
+    Storage["Azure Storage<br/>Conversation history"]
+
+    TU --&gt;|"Chat message"| Bot
+    Bot --&gt;|"Graph token (delegated)"| Graph
+    Graph --&gt;|"User data + Teams context"| Bot
+    Bot --&gt;|"Managed Identity"| APIM
+    APIM --&gt; AOAI
+    AOAI --&gt;|"Response"| APIM
+    APIM --&gt;|"Response"| Bot
+    Bot --&gt;|"Read / write history"| Storage
+    Bot --&gt;|"Adaptive Card reply"| TU
+</code></pre>
+<p><strong>Capabilities:</strong></p>
+<ul>
+<li>Adaptive Cards for rich responses (tables, charts, action buttons)</li>
+<li>Persistent conversation history (Azure Storage or CosmosDB)</li>
+<li>Proactive notifications — push messages to users without a prompt</li>
+<li>Tab apps — full embedded web application inside Teams</li>
+<li>Full access to Teams context: user UPN, channel ID, meeting metadata via Graph API</li>
+</ul>
+<p><strong>Setup steps:</strong></p>
+<ol>
+<li>Register a Bot in <strong>Azure Bot Service</strong> (free tier sufficient for development)</li>
+<li>Create a Teams App manifest in <strong>Teams Developer Portal</strong></li>
+<li>Scaffold project with <strong>Teams Toolkit</strong> (VS Code extension)</li>
+<li>Configure Azure OpenAI APIM endpoint in app settings (Managed Identity — no key in code)</li>
+<li>Deploy to <strong>Azure App Service</strong> or <strong>Azure Container Apps</strong></li>
+<li>Publish to <strong>Teams Admin Centre</strong> for org-wide installation</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># teams_bot.py — simplified Teams AI Library pattern (Python equivalent)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botbuilder.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">TurnContext</span><span class="p">,</span> <span class="n">ActivityHandler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">AzureOpenAI</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">AzureOpenAI</span><span class="p">(</span>
+    <span class="n">azure_endpoint</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"APIM_ENDPOINT"</span><span class="p">],</span>
+    <span class="n">azure_ad_token_provider</span><span class="o">=</span><span class="n">get_bearer_token_provider</span><span class="p">(</span>
+        <span class="n">DefaultAzureCredential</span><span class="p">(),</span> <span class="s2">"https://cognitiveservices.azure.com/.default"</span>
+    <span class="p">),</span>
+    <span class="n">api_version</span><span class="o">=</span><span class="s2">"2024-02-01"</span>
+<span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MKCBot</span><span class="p">(</span><span class="n">ActivityHandler</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_message_activity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">turn_context</span><span class="p">:</span> <span class="n">TurnContext</span><span class="p">):</span>
+        <span class="n">user_question</span> <span class="o">=</span> <span class="n">turn_context</span><span class="o">.</span><span class="n">activity</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-4o"</span><span class="p">,</span>
+            <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">SYSTEM_PROMPT</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">user_question</span><span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">await</span> <span class="n">turn_context</span><span class="o">.</span><span class="n">send_activity</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Copilot Studio</strong> (formerly Power Virtual Agents) lets IT administrators build Teams-deployable agents with no code. Azure OpenAI is connected as an <strong>HTTP connector action</strong>.</p>
+<pre class="mermaid"><code>flowchart LR
+    TU["Teams User"] --&gt;|"Teams channel"| CS["Copilot Studio<br/>Conversation Flow"]
+    CS --&gt;|"HTTP Action<br/>(custom connector)"| APIM["Azure APIM"]
+    APIM --&gt; AOAI["Azure OpenAI<br/>GPT-4o-mini"]
+    AOAI --&gt; APIM --&gt; CS
+    CS --&gt;|"Power Automate flow"| SP["SharePoint Lists"]
+    CS --&gt;|"Power Automate flow"| DV["Dataverse Tables"]
+    CS --&gt;|"Reply"| TU
+</code></pre>
+<p><strong>Capabilities:</strong>
+- No-code conversation flows with branching logic
+- Built-in Teams channel deployment (one-click)
+- Power Automate integration for backend data operations
+- Azure OpenAI callable via HTTP connector (REST POST)</p>
+<p><strong>Limitations:</strong>
+- Copilot Studio sessions billed separately at $200/month for 25K messages
+- HTTP connector adds ~500ms latency per Azure OpenAI call
+- Limited control over prompt engineering compared to SDK integration</p>
+<p><strong>Best for:</strong> HR FAQ bots, helpdesk agents, onboarding flows — scenarios where IT controls the flow without developer involvement.</p>
+</div>
+<div class="tabbed-block">
+<p>The <strong>Bot Framework SDK</strong> (v4, C# or Node.js) is the lower-level predecessor to Teams AI Library. Use it when the bot must serve <strong>multiple channels</strong> beyond Teams (WebChat, Slack, email via Azure Communication Services).</p>
+<p><strong>When to use:</strong>
+- Bot must serve Teams + a public web chat widget simultaneously
+- Existing Bot Framework codebase in the organisation
+- Complex middleware pipeline needed (custom auth handlers, response transformers)</p>
+<p><strong>Teams AI Library is preferred</strong> for Teams-only deployments — it provides a higher-level abstraction with less boilerplate.</p>
+</div>
+</div>
+</input></input></input></div>
+<h3 id="power-platform-integration">Power Platform Integration<a class="headerlink" href="#power-platform-integration" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Integration Method</th>
+<th>Use Case</th>
+<th>Billing Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Power Automate</strong></td>
+<td>Built-in Azure OpenAI connector</td>
+<td>Document summarisation, email classification, data enrichment flows</td>
+<td>Standard connector: 500 calls/month free; $0.01/call beyond</td>
+</tr>
+<tr>
+<td><strong>Power Apps</strong></td>
+<td>Azure Custom Connector or Power Automate flow</td>
+<td>AI-enriched forms — describe a field in NL, receive structured output</td>
+<td>Custom connector calls count against Power Platform API limits</td>
+</tr>
+<tr>
+<td><strong>Power BI</strong></td>
+<td>Fabric Data Agent (APIM → AOAI) or Fabric Copilot</td>
+<td>NL→DAX embedded in reports, Q&amp;A visual replacement</td>
+<td>Fabric Copilot requires F64+; Data Agent works on any SKU</td>
+</tr>
+<tr>
+<td><strong>Logic Apps</strong></td>
+<td>HTTP action or Azure OpenAI connector</td>
+<td>Backend API orchestration, batch document processing</td>
+<td>Standard Logic App: ~$0.000025/action</td>
+</tr>
+<tr>
+<td><strong>SharePoint</strong></td>
+<td>Power Automate trigger on library changes</td>
+<td>Auto-summarise new documents added to a library</td>
+<td>Power Automate Standard licence required</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="integration-architecture-diagrams">Integration Architecture Diagrams<a class="headerlink" href="#integration-architecture-diagrams" title="Permanent link">¶</a></h2>
+<h3 id="full-microsoft-365-azure-openai-platform">Full Microsoft 365 + Azure OpenAI Platform<a class="headerlink" href="#full-microsoft-365-azure-openai-platform" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart TB
+    subgraph M365["Microsoft 365 Tenant"]
+        Teams[("Microsoft Teams\nChat · Channels · Meetings")]
+        Outlook["Outlook\nEmail · Calendar"]
+        SharePoint["SharePoint / OneDrive\nDocuments · Lists"]
+        M365Graph["Microsoft Graph API\nIdentity · Data · Unified Search"]
+    end
+
+    subgraph Azure["Azure Subscription (same tenant)"]
+        Bot["Azure Bot Service\nTeams AI Library"]
+        APIM["Azure APIM\nLLM Gateway · Rate limit · Audit"]
+        PE["Private Endpoint\nVNet-secured"]
+        AOAI["Azure OpenAI Service\nGPT-4o · o1 · text-embedding-3-large"]
+        AIS["Azure AI Search\nRAG Vector Index"]
+        Func["Azure Functions\nOrchestration · Graph enrichment"]
+        LogA["Log Analytics\nToken audit · Cost chargeback"]
+    end
+
+    subgraph Fabric["Microsoft Fabric"]
+        DA["Fabric Data Agents\nNL→DAX per workspace"]
+        LH["OneLake Lakehouses\nBronze · Silver · Gold"]
+        SEM["Semantic Models\nDirectLake · DAX execution"]
+    end
+
+    Teams --&gt;|"Teams App install"| Bot
+    Bot --&gt;|"Graph token (delegated)"| M365Graph
+    M365Graph --&gt;|"User profile · Teams context"| Bot
+    Outlook --&gt;|"Graph connector indexing"| AIS
+    SharePoint --&gt;|"Graph connector indexing"| AIS
+    Bot --&gt;|"Managed Identity"| APIM
+    Func --&gt;|"Managed Identity"| APIM
+    APIM --&gt;|"Private link"| PE
+    PE --&gt; AOAI
+    AOAI --&gt;|"Embeddings"| AIS
+    AOAI --&gt;|"NL→DAX query"| DA
+    DA --&gt; SEM
+    SEM --&gt; LH
+    AIS --&gt;|"Retrieved document chunks"| AOAI
+    APIM --&gt;|"Token usage log"| LogA
+</code></pre>
+<h3 id="teams-bot-with-graph-enrichment-sequence">Teams Bot with Graph Enrichment — Sequence<a class="headerlink" href="#teams-bot-with-graph-enrichment-sequence" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    actor User as Teams User
+    participant Bot as Teams Bot<br/>(Bot Service)
+    participant Graph as Microsoft Graph
+    participant APIM as Azure APIM
+    participant AOAI as Azure OpenAI<br/>GPT-4o
+    participant DA as Fabric Data Agent
+
+    User-&gt;&gt;Bot: "Summarise this week's grain margins and pull my meeting notes"
+    Bot-&gt;&gt;Graph: GET /me/calendar/events (delegated token)
+    Graph--&gt;&gt;Bot: Meeting events + attendee list
+    Bot-&gt;&gt;Graph: GET /sites/{id}/lists (SharePoint docs)
+    Graph--&gt;&gt;Bot: Recent documents
+    Bot-&gt;&gt;APIM: POST /chat/completions (Graph context + user question)
+    APIM-&gt;&gt;APIM: Rate limit check · token meter start
+    APIM-&gt;&gt;AOAI: Forward with Managed Identity
+    AOAI--&gt;&gt;APIM: Structured plan — call Data Agent for grain data
+    APIM--&gt;&gt;Bot: Plan returned
+    Bot-&gt;&gt;DA: NL query: "grain margins this week"
+    DA-&gt;&gt;APIM: POST /chat/completions (DAX generation)
+    APIM-&gt;&gt;AOAI: Forward
+    AOAI--&gt;&gt;DA: DAX query
+    DA--&gt;&gt;Bot: Margin data (from Semantic Model, RLS applied)
+    Bot-&gt;&gt;APIM: POST /chat/completions (synthesise final answer)
+    APIM-&gt;&gt;AOAI: Forward
+    AOAI--&gt;&gt;Bot: Combined summary
+    Bot--&gt;&gt;User: Adaptive Card — meeting notes + margin table + trend chart link
+</code></pre>
+<h3 id="m365-copilot-vs-azure-openai-architecture-comparison">M365 Copilot vs. Azure OpenAI — Architecture Comparison<a class="headerlink" href="#m365-copilot-vs-azure-openai-architecture-comparison" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart TB
+    subgraph CopilotPath["Microsoft 365 Copilot Path  |  $30/user/month flat"]
+        direction LR
+        U1["M365 User\n(Word · Teams · Outlook)"] --&gt;|"Built-in Copilot button"| MC["M365 Copilot\nFixed model · No API access"]
+        MC --&gt;|"Grounding"| GR["Microsoft Graph\nEmails · Docs · Teams messages"]
+        MC -.-&gt;|"🚫 No access"| X1["Fabric Lakehouses\nTransactional DBs\nExternal APIs"]
+    end
+
+    subgraph AOAIPath["Azure OpenAI Path  |  Pay-per-token"]
+        direction LR
+        U2["App User\n(Teams bot · Web app · Power App)"] --&gt; CustomBot["Custom Application\n(Teams AI Library / React / Power App)"]
+        CustomBot --&gt;|"Managed Identity"| APIM2["Azure APIM\nGateway"]
+        APIM2 --&gt; AOAI2["Azure OpenAI\nModel of your choice"]
+        AOAI2 --&gt;|"RAG context"| AIS2["Azure AI Search\n+ Graph connector index"]
+        AOAI2 --&gt;|"NL→DAX"| DA2["Fabric Data Agent\n→ OneLake · Semantic Models"]
+    end
+</code></pre>
+<h3 id="copilot-studio-connector-to-azure-openai">Copilot Studio Connector to Azure OpenAI<a class="headerlink" href="#copilot-studio-connector-to-azure-openai" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    TU["Teams User"] --&gt; CS["Copilot Studio\nConversation Flow\n($200/mo · 25K msg)"]
+    CS --&gt;|"HTTP Action\n(custom connector)"| APIM["Azure APIM\nLLM Gateway"]
+    APIM --&gt; AOAI["Azure OpenAI\nGPT-4o-mini"]
+    AOAI --&gt; APIM --&gt; CS
+    CS --&gt;|"Power Automate"| SP["SharePoint Lists\n(read / write)"]
+    CS --&gt;|"Power Automate"| DV["Dataverse\n(CRM · HR tables)"]
+    CS --&gt;|"Teams channel reply"| TU
+</code></pre>
+<hr/>
+<h2 id="security-governance">Security &amp; Governance<a class="headerlink" href="#security-governance" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>M365 Copilot</th>
+<th>Azure OpenAI Custom App</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data residency</strong></td>
+<td>M365 compliance boundary (same as tenant)</td>
+<td>Azure region you select (e.g. East US, West Europe)</td>
+</tr>
+<tr>
+<td><strong>Prompt visibility</strong></td>
+<td>Microsoft-managed; no programmatic access</td>
+<td>Full prompt/response log via APIM → Log Analytics</td>
+</tr>
+<tr>
+<td><strong>Token audit</strong></td>
+<td>Invisible — not exposed to tenant admin</td>
+<td>Per-workspace token chargeback via APIM policy</td>
+</tr>
+<tr>
+<td><strong>Content filtering</strong></td>
+<td>Microsoft-managed Azure AI Content Safety (no config)</td>
+<td>Configurable per deployment in APIM policy + Azure AI Content Safety API</td>
+</tr>
+<tr>
+<td><strong>Identity</strong></td>
+<td>Delegated user identity (Graph OAuth)</td>
+<td>Managed Identity (service) + Azure RBAC</td>
+</tr>
+<tr>
+<td><strong>Audit trail</strong></td>
+<td>M365 Compliance Centre (Microsoft Purview)</td>
+<td>APIM audit log + Azure Monitor + custom Log Analytics queries</td>
+</tr>
+<tr>
+<td><strong>Network isolation</strong></td>
+<td>M365 trust boundary (not configurable)</td>
+<td>Private Endpoint + VNet — traffic stays on Microsoft backbone</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>APIM gateway configuration and token quota policies</td>
+<td><a href="../llm-architecture/">Enterprise LLM Architecture</a></td>
+</tr>
+<tr>
+<td>NL→DAX agents per workspace group</td>
+<td><a href="../data-agents/">Fabric Data Agents</a></td>
+</tr>
+<tr>
+<td>Full cost model: Fabric F-SKU + AOAI tokens</td>
+<td><a href="../cost-scenarios/">Cost Scenarios</a></td>
+</tr>
+<tr>
+<td>Fabric Copilot (F64+ built-in) vs. custom agents</td>
+<td><a href="../llm-architecture/">Enterprise LLM Architecture</a></td>
+</tr>
+</tbody>
+</table>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "content.code.copy", "content.code.annotate", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.6.1/dist/mermaid.esm.min.mjs";
+window.mermaidConfig = {default: {
+    startOnLoad: false
+}};</script></body>
+</html>

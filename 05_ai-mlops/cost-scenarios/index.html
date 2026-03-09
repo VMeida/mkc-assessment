@@ -1491,6 +1491,8 @@
       
         
       
+        
+      
     
     
     
@@ -1563,6 +1565,34 @@
     
   
     Enterprise LLM Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../azure-openai-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure OpenAI Integration
   
 
     
@@ -1738,13 +1768,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#azure-openai-pricing-east-us-feb-2026" class="md-nav__link">
+  <a href="#azure-openai-pricing-east-us-march-2026" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Azure OpenAI Pricing (East US, Feb 2026)
+        Azure OpenAI Pricing (East US, March 2026)
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Azure OpenAI Pricing (East US, March 2026)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4-family" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4 Family
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reasoning-models-o-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasoning Models (o-series)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-5-preview-estimated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-5 (Preview — Estimated)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embedding-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedding Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2232,7 +2312,8 @@
 <p><strong>Microsoft Fabric F-SKU</strong> = <strong>fixed</strong> monthly platform cost covering ALL data workloads (pipelines, lakehouses, notebooks, Power BI, semantic models). This cost exists regardless of AI usage.</p>
 <p><strong>Azure OpenAI</strong> = <strong>variable</strong> per-token cost, billed separately based on actual LLM usage. This is additive to the Fabric cost.</p>
 </div>
-<h2 id="azure-openai-pricing-east-us-feb-2026">Azure OpenAI Pricing (East US, Feb 2026)<a class="headerlink" href="#azure-openai-pricing-east-us-feb-2026" title="Permanent link">&para;</a></h2>
+<h2 id="azure-openai-pricing-east-us-march-2026">Azure OpenAI Pricing (East US, March 2026)<a class="headerlink" href="#azure-openai-pricing-east-us-march-2026" title="Permanent link">&para;</a></h2>
+<h3 id="gpt-4-family">GPT-4 Family<a class="headerlink" href="#gpt-4-family" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2247,24 +2328,100 @@
 <td><strong>GPT-4o</strong></td>
 <td>$2.50</td>
 <td>$10.00</td>
-<td>Complex multi-table NL→DAX, reasoning</td>
+<td>Complex multi-table NL→DAX, reasoning — <strong>MKC primary</strong></td>
 </tr>
 <tr>
 <td><strong>GPT-4o-mini</strong></td>
 <td>$0.15</td>
 <td>$0.60</td>
-<td>Simple lookups, high-volume queries</td>
+<td>Simple lookups, classification, high-volume queries</td>
 </tr>
+<tr>
+<td>GPT-4 Turbo</td>
+<td>$10.00</td>
+<td>$30.00</td>
+<td>Legacy; superseded by GPT-4o — avoid for new work</td>
+</tr>
+<tr>
+<td>GPT-4 (0613)</td>
+<td>$30.00</td>
+<td>$60.00</td>
+<td>Legacy; deprecating — migrate to GPT-4o</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reasoning-models-o-series">Reasoning Models (o-series)<a class="headerlink" href="#reasoning-models-o-series" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input $/1M tokens</th>
+<th>Output $/1M tokens</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>o1</td>
+<td>$15.00</td>
+<td>$60.00</td>
+<td>Multi-step reasoning, compliance logic, complex audit queries</td>
+</tr>
+<tr>
+<td>o3-mini</td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>Cost-efficient reasoning for structured data validation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gpt-5-preview-estimated">GPT-5 (Preview — Estimated)<a class="headerlink" href="#gpt-5-preview-estimated" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">GPT-5 Pricing — Indicative Only</p>
+<p>GPT-5 entered Azure OpenAI preview in early 2026. Prices below are estimates — confirm at the <a href="https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/">Azure OpenAI pricing page</a> before using in budget models.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input $/1M tokens</th>
+<th>Output $/1M tokens</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-5</td>
+<td>~$15.00*</td>
+<td>~$60.00*</td>
+<td>Autonomous agents, deep research, multi-document synthesis</td>
+</tr>
+<tr>
+<td>GPT-5-mini</td>
+<td>~$1.50*</td>
+<td>~$6.00*</td>
+<td>Balanced cost/quality at scale once GA</td>
+</tr>
+</tbody>
+</table>
+<h3 id="embedding-models">Embedding Models<a class="headerlink" href="#embedding-models" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Price $/1M tokens</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>text-embedding-3-large</td>
 <td>$0.13</td>
-<td>—</td>
 <td>Semantic search, RAG pipeline</td>
 </tr>
 <tr>
 <td>text-embedding-3-small</td>
 <td>$0.02</td>
-<td>—</td>
 <td>High-volume embedding</td>
 </tr>
 </tbody>
@@ -2524,9 +2681,29 @@
 <td><strong>$0.0046</strong></td>
 <td><strong>$1,040</strong></td>
 </tr>
+<tr>
+<td>100% o1 (reasoning)</td>
+<td>$0.0705</td>
+<td>$15,863</td>
+</tr>
+<tr>
+<td>100% o3-mini (reasoning)</td>
+<td>$0.0052</td>
+<td>$1,170</td>
+</tr>
+<tr>
+<td>100% GPT-5* (estimated)</td>
+<td>~$0.0705</td>
+<td>~$15,863</td>
+</tr>
+<tr>
+<td>100% GPT-5-mini* (estimated)</td>
+<td>~$0.0071</td>
+<td>~$1,598</td>
+</tr>
 </tbody>
 </table>
-<p>Hybrid routing saves <strong>58% vs. all-GPT-4o</strong> with minimal quality impact on simple queries.</p>
+<p>Hybrid routing (GPT-4o-mini + GPT-4o) saves <strong>58% vs. all-GPT-4o</strong> with minimal quality impact on simple queries. o-series and GPT-5 models are only cost-justified for specialised tasks (compliance reasoning, autonomous agents) — not for standard NL→DAX at MKC's current query volumes.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Hybrid routing — GPT-4o-mini classifies, then routes</span>
 <span class="n">SIMPLE_THRESHOLD</span> <span class="o">=</span> <span class="s2">&quot;SIMPLE&quot;</span>
 
