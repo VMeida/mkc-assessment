@@ -79,3 +79,16 @@ Managed Identities are used for service-to-service auth where there is no human 
 | MKC-BI-Financial* | `sg-fabric-platform-admins` | `sg-fabric-finance-members` | — | `sg-pbi-finance-*` |
 | MKC-BI-Executive | `sg-fabric-platform-admins` | `sg-fabric-exec-members` | — | `sg-fabric-exec-viewers` |
 | MKC-DataScience | `sg-fabric-platform-admins` | Data Scientists | — | — |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Entra ID overview](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) | Cloud identity and access management — users, groups, and service principals |
+| [Managed identities for Azure resources](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) | System-assigned and user-assigned managed identities for zero-secret auth |
+| [Azure RBAC overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) | Role-based access control for Azure resources — built-in and custom roles |
+| [Azure Key Vault overview](https://learn.microsoft.com/en-us/azure/key-vault/general/overview) | Storing secrets, keys, and certificates for CI/CD pipelines and services |
+| [Fabric workspace roles](https://learn.microsoft.com/en-us/fabric/get-started/roles-workspaces) | Admin, Member, Contributor, Viewer permissions in Fabric workspaces |
+| [Microsoft Entra group management](https://learn.microsoft.com/en-us/entra/fundamentals/groups-view-azure-portal) | Creating security groups for workspace RBAC and semantic model RLS assignment |

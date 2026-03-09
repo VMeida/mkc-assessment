@@ -131,3 +131,15 @@ All secrets are stored in **GitHub Environments** (never in repository files) an
 
 !!! warning "No Direct Prod Deployments"
     The `deploy-to-prod` job requires a manual approval step via **GitHub Environments** protection rules. No code reaches Prod without an explicit human sign-off. This gate replaces the former Test environment stage — UAT is conducted against the Dev workspace using a production-like data snapshot (last 90 days).
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric Git integration overview](https://learn.microsoft.com/en-us/fabric/cicd/git-integration/intro-to-git-integration) | Connecting Fabric workspaces to GitHub or Azure DevOps branches |
+| [Fabric REST API reference](https://learn.microsoft.com/en-us/rest/api/fabric/articles/) | REST endpoints for workspace management, pipeline runs, and Git sync |
+| [GitHub Actions documentation](https://docs.github.com/en/actions) | Workflow YAML syntax, runners, secrets, and environment protection rules |
+| [Fabric deployment pipelines](https://learn.microsoft.com/en-us/fabric/cicd/deployment-pipelines/intro-to-deployment-pipelines) | Built-in Fabric promotion pipelines for Dev → Test → Prod workspace promotion |
+| [MSAL Python library](https://learn.microsoft.com/en-us/entra/msal/python/) | Microsoft Authentication Library for acquiring Entra ID tokens in CI/CD scripts |

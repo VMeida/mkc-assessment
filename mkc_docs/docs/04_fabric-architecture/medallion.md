@@ -93,3 +93,15 @@ GROUP BY d.date_key, l.location_key, i.item_key, c.customer_key;
 ```
 
 Gold Lakehouse tables are exposed as **External Tables** in Fabric Warehouse, so any JDBC/ODBC client can query them via T-SQL without duplicating data.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Medallion lakehouse architecture](https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture) | Official Bronze → Silver → Gold layering guidance for OneLake |
+| [Fabric Lakehouse overview](https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview) | Delta Parquet storage, SQL analytics endpoint, and lakehouse design |
+| [Delta Lake MERGE INTO](https://learn.microsoft.com/en-us/azure/databricks/delta/merge) | MERGE INTO upsert semantics for Silver-layer deduplication |
+| [Author and run Fabric Notebooks](https://learn.microsoft.com/en-us/fabric/data-engineering/author-execute-notebook) | Creating PySpark notebooks, parameters, and scheduling in Fabric |
+| [Dataflow Gen2 overview](https://learn.microsoft.com/en-us/fabric/data-factory/dataflows-gen2-overview) | Power Query-based dataflows with Lakehouse output for API and SaaS sources |

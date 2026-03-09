@@ -118,3 +118,15 @@ Because Data Agent queries execute under the **user's own Entra identity**, RLS 
 - A sales rep asking "What is our margin?" will get an error if `CostMargin` is OLS-hidden from their role
 - A regional manager asking "Show grain sales by location" will only see locations in their region (RLS)
 - No special Data Agent configuration is needed — the semantic model enforces it transparently
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Row-Level Security in Power BI](https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls) | Defining RLS roles, DAX filter expressions, and testing with "View As Roles" |
+| [Object-Level Security in Power BI](https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-ols) | Hiding columns and tables from specific roles using OLS in semantic models |
+| [USERPRINCIPALNAME DAX function](https://learn.microsoft.com/en-us/dax/userprincipalname-function-dax) | Returns the current user's email for dynamic row-level filtering |
+| [Tabular Editor documentation](https://docs.tabulareditor.com/) | Open-source tool for setting OLS, RLS, and scripting semantic model changes |
+| [Power BI REST API — GenerateToken](https://learn.microsoft.com/en-us/rest/api/power-bi/embed-token/generate-token) | Programmatically testing RLS by generating embedded tokens for specific identities |

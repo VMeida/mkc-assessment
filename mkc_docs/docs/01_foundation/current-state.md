@@ -72,3 +72,14 @@ flowchart LR
     - 34 dataflows (Power Query M code) — reusable as Dataflow Gen2 items in Fabric
     - 40 reports (PBIX) — reusable in Fabric workspaces with re-pointed datasets
     - Business knowledge embedded in existing transformations informs Silver-layer logic
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Power BI Dataflows (Gen1) overview](https://learn.microsoft.com/en-us/power-bi/transform-model/dataflows/dataflows-introduction-self-service) | Introduction to self-service dataflows and Power Query in Power BI |
+| [Power BI workspaces](https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-new-workspaces) | Creating and managing collaborative workspaces in Power BI Service |
+| [On-Premises Data Gateway](https://learn.microsoft.com/en-us/data-integration/gateway/service-gateway-onprem) | Gateway installation, configuration, and monitoring for on-prem SQL sources |
+| [Power BI data lineage](https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-data-lineage) | Viewing dataset and dataflow lineage in Power BI Service |

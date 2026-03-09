@@ -49,3 +49,15 @@ All access — from ETL pipelines to end-user reports to AI agents — is govern
 | Natural language queries | None | Fabric Data Agents (GPT-4o) |
 | Data lineage | None | Microsoft Purview automatic lineage |
 | Vendor independence | High lock-in | Delta Parquet + ADLS Gen2 |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [OneLake — unified data lake for Fabric](https://learn.microsoft.com/en-us/fabric/onelake/onelake-overview) | Architecture and access patterns for Microsoft Fabric's single storage layer |
+| [What is a Lakehouse in Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview) | Lakehouse concepts, Delta Parquet storage, and SQL endpoint |
+| [DirectLake overview](https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview) | How DirectLake reads Delta files from OneLake without import copies |
+| [Delta Lake documentation](https://docs.delta.io/latest/index.html) | Open-source Delta Lake — ACID transactions, time travel, schema evolution |
+| [Microsoft Entra ID overview](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) | Identity and access management platform for Azure and Microsoft 365 |

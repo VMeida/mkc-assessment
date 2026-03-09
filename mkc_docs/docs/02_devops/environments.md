@@ -88,3 +88,14 @@ POST https://api.fabric.microsoft.com/v1/capacities/{capacityId}/suspend
 
 !!! info "Cost Impact"
     Pausing Dev F8 nights and weekends reduces it from ~$1,100/month to ~$200/month — a ~82% saving on the dev capacity. Removing the former Test F8 environment saves an additional ~$600/month (~$7,200/yr) compared to a three-tier model.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric capacity settings](https://learn.microsoft.com/en-us/fabric/admin/capacity-settings) | Admin portal settings for pausing, resuming, and configuring F-SKU capacities |
+| [Fabric workspaces overview](https://learn.microsoft.com/en-us/fabric/get-started/workspaces) | Workspace creation, roles, and Git integration setup |
+| [OneLake access and APIs](https://learn.microsoft.com/en-us/fabric/onelake/onelake-access-api) | abfss:// path format and access patterns for OneLake storage |
+| [Fabric capacity pause and resume (REST API)](https://learn.microsoft.com/en-us/rest/api/fabric/admin/capacities/suspend-capacity) | REST endpoint for automating capacity pause/resume via Logic App |

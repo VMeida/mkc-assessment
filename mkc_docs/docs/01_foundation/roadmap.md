@@ -94,3 +94,15 @@ gantt
 | DirectLake compatibility | Low | High | Gold Delta tables must use V1 schema format; validate with DirectLake analyser tool |
 | Azure OpenAI capacity limits | Low | Medium | Provision PTU for production agents at Wave 3 kickoff |
 | Change management (user adoption) | High | Medium | Early stakeholder demos at end of Wave 2; lunch-and-learn for Data Agents |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric adoption roadmap](https://learn.microsoft.com/en-us/power-bi/guidance/fabric-adoption-roadmap) | Phase-by-phase guidance for rolling out Microsoft Fabric in an organisation |
+| [Migrate Power BI to Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/data-warehouse/migration-synapse-dedicated-sql-pool-to-fabric) | Migration considerations when moving workloads into Fabric |
+| [Fabric Dataflow Gen2 overview](https://learn.microsoft.com/en-us/fabric/data-factory/dataflows-gen2-overview) | Upgraded Power Query dataflows with Lakehouse output support |
+| [Azure OpenAI Service documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) | Enterprise GPT model deployment with Private Endpoint and Managed Identity |
+| [Microsoft Purview documentation](https://learn.microsoft.com/en-us/purview/purview) | Data governance, cataloguing, and lineage for the Fabric platform |

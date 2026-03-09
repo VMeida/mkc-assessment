@@ -144,3 +144,15 @@ Tests are run via the **Tabular Editor** command-line or the Fabric REST API (`P
 | Pipeline end-to-end | Smoke test | All 7 source pipelines |
 | Semantic Models | DAX measure tests | All KPI measures |
 | BI Reports | UAT (manual) | Core reports per workspace |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric Notebooks overview](https://learn.microsoft.com/en-us/fabric/data-engineering/how-to-use-notebook) | Creating, parameterising, and running notebooks in Fabric |
+| [pytest documentation](https://docs.pytest.org/en/stable/) | Python test framework for unit tests, fixtures, and coverage reporting |
+| [Great Expectations documentation](https://docs.greatexpectations.io/) | Data quality framework for declarative data contracts and DQ checks |
+| [Tabular Editor documentation](https://docs.tabulareditor.com/) | Open-source tool for authoring and testing Power BI semantic models |
+| [nbmake — notebook testing](https://github.com/treebeardtech/nbmake) | pytest plugin that executes Jupyter/Fabric notebooks as integration tests |

@@ -121,3 +121,16 @@ Predictions are written back to Gold Delta tables daily and embedded in BI repor
 | Producer churn risk | Contract history, field activity, engagement | Churn probability per producer | Operations |
 | AP invoice anomaly | GL patterns, vendor history, amount | Anomaly flag + confidence score | Financial |
 | Yield prediction | Field attributes, application records, weather | Yield estimate per field/crop | Operations |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [MLflow documentation](https://mlflow.org/docs/latest/index.html) | Open-source MLOps platform — experiment tracking, model registry, and serving |
+| [Machine learning experiments in Fabric](https://learn.microsoft.com/en-us/fabric/data-science/machine-learning-experiment) | Creating and managing MLflow experiments in Microsoft Fabric |
+| [MLflow autologging in Fabric](https://learn.microsoft.com/en-us/fabric/data-science/mlflow-autologging) | Automatic parameter and metric logging for scikit-learn and other frameworks |
+| [Machine learning models in Fabric](https://learn.microsoft.com/en-us/fabric/data-science/machine-learning-model) | Registering, versioning, and deploying models from the Fabric model registry |
+| [Fabric Notebooks overview](https://learn.microsoft.com/en-us/fabric/data-engineering/how-to-use-notebook) | Authoring, parameterising, and scheduling PySpark notebooks in Fabric |
+| [scikit-learn documentation](https://scikit-learn.org/stable/user_guide.html) | Machine learning algorithms, model evaluation, and pipelines |

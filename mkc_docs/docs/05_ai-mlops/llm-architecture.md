@@ -146,3 +146,16 @@ The APIM LLM Gateway enforces per-workspace token quotas and logs all usage:
 *GPT-5 pricing estimated — confirm at [Azure OpenAI pricing page](https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/) before budgeting.
 
 > Prices as of March 2026 (East US region). See [Cost Scenarios](cost-scenarios.md) for full MKC usage projections and [Azure OpenAI Integration](azure-openai-integration.md) for model selection guidance.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Azure OpenAI Service overview](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) | Enterprise GPT models with Private Endpoint, Managed Identity, and compliance |
+| [Azure API Management overview](https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts) | APIM concepts: policies, rate limiting, and LLM gateway configuration |
+| [Azure Private Endpoint](https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview) | Network isolation for Azure services — no public internet traffic |
+| [Managed identities for Azure resources](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) | Zero-secret authentication for Azure services using Entra ID |
+| [Azure OpenAI quotas and limits](https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits) | Token-per-minute rate limits, deployment quotas, and PTU capacity |
+| [Fabric Data Agent overview](https://learn.microsoft.com/en-us/fabric/data-science/fabric-data-agent) | Natural-language query interface for Fabric semantic models |

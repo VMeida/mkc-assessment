@@ -108,3 +108,15 @@ AzureDiagnostics
 | summarize TotalTokens = sum(Tokens), QueryCount = count() by WorkspaceId, bin(TimeGenerated, 1d)
 | order by TimeGenerated desc
 ```
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric Data Agent overview](https://learn.microsoft.com/en-us/fabric/data-science/fabric-data-agent) | Creating and configuring natural-language query agents in Fabric workspaces |
+| [Azure OpenAI Service overview](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) | Enterprise GPT deployment with Private Endpoint and Managed Identity |
+| [Row-Level Security in Power BI](https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls) | DAX role definitions and identity-based row filtering in semantic models |
+| [Azure API Management policies](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-policies) | Rate limiting, authentication, and audit logging policies for the LLM gateway |
+| [Log Analytics query language (KQL)](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/) | Kusto query syntax for querying APIM token usage logs |

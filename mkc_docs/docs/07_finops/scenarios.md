@@ -106,3 +106,15 @@ At F32, content creators still need Power BI Pro licenses (~$10/user/month). At 
 | Azure Functions (model serving) | $0 | $10 | $175 |
 | Azure SQL MI (optional) | $0 | $0 | $390 |
 | Data egress | ~$0–5 | ~$0–10 | ~$5–20 |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Fabric pricing](https://azure.microsoft.com/en-us/pricing/details/microsoft-fabric/) | F-SKU PAYG and reserved capacity pricing for scenario modelling |
+| [Azure pricing calculator](https://azure.microsoft.com/en-us/pricing/calculator/) | Interactive tool for estimating total Azure + Fabric monthly costs |
+| [Fabric capacity planning](https://learn.microsoft.com/en-us/fabric/enterprise/capacity-planning) | Guidance on right-sizing F-SKU based on workload and concurrency requirements |
+| [Azure SQL Managed Instance pricing](https://azure.microsoft.com/en-us/pricing/details/azure-sql-managed-instance/single/) | VM-based SQL MI pricing and Azure Hybrid Benefit for Windows Server SA customers |
+| [Azure Functions consumption plan pricing](https://azure.microsoft.com/en-us/pricing/details/functions/) | Serverless compute pricing for ML model serving endpoints |

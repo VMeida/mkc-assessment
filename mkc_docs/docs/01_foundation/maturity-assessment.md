@@ -106,3 +106,14 @@ MKC is assessed against a 5-level data maturity model across six dimensions. The
 
 !!! success "Assessment Conclusion"
     MKC is at an early (Level 1–2) maturity baseline across all dimensions — typical for a co-operative of this size that has grown its analytics organically. The target platform delivers a **+2.6 level average improvement**, moving MKC from ad-hoc analytics to a managed, governed, AI-ready data platform.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Fabric adoption roadmap](https://learn.microsoft.com/en-us/power-bi/guidance/fabric-adoption-roadmap) | Guidance on driving organisational adoption of Microsoft Fabric |
+| [Azure Cloud Adoption Framework — data](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/cloud-scale-analytics/) | Cloud-scale analytics reference architecture and maturity model |
+| [Azure Well-Architected Framework](https://learn.microsoft.com/en-us/azure/well-architected/) | Five pillars of workload quality: reliability, security, cost, performance, operations |
+| [Data management and analytics scenario](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/cloud-scale-analytics/architectures/data-mesh-scenario) | Data mesh architecture pattern in the Azure Cloud Adoption Framework |

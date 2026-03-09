@@ -82,3 +82,15 @@ Storage beyond the free tier is billed at ADLS Gen2 rates:
 | Azure D8s_v3 VM | ~$616 | Heavy parallel ingestion (20+ tables simultaneous) |
 
 > Apply **Azure Hybrid Benefit** if MKC has Windows Server Software Assurance licenses — reduces VM cost by ~40%.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Fabric pricing](https://azure.microsoft.com/en-us/pricing/details/microsoft-fabric/) | F-SKU capacity unit pricing, reservation discounts, and OneLake storage rates |
+| [Fabric licenses overview](https://learn.microsoft.com/en-us/fabric/enterprise/licenses) | F-SKU tiers, feature availability, and Power BI licence requirements |
+| [Power BI licence types](https://learn.microsoft.com/en-us/power-bi/fundamentals/service-features-license-type) | Free, Pro, Premium Per User, and F-SKU capacity licence comparison |
+| [On-Premises Data Gateway sizing](https://learn.microsoft.com/en-us/data-integration/gateway/service-gateway-sizing) | Hardware requirements and VM sizing guidance for the gateway |
+| [Azure reserved capacity savings](https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations) | 1-year and 3-year reservation pricing and break-even guidance |

@@ -430,3 +430,18 @@ flowchart LR
 | NL→DAX agents per workspace group | [Fabric Data Agents](data-agents.md) |
 | Full cost model: Fabric F-SKU + AOAI tokens | [Cost Scenarios](cost-scenarios.md) |
 | Fabric Copilot (F64+ built-in) vs. custom agents | [Enterprise LLM Architecture](llm-architecture.md) |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Azure OpenAI Service pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/) | Per-token pricing for GPT-4o, o1, GPT-5, and embedding models by region |
+| [Azure OpenAI model availability](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models) | Supported models, deployment regions, and context window sizes |
+| [Microsoft Teams AI Library](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/teams-ai-library) | SDK for building AI-native Teams bots with Azure OpenAI integration |
+| [Microsoft Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio) | Low-code agent builder with Teams channel deployment and HTTP connector |
+| [Microsoft Graph overview](https://learn.microsoft.com/en-us/graph/overview) | Unified API for Microsoft 365 data: emails, Teams messages, Calendar, SharePoint |
+| [Microsoft 365 Copilot documentation](https://learn.microsoft.com/en-us/microsoft-365-copilot/microsoft-365-copilot-overview) | M365 Copilot capabilities, licensing, and data grounding via Microsoft Graph |
+| [Azure Bot Service documentation](https://learn.microsoft.com/en-us/azure/bot-service/bot-service-overview) | Bot registration, Teams channel configuration, and Bot Framework SDK |
+| [Power Automate Azure OpenAI connector](https://learn.microsoft.com/en-us/connectors/cognitiveservicesopenai/) | Built-in Power Automate connector for Azure OpenAI API calls |

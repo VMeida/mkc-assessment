@@ -87,3 +87,15 @@ price_features_historical = spark.read.format("delta") \
 | `features_producer_activity` | 26 hours | Yes |
 | `features_inventory_pattern` | 26 hours | Yes |
 | `features_gl_anomaly` | 3 days | Yes — weekly batch |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Delta Lake time travel](https://learn.microsoft.com/en-us/azure/databricks/delta/history) | Querying historical snapshots with VERSION AS OF and TIMESTAMP AS OF |
+| [Fabric Lakehouse overview](https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview) | Delta table storage, SQL analytics endpoint, and governance in OneLake |
+| [PySpark window functions](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/window.html) | Rolling aggregations, lag, lead, and partition-based feature computation |
+| [OneLake access patterns](https://learn.microsoft.com/en-us/fabric/onelake/onelake-access-api) | abfss:// path conventions and authentication for reading OneLake Delta tables |
+| [Azure Monitor alerts](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview) | Configuring metric and log-based alerts for feature freshness SLA monitoring |

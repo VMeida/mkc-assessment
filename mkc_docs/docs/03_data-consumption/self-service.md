@@ -73,3 +73,15 @@ MKC's domain structure maps cleanly to data mesh principles:
 | Data as a product | Semantic models are SLA-governed products with documented freshness and quality metrics |
 | Self-serve platform | Fabric capacity + DirectLake removes per-user infrastructure provisioning |
 | Federated governance | Purview applies organisation-wide sensitivity labels; domain owners manage workspace membership |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Self-service analytics in Power BI](https://learn.microsoft.com/en-us/power-bi/fundamentals/service-self-service-signup-for-power-bi) | Enabling end-users to build and share their own reports in Power BI Service |
+| [Power BI semantic model best practices](https://learn.microsoft.com/en-us/power-bi/guidance/report-separate-from-model) | Separating reports from semantic models for governed self-service |
+| [DirectLake mode for semantic models](https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview) | Zero-copy semantic model access to OneLake Delta tables |
+| [Data mesh scenario — Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/cloud-scale-analytics/architectures/data-mesh-scenario) | Domain-oriented data ownership and federated governance patterns |
+| [Fabric workspace roles](https://learn.microsoft.com/en-us/fabric/get-started/roles-workspaces) | Admin, Member, Contributor, and Viewer role definitions for Fabric workspaces |

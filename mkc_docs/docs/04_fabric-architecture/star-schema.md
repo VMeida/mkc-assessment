@@ -127,3 +127,15 @@ flowchart LR
 
 !!! info "Conformed Dimensions"
     All three semantic models share the same `DimDate`, `DimLocation`, `DimCustomer` etc. from Gold. This means cross-model analysis (e.g., Sales + Financial margin) is possible in composite models without data inconsistencies.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Star schema guidance for Power BI](https://learn.microsoft.com/en-us/power-bi/guidance/star-schema) | Dimensional modelling best practices: fact tables, dimensions, and relationships |
+| [DAX function reference](https://learn.microsoft.com/en-us/dax/dax-function-reference) | Complete reference for all DAX functions used in semantic model measures |
+| [DirectLake semantic models](https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview) | How DirectLake reads Gold Delta tables without importing copies |
+| [Row-Level Security in Power BI](https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls) | Defining RLS roles and DAX filter expressions in semantic models |
+| [Conformed dimensions guidance](https://learn.microsoft.com/en-us/power-bi/guidance/star-schema#role-playing-dimensions) | Role-playing and conformed dimension patterns for multi-model analytics |

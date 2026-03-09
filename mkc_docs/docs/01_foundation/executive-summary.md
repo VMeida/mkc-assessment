@@ -57,3 +57,15 @@ flowchart LR
 | Large (enterprise) | ~$7,484 | 500+ | F64 + F16 |
 
 > See [FinOps → Deployment Scenarios](../07_finops/scenarios.md) for full cost breakdown.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Fabric overview](https://learn.microsoft.com/en-us/fabric/get-started/microsoft-fabric-overview) | Official introduction to Microsoft Fabric — capabilities, components, and architecture |
+| [Medallion lakehouse architecture](https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture) | Bronze → Silver → Gold layering pattern in OneLake |
+| [Power BI service documentation](https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview) | Overview of Power BI Service, workspaces, and reports |
+| [Azure OpenAI Service overview](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) | Azure-hosted GPT models with enterprise security and compliance |
+| [Microsoft Fabric pricing](https://azure.microsoft.com/en-us/pricing/details/microsoft-fabric/) | F-SKU capacity unit pricing and reservation options |

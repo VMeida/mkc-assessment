@@ -177,3 +177,16 @@ Connect to: Your Fabric capacity workspace
 | 9. Targeted Eventstream | CU headroom | Low |
 | 10. Capacity Metrics app | Diagnostic | Low |
 | **Total potential saving** | **~$3,400+/month** | |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Pause and resume Fabric capacity](https://learn.microsoft.com/en-us/fabric/admin/capacity-settings#pause-and-resume-a-capacity) | Admin portal and REST API for automating capacity pause schedules |
+| [Azure reserved capacity](https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations) | 1-year reservation discounts (~25%) for Fabric, Azure services, and SQL |
+| [Delta Lake OPTIMIZE and liquid clustering](https://learn.microsoft.com/en-us/azure/databricks/delta/clustering) | File compaction and co-location to reduce CU consumption on Gold reads |
+| [DirectLake mode overview](https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview) | Zero-copy semantic model access — no import duplication, sub-second refresh |
+| [Microsoft Fabric Capacity Metrics app](https://learn.microsoft.com/en-us/fabric/enterprise/metrics-app) | AppSource app for real-time and historical CU usage monitoring by workspace |
+| [Azure Blob Storage lifecycle management](https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview) | Automating cold-tier archival of old Bronze Delta partitions via ADLS Gen2 policy |

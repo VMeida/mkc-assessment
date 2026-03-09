@@ -65,3 +65,14 @@ Fabric workspaces are configured in the Fabric portal under **Workspace Settings
 
 !!! tip "Notebook Parameters"
     Use Fabric Notebook parameters (top-cell `parameters` tag) combined with environment variable substitution in CI/CD to point notebooks at Dev vs. Prod OneLake paths without code changes.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric Git integration overview](https://learn.microsoft.com/en-us/fabric/cicd/git-integration/intro-to-git-integration) | Connecting Fabric workspaces to GitHub or Azure DevOps Git repositories |
+| [Manage branches in Fabric Git integration](https://learn.microsoft.com/en-us/fabric/cicd/git-integration/manage-branches) | Branch strategy and workspace sync patterns |
+| [Get started with Fabric Git integration](https://learn.microsoft.com/en-us/fabric/cicd/git-integration/git-get-started) | Step-by-step setup: connect workspace to a Git repository |
+| [GitHub branch protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) | Enforcing PR reviews, CI checks, and environment approval gates |

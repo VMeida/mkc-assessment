@@ -86,3 +86,15 @@ Labels are applied in Purview and propagate to:
 | OneLake Silver / Gold | Daily incremental |
 | Semantic Models (Power BI scanner) | Daily |
 | Fabric Pipeline definitions | On-change (webhook) |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Purview documentation](https://learn.microsoft.com/en-us/purview/purview) | Unified data governance: catalog, lineage, sensitivity labels, and compliance |
+| [Microsoft Purview data catalog](https://learn.microsoft.com/en-us/purview/purview-data-catalog) | Registering, scanning, and searching data assets across hybrid and multicloud |
+| [Data lineage in Microsoft Purview](https://learn.microsoft.com/en-us/purview/concept-data-lineage) | Automatic lineage capture from Fabric Pipelines, Notebooks, and Power BI |
+| [Microsoft Information Protection sensitivity labels](https://learn.microsoft.com/en-us/purview/information-protection) | Applying and propagating sensitivity labels from Purview to Power BI and OneLake |
+| [Fabric and Microsoft Purview integration](https://learn.microsoft.com/en-us/fabric/governance/microsoft-purview-fabric) | Connecting Purview to Microsoft Fabric for auto-scanning OneLake assets |

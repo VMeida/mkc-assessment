@@ -86,3 +86,15 @@ Semantic models in DirectLake mode must point to Gold Lakehouse Delta tables:
     - Gold Delta tables must be in **Delta Lake V1** format (not V2 with deletion vectors, until Fabric fully supports it)
     - No unsupported DAX functions that require column-level fallback to DirectQuery
     - Run the Fabric **DirectLake analyser** tool to validate compatibility before deployment
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Fabric licenses and capacity](https://learn.microsoft.com/en-us/fabric/enterprise/licenses) | F-SKU tiers, capacity units, and feature availability by SKU |
+| [Fabric workspace roles](https://learn.microsoft.com/en-us/fabric/get-started/roles-workspaces) | Admin, Member, Contributor, and Viewer permissions in Fabric workspaces |
+| [Fabric capacity management](https://learn.microsoft.com/en-us/fabric/admin/capacity-settings) | Configuring, pausing, and monitoring F-SKU capacities in the Admin portal |
+| [DirectLake analyser tool](https://learn.microsoft.com/en-us/fabric/get-started/direct-lake-overview#use-the-analyzer) | Validating Gold Delta table compatibility with DirectLake semantic models |
+| [Microsoft Entra group management](https://learn.microsoft.com/en-us/entra/fundamentals/groups-view-azure-portal) | Creating and managing security groups for workspace RBAC assignment |

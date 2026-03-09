@@ -111,3 +111,15 @@ result = conn.execute("""
 
 !!! tip "Vendor Independence"
     If MKC ever migrates away from Microsoft Fabric, every byte of data in OneLake is immediately accessible without any migration — just point a new engine at the same ADLS Gen2 paths. See [Vendor Independence](vendor-independence.md) for the full strategy.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [OneLake overview](https://learn.microsoft.com/en-us/fabric/onelake/onelake-overview) | Architecture, access patterns, and multi-cloud capabilities of OneLake |
+| [OneLake file explorer](https://learn.microsoft.com/en-us/fabric/onelake/onelake-file-explorer) | Windows Explorer integration for browsing OneLake Delta tables |
+| [Azure Data Lake Storage Gen2](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction) | Underlying ADLS Gen2 storage layer — REST APIs, authentication, access control |
+| [Delta Lake documentation](https://docs.delta.io/latest/index.html) | Open-source Delta Lake — ACID transactions, time travel, schema evolution |
+| [DuckDB Azure extension](https://duckdb.org/docs/extensions/azure) | Querying ADLS Gen2 / OneLake Delta files directly from DuckDB |

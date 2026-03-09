@@ -54,3 +54,15 @@ Steps:
 | **JDBC / ODBC** | SQL access to Gold Warehouse | Open standards |
 | **OData v4** | CRM and API ingestion | OASIS |
 | **OAuth2** | SaaS API authentication | IETF |
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Delta Lake open source project](https://delta.io/) | Linux Foundation-governed open format — full specification and roadmap |
+| [Apache Parquet format](https://parquet.apache.org/) | Columnar storage format specification — Apache Software Foundation |
+| [Azure Data Lake Storage Gen2](https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction) | ADLS Gen2 REST APIs, authentication, and access control (no Fabric license needed) |
+| [Azure Databricks Delta Lake access](https://learn.microsoft.com/en-us/azure/databricks/delta/) | Mounting ADLS Gen2 / OneLake paths in Databricks Unity Catalog |
+| [OpenAI-compatible API specification](https://platform.openai.com/docs/api-reference/chat) | /v1/chat/completions interface — compatible with Azure OpenAI and other providers |

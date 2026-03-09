@@ -149,3 +149,16 @@ spark.createDataFrame(results) \
 ```
 
 An Azure Monitor alert fires if any table exceeds its freshness SLA (Silver: 2 hours, Gold: 3 hours).
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Fabric Capacity Metrics app](https://learn.microsoft.com/en-us/fabric/enterprise/metrics-app) | CU usage dashboard by workspace and item type — install from AppSource |
+| [Azure Monitor overview](https://learn.microsoft.com/en-us/azure/azure-monitor/overview) | Unified monitoring for metrics, logs, alerts, and dashboards across Azure services |
+| [Log Analytics workspace overview](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview) | Centralised log ingestion, KQL querying, and retention configuration |
+| [Kusto Query Language (KQL) reference](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/) | Full KQL syntax reference for querying Log Analytics tables |
+| [Azure Monitor alert rules](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview) | Creating metric, log, and activity-based alerts with Teams/email notification |
+| [APIM monitoring and analytics](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-use-azure-monitor) | Sending APIM gateway logs to Azure Monitor and Log Analytics |

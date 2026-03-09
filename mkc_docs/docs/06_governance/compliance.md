@@ -69,3 +69,16 @@ For producer data covered by GDPR, deletion is handled at the Silver layer:
 
 !!! warning "Bronze is Append-Only"
     Because Bronze is an append-only audit trail, GDPR deletion requests cannot be applied to Bronze. Bronze data for a GDPR-subject must be flagged with a `gdpr_delete_flag` column and explicitly excluded from Silver transformation queries. This is the standard approach for Delta Lake GDPR compliance.
+
+---
+
+## References
+
+| Resource | Description |
+|----------|-------------|
+| [Microsoft Service Trust Portal](https://servicetrust.microsoft.com/) | SOC 2, ISO 27001, HIPAA, and other compliance audit reports for Microsoft services |
+| [Microsoft compliance offerings](https://learn.microsoft.com/en-us/compliance/regulatory/offering-home) | Full catalogue of regulatory certifications held by Microsoft cloud services |
+| [Azure OpenAI data privacy and security](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy) | Data Protection Addendum — no training on customer prompts, GDPR compliance |
+| [Microsoft Fabric security documentation](https://learn.microsoft.com/en-us/fabric/security/security-overview) | Encryption, network isolation, audit logging, and compliance posture for Fabric |
+| [GDPR compliance on Azure](https://learn.microsoft.com/en-us/azure/compliance/offerings/offering-gdpr) | Azure tools and guidance for meeting GDPR data subject rights requirements |
+| [Delta Lake GDPR delete pattern](https://learn.microsoft.com/en-us/azure/databricks/security/privacy/gdpr-delta) | Right-to-erasure implementation using Delta MERGE and flagging in append-only tables |
