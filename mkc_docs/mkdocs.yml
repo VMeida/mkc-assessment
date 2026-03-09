@@ -76,6 +76,7 @@ nav:
     - Git Workflow: 02_devops/git-workflow.md
     - CI/CD Pipelines: 02_devops/cicd.md
     - Environments: 02_devops/environments.md
+    - Naming Conventions: 02_devops/naming-conventions.md
     - Testing Strategy: 02_devops/testing.md
   - Data Consumption:
     - 03_data-consumption/index.md
