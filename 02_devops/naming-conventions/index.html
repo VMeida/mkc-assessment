@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://VMeida.github.io/mkc-assessment/02_devops/naming-conventions/">
       
       
+        <link rel="prev" href="../environments/">
+      
+      
+        <link rel="next" href="../testing/">
       
       
         
@@ -23,7 +27,7 @@
     
     
       
-        <title>Naming conventions - MKC · Data Strategy Assessment</title>
+        <title>Naming Conventions - MKC · Data Strategy Assessment</title>
       
     
     
@@ -110,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Naming conventions
+              Naming Conventions
             
           </span>
         </div>
@@ -244,10 +248,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../" class="md-tabs__link">
           
   
@@ -724,6 +730,8 @@
       
   
   
+    
+  
   
   
     
@@ -741,20 +749,25 @@
       
         
       
+        
+      
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -784,13 +797,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -906,6 +919,479 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Naming Conventions
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Naming Conventions
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--wip" title="Work in Progress">
+    </span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fabric-artifact-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fabric Artifact Names
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fabric Artifact Names">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lakehouses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lakehouses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notebooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notebooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataflow-gen2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataflow Gen2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Semantic Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dax-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DAX Measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#column-naming-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Column Naming Contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Column Naming Contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-layer-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Three-Layer Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bronze-mirror-source-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bronze — Mirror Source Names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#silver-canonical-snake_case-rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Silver — Canonical snake_case Rename
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Silver — Canonical snake_case Rename">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rename-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rename rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-column-suffixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard column suffixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#silver-table-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Silver table names
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gold-surrogate-keys-pascalcase-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gold — Surrogate Keys + PascalCase Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gold — Surrogate Keys + PascalCase Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#surrogate-key-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Surrogate key pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fact-table-column-order-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fact table column order convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic-model-inherit-rename-for-readability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Semantic Model — Inherit + Rename for Readability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-layer-column-traceability-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Layer Column Traceability Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema Registry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Registry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Is
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Exists
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registry-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registry Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onboarding-a-new-source-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Onboarding a New Source Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-validator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Validator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-ci-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What CI Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notebook-parameter-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notebook Parameter Cells
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onelake-path-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OneLake Path Convention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-access-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity &amp; Access Names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1389,6 +1875,8 @@
       
         
       
+        
+      
     
     
     
@@ -1514,6 +2002,34 @@
     
   
     Fabric Data Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_ai-mlops/alternative-llm-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternative LLM Providers
   
 
     

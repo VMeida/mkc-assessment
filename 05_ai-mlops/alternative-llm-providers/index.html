@@ -1,0 +1,1983 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Microsoft Fabric Medallion Architecture — Assessment, Architecture &amp; Roadmap" name="description"/>
+<link href="https://VMeida.github.io/mkc-assessment/05_ai-mlops/alternative-llm-providers/" rel="canonical"/>
+<link href="../data-agents/" rel="prev"/>
+<link href="../mlops-pipeline/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.3" name="generator"/>
+<title>Alternative LLM Providers - MKC · Data Strategy Assessment</title>
+<link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#alternative-llm-providers-for-data-agents">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="MKC · Data Strategy Assessment" class="md-header__button md-logo" data-md-component="logo" href="../.." title="MKC · Data Strategy Assessment">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            MKC · Data Strategy Assessment
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Alternative LLM Providers
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../01_foundation/">
+          
+  
+  
+    
+  
+  Foundation &amp; Strategy
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../02_devops/">
+          
+  
+  
+    
+  
+  DevOps &amp; Automation
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../03_data-consumption/">
+          
+  
+  
+    
+  
+  Data Consumption
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../04_fabric-architecture/">
+          
+  
+  
+    
+  
+  Fabric Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="../">
+          
+  
+  
+    
+  
+  AI, Data Science &amp; MLOps
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../06_governance/">
+          
+  
+  
+    
+  
+  Governance &amp; Security
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../07_finops/">
+          
+  
+  
+    
+  
+  FinOps &amp; Observability
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="MKC · Data Strategy Assessment" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="MKC · Data Strategy Assessment">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    MKC · Data Strategy Assessment
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01_foundation/">
+<span class="md-ellipsis">
+    
+  
+    Foundation &amp; Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Foundation &amp; Strategy
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/executive-summary/">
+<span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/current-state/">
+<span class="md-ellipsis">
+    
+  
+    Current State
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/target-state/">
+<span class="md-ellipsis">
+    
+  
+    Target State
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/maturity-assessment/">
+<span class="md-ellipsis">
+    
+  
+    Data Maturity
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01_foundation/roadmap/">
+<span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02_devops/">
+<span class="md-ellipsis">
+    
+  
+    DevOps &amp; Automation
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    DevOps &amp; Automation
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/git-workflow/">
+<span class="md-ellipsis">
+    
+  
+    Git Workflow
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/cicd/">
+<span class="md-ellipsis">
+    
+  
+    CI/CD Pipelines
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/environments/">
+<span class="md-ellipsis">
+    
+  
+    Environments
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/naming-conventions/">
+<span class="md-ellipsis">
+    
+  
+    Naming Conventions
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02_devops/testing/">
+<span class="md-ellipsis">
+    
+  
+    Testing Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03_data-consumption/">
+<span class="md-ellipsis">
+    
+  
+    Data Consumption
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Consumption
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/workspace-catalog/">
+<span class="md-ellipsis">
+    
+  
+    Workspace Catalog
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/dataflow-inventory/">
+<span class="md-ellipsis">
+    
+  
+    Dataflow Inventory
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/source-inventory/">
+<span class="md-ellipsis">
+    
+  
+    Source Inventory
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03_data-consumption/self-service/">
+<span class="md-ellipsis">
+    
+  
+    Self-Service Strategy
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04_fabric-architecture/">
+<span class="md-ellipsis">
+    
+  
+    Fabric Architecture
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Fabric Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/medallion/">
+<span class="md-ellipsis">
+    
+  
+    Medallion Layers
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/onelake/">
+<span class="md-ellipsis">
+    
+  
+    OneLake &amp; Delta
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/star-schema/">
+<span class="md-ellipsis">
+    
+  
+    Star Schema
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/workspace-design/">
+<span class="md-ellipsis">
+    
+  
+    Workspace Design
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04_fabric-architecture/vendor-independence/">
+<span class="md-ellipsis">
+    
+  
+    Vendor Independence
+  
+
+    
+  </span>
+<span class="md-status md-status--wip" title="Work in Progress">
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    AI, Data Science &amp; MLOps
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    AI, Data Science &amp; MLOps
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../llm-architecture/">
+<span class="md-ellipsis">
+    
+  
+    Enterprise LLM Architecture
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../azure-openai-integration/">
+<span class="md-ellipsis">
+    
+  
+    Azure OpenAI Integration
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../data-agents/">
+<span class="md-ellipsis">
+    
+  
+    Fabric Data Agents
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Alternative LLM Providers
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Alternative LLM Providers
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#why-consider-alternatives">
+<span class="md-ellipsis">
+      
+        Why Consider Alternatives?
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#providers-covered-two-tiers">
+<span class="md-ellipsis">
+      
+        Providers Covered — Two Tiers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#architecture-changes-required">
+<span class="md-ellipsis">
+      
+        Architecture Changes Required
+      
+    </span>
+</a>
+<nav aria-label="Architecture Changes Required" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-changes-vs-what-stays-the-same">
+<span class="md-ellipsis">
+      
+        What Changes vs. What Stays the Same
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#multi-llm-architecture">
+<span class="md-ellipsis">
+      
+        Multi-LLM Architecture
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#claude-data-agent-flow-via-azure-ai-foundry">
+<span class="md-ellipsis">
+      
+        Claude Data Agent Flow via Azure AI Foundry
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-vault-integration-for-tier-2-external-api-keys">
+<span class="md-ellipsis">
+      
+        Key Vault Integration for Tier 2 External API Keys
+      
+    </span>
+</a>
+<nav aria-label="Key Vault Integration for Tier 2 External API Keys" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#why-key-vault-over-apim-named-values">
+<span class="md-ellipsis">
+      
+        Why Key Vault Over APIM Named Values
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup-steps">
+<span class="md-ellipsis">
+      
+        Setup Steps
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#implementation-patterns">
+<span class="md-ellipsis">
+      
+        Implementation Patterns
+      
+    </span>
+</a>
+<nav aria-label="Implementation Patterns" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#model-catalog">
+<span class="md-ellipsis">
+      
+        Model Catalog
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#python-azure-ai-inference-sdk">
+<span class="md-ellipsis">
+      
+        Python — azure-ai-inference SDK
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apim-policy-foundry-backend-routing">
+<span class="md-ellipsis">
+      
+        APIM Policy — Foundry Backend Routing
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#when-to-use">
+<span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-api-difference-claude-vs-openai">
+<span class="md-ellipsis">
+      
+        Key API Difference: Claude vs. OpenAI
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#python-anthropic-sdk">
+<span class="md-ellipsis">
+      
+        Python — anthropic SDK
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apim-policy-direct-claude-backend">
+<span class="md-ellipsis">
+      
+        APIM Policy — Direct Claude Backend
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#when-to-use_1">
+<span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#authentication-complexity">
+<span class="md-ellipsis">
+      
+        Authentication Complexity
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#python-google-cloud-aiplatform-sdk">
+<span class="md-ellipsis">
+      
+        Python — google-cloud-aiplatform SDK
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#comparison-tables">
+<span class="md-ellipsis">
+      
+        Comparison Tables
+      
+    </span>
+</a>
+<nav aria-label="Comparison Tables" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#model-capability-for-nldax">
+<span class="md-ellipsis">
+      
+        Model Capability for NL→DAX
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pricing-comparison">
+<span class="md-ellipsis">
+      
+        Pricing Comparison
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#security-and-compliance-trade-offs">
+<span class="md-ellipsis">
+      
+        Security and Compliance Trade-offs
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mkc-recommendation">
+<span class="md-ellipsis">
+      
+        MKC Recommendation
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#monitoring-across-providers">
+<span class="md-ellipsis">
+      
+        Monitoring Across Providers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#references">
+<span class="md-ellipsis">
+      
+        References
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../mlops-pipeline/">
+<span class="md-ellipsis">
+    
+  
+    MLOps Pipeline
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../feature-store/">
+<span class="md-ellipsis">
+    
+  
+    Feature Store
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../cost-scenarios/">
+<span class="md-ellipsis">
+    
+  
+    Cost Scenarios
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06_governance/">
+<span class="md-ellipsis">
+    
+  
+    Governance &amp; Security
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance &amp; Security
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/rls-ols/">
+<span class="md-ellipsis">
+    
+  
+    RLS &amp; OLS
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/purview/">
+<span class="md-ellipsis">
+    
+  
+    Microsoft Purview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/entra-rbac/">
+<span class="md-ellipsis">
+    
+  
+    Entra ID &amp; RBAC
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06_governance/compliance/">
+<span class="md-ellipsis">
+    
+  
+    Compliance
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07_finops/">
+<span class="md-ellipsis">
+    
+  
+    FinOps &amp; Observability
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    FinOps &amp; Observability
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/sku-reference/">
+<span class="md-ellipsis">
+    
+  
+    SKU Reference
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/scenarios/">
+<span class="md-ellipsis">
+    
+  
+    Deployment Scenarios
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/optimization/">
+<span class="md-ellipsis">
+    
+  
+    Cost Optimization
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07_finops/observability/">
+<span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="alternative-llm-providers-for-data-agents">Alternative LLM Providers for Data Agents<a class="headerlink" href="#alternative-llm-providers-for-data-agents" title="Permanent link">¶</a></h1>
+<p>Azure OpenAI Service is the default and recommended LLM platform for MKC's Data Agents — it delivers GPT-4-class models entirely within the Microsoft tenant boundary with Managed Identity authentication and Private Endpoint network isolation. This page documents how the architecture can be extended to support non-Azure LLMs when model capability, cost benchmarking, or vendor resilience requirements warrant it. All patterns route through the existing <a href="../llm-architecture/">Azure APIM gateway</a> so governance, audit logging, and Fabric Data Agent configuration remain unchanged.</p>
+<h2 id="why-consider-alternatives">Why Consider Alternatives?<a class="headerlink" href="#why-consider-alternatives" title="Permanent link">¶</a></h2>
+<p>Three scenarios justify evaluating alternatives:</p>
+<ol>
+<li><strong>Model capability comparison</strong> — Claude 3.5 Sonnet and Mistral Large have demonstrated strong structured-output and code-generation performance for tasks similar to NL→DAX translation. A quantified A/B evaluation against GPT-4o is worth running before committing to a single provider long-term.</li>
+<li><strong>Cost benchmarking</strong> — Claude Haiku and Mistral Small are priced in the same range as GPT-4o-mini; having pricing parity data informs future procurement decisions as query volume grows.</li>
+<li><strong>Vendor resilience</strong> — a documented fallback path means the Data Agent platform can continue operating during Azure OpenAI regional outages or quota exhaustion events.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">What You Lose by Leaving the Azure Tenant Boundary</p>
+<p>Azure OpenAI's compliance posture rests on three pillars: data never leaves the tenant (Private Endpoint), no API keys in code (Managed Identity), and a single audit trail (APIM → Log Analytics). External providers (Tier 2 below) break the first two pillars. Always engage the CISO and review the provider's Data Protection Addendum before routing real MKC data outside the Azure tenant.</p>
+</div>
+<hr/>
+<h2 id="providers-covered-two-tiers">Providers Covered — Two Tiers<a class="headerlink" href="#providers-covered-two-tiers" title="Permanent link">¶</a></h2>
+<p>Providers are grouped by whether they keep data inside the Azure tenant boundary.</p>
+<p><strong>Tier 1 — In-Tenant (preferred):</strong> Models deployed through <strong>Azure AI Foundry</strong> as serverless pay-as-you-go endpoints. Authentication uses Managed Identity via the <code>azure-ai-inference</code> SDK. Data stays inside Azure. No external API keys. Covers: Anthropic Claude 3.5 Sonnet/Haiku, Mistral Large 2/Small 3, Meta Llama 3, Cohere Command.</p>
+<p><strong>Tier 2 — External (evaluation/fallback):</strong> Models accessed via their native provider APIs outside Azure. Requires external API keys stored in Azure Key Vault. Data leaves the Azure tenant boundary on every request. Covers: Claude via direct Anthropic API, Google Gemini via Vertex AI.</p>
+<div class="admonition tip">
+<p class="admonition-title">MKC Preferred Path for Claude</p>
+<p><strong>Claude via Azure AI Foundry (Tier 1)</strong> is strongly preferred over the direct Anthropic API (Tier 2). It uses the same Managed Identity authentication and Azure billing as Azure OpenAI, keeps all prompt data within the Azure ecosystem, and requires only a backend URL change in APIM — no body transformation, no Key Vault integration for API keys.</p>
+</div>
+<hr/>
+<h2 id="architecture-changes-required">Architecture Changes Required<a class="headerlink" href="#architecture-changes-required" title="Permanent link">¶</a></h2>
+<h3 id="what-changes-vs-what-stays-the-same">What Changes vs. What Stays the Same<a class="headerlink" href="#what-changes-vs-what-stays-the-same" title="Permanent link">¶</a></h3>
+<p><strong>Unchanged:</strong></p>
+<ul>
+<li>Fabric Data Agent items (same Fabric workspace items, same NL input interface)</li>
+<li>Azure APIM as the single LLM gateway (all traffic still passes through APIM)</li>
+<li>APIM policies for rate limiting, audit logging, and token metering</li>
+<li>DAX execution under the user's own Entra identity (RLS/OLS automatically enforced)</li>
+<li>Log Analytics workspace for the full token audit trail</li>
+</ul>
+<p><strong>Changed:</strong></p>
+<ul>
+<li>APIM backend pool: add Azure AI Foundry endpoints (Tier 1) or external API URLs (Tier 2)</li>
+<li>APIM routing policy: add <code>x-llm-provider</code> header inspection to choose the backend</li>
+<li>Authentication: Managed Identity works for Azure AI Foundry; Tier 2 providers need an API key fetched from Key Vault</li>
+<li>Data Agent endpoint config: the APIM operation URL the agent calls points to a new route</li>
+</ul>
+<h3 id="multi-llm-architecture">Multi-LLM Architecture<a class="headerlink" href="#multi-llm-architecture" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart TB
+    subgraph Fabric["Microsoft Fabric"]
+        DA["Fabric Data Agents\n(Operational · Analytics · Financial · Domain)"]
+    end
+
+    subgraph AzureTenant["Azure Subscription"]
+        subgraph Gateway["LLM Gateway"]
+            APIM["Azure APIM\nMulti-backend routing\n(x-llm-provider header)"]
+            KV["Azure Key Vault\nExternal API keys\n(Tier 2 only)"]
+            LogA["Log Analytics\nToken audit · Chargeback"]
+        end
+        subgraph Foundry["Azure AI Foundry — Tier 1 (In-Tenant)"]
+            FC["Claude 3.5 Sonnet / Haiku\n(serverless endpoint)"]
+            FM["Mistral Large 2 / Small 3\n(serverless endpoint)"]
+            FL["Meta Llama 3\n(serverless endpoint)"]
+        end
+        PE["Private Endpoint\nVNet-secured"]
+        AOAI["Azure OpenAI\nGPT-4o · GPT-4o-mini\n(Default)"]
+    end
+
+    subgraph External["External Providers — Tier 2 (Outside Azure Tenant)"]
+        AnthAPI["Anthropic Claude API\nclaude-3-5-sonnet-20241022\n(fallback / evaluation)"]
+        Gemini["Google Vertex AI\ngemini-1.5-pro · gemini-1.5-flash\n(reference)"]
+    end
+
+    DA --&gt;|"Managed Identity"| APIM
+    APIM --&gt;|"Default path · Private link"| PE
+    PE --&gt; AOAI
+    APIM --&gt;|"x-llm-provider: foundry-claude\nManaged Identity"| FC
+    APIM --&gt;|"x-llm-provider: foundry-mistral\nManaged Identity"| FM
+    APIM --&gt;|"x-llm-provider: foundry-llama\nManaged Identity"| FL
+    APIM --&gt;|"Fetch external key"| KV
+    KV --&gt;|"API key (cached 5 min)"| APIM
+    APIM --&gt;|"x-llm-provider: claude\nAnthropic-key header"| AnthAPI
+    APIM --&gt;|"x-llm-provider: gemini\nBearer token"| Gemini
+    APIM --&gt; LogA
+    AOAI --&gt;|"DAX query"| DA
+    FC --&gt;|"DAX query"| DA
+    FM --&gt;|"DAX query"| DA
+    AnthAPI --&gt;|"DAX query"| DA
+</code></pre>
+<h3 id="claude-data-agent-flow-via-azure-ai-foundry">Claude Data Agent Flow via Azure AI Foundry<a class="headerlink" href="#claude-data-agent-flow-via-azure-ai-foundry" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    actor User
+    participant Agent as Data Agent
+    participant APIM as Azure APIM
+    participant Foundry as Azure AI Foundry\n(Claude 3.5 Sonnet endpoint)
+    participant SemModel as Semantic Model
+
+    User-&gt;&gt;Agent: "Show grain sales by location this month"
+    Agent-&gt;&gt;APIM: POST /llm/chat\n(x-llm-provider: foundry-claude\nManaged Identity token)
+    APIM-&gt;&gt;APIM: Rate limit check · token meter start
+    APIM-&gt;&gt;Foundry: POST /chat/completions\n(Managed Identity · model: claude-3-5-sonnet)
+    Foundry--&gt;&gt;APIM: DAX query (choices[0].message.content)
+    APIM-&gt;&gt;APIM: Log input_tokens + output_tokens
+    APIM--&gt;&gt;Agent: DAX query returned
+    Agent-&gt;&gt;SemModel: Execute DAX (under user's Entra identity)
+    SemModel-&gt;&gt;SemModel: Apply RLS rules (Region/Division filter)
+    SemModel-&gt;&gt;SemModel: Apply OLS rules (hide CostMargin if not Finance role)
+    SemModel--&gt;&gt;Agent: Result set
+    Agent--&gt;&gt;User: Formatted answer + data table
+</code></pre>
+<div class="admonition info">
+<p class="admonition-title">No Key Vault Step</p>
+<p>Unlike the Tier 2 direct API path, the Azure AI Foundry flow uses Managed Identity throughout — the same pattern as the default Azure OpenAI path. APIM authenticates to the Foundry endpoint using its system-assigned Managed Identity; no external API keys are stored or rotated.</p>
+</div>
+<hr/>
+<h2 id="key-vault-integration-for-tier-2-external-api-keys">Key Vault Integration for Tier 2 External API Keys<a class="headerlink" href="#key-vault-integration-for-tier-2-external-api-keys" title="Permanent link">¶</a></h2>
+<p>This section applies only if using Tier 2 providers (direct Anthropic API or Google Vertex AI). Skip if using Azure AI Foundry exclusively.</p>
+<h3 id="why-key-vault-over-apim-named-values">Why Key Vault Over APIM Named Values<a class="headerlink" href="#why-key-vault-over-apim-named-values" title="Permanent link">¶</a></h3>
+<p>APIM Named Values can store secrets but they are scoped to APIM and lack independent audit trails. Azure Key Vault provides:</p>
+<ul>
+<li>Independent RBAC (security team controls Key Vault; platform team controls APIM)</li>
+<li>Full audit log of every secret access in Azure Monitor</li>
+<li>Automatic rotation capability (APIM polls on a schedule)</li>
+<li>Separation of duties: developer code never sees the raw key value</li>
+</ul>
+<h3 id="setup-steps">Setup Steps<a class="headerlink" href="#setup-steps" title="Permanent link">¶</a></h3>
+<ol>
+<li>Create an Azure Key Vault in the same subscription as APIM</li>
+<li>Grant APIM's system-assigned Managed Identity the <code>Key Vault Secrets User</code> role (not <code>Key Vault Contributor</code> — least privilege)</li>
+<li>Store each provider's API key as a named secret:</li>
+<li><code>anthropic-api-key</code> — Anthropic API key (<code>sk-ant-...</code>)</li>
+<li><code>google-vertex-sa-key</code> — base64-encoded Service Account JSON (see Gemini tab below)</li>
+<li>In the APIM inbound policy, use <code>send-request</code> to fetch the secret from the Key Vault REST API</li>
+<li>Cache the secret in APIM's in-memory cache (<code>cache-store-value</code>) with a <strong>5-minute TTL</strong> to avoid a Key Vault call on every request</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Cache Scale-Out Behaviour</p>
+<p>APIM's in-memory cache is per gateway unit. If APIM scales out to multiple units, each unit has its own cache, so Key Vault will receive up to <code>N × (1 per 5 min)</code> requests where N is the number of APIM units. For high-scale deployments, use an external Redis cache shared across gateway units.</p>
+</div>
+<hr/>
+<h2 id="implementation-patterns">Implementation Patterns<a class="headerlink" href="#implementation-patterns" title="Permanent link">¶</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Azure AI Foundry — Tier 1 (Recommended)</label><label for="__tabbed_1_2">Anthropic Claude Direct API — Tier 2</label><label for="__tabbed_1_3">Google Gemini via Vertex AI — Tier 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<h3 id="model-catalog">Model Catalog<a class="headerlink" href="#model-catalog" title="Permanent link">¶</a></h3>
+<p>Azure AI Foundry hosts third-party models as serverless pay-as-you-go endpoints within the Azure tenant. Relevant models for MKC:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Publisher</th>
+<th>Context</th>
+<th>DAX Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude-3-5-sonnet</code></td>
+<td>Anthropic</td>
+<td>200K</td>
+<td>Complex multi-table NL→DAX</td>
+</tr>
+<tr>
+<td><code>claude-3-5-haiku</code></td>
+<td>Anthropic</td>
+<td>200K</td>
+<td>Simple lookups, high-volume</td>
+</tr>
+<tr>
+<td><code>mistral-large-2407</code></td>
+<td>Mistral AI</td>
+<td>128K</td>
+<td>Complex queries</td>
+</tr>
+<tr>
+<td><code>mistral-small</code></td>
+<td>Mistral AI</td>
+<td>128K</td>
+<td>High-volume classification</td>
+</tr>
+<tr>
+<td><code>Meta-Llama-3-70B-Instruct</code></td>
+<td>Meta</td>
+<td>8K</td>
+<td>Alternative evaluation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="python-azure-ai-inference-sdk">Python — <code>azure-ai-inference</code> SDK<a class="headerlink" href="#python-azure-ai-inference-sdk" title="Permanent link">¶</a></h3>
+<p>The <code>azure-ai-inference</code> SDK provides a unified interface for all Azure AI Foundry models and normalises responses to an OpenAI-compatible schema — <code>choices[0].message.content</code> works identically for Claude, Mistral, and Llama.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">azure.ai.inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatCompletionsClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">azure.ai.inference.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">SystemMessage</span><span class="p">,</span> <span class="n">UserMessage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">azure.identity</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
+
+<span class="c1"># Foundry endpoint URL from: Azure AI Foundry → Project → Deployments → Endpoint</span>
+<span class="n">FOUNDRY_ENDPOINT</span> <span class="o">=</span> <span class="s2">"https://{project-name}.</span><span class="si">{region}</span><span class="s2">.inference.ml.azure.com"</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">ChatCompletionsClient</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="n">FOUNDRY_ENDPOINT</span><span class="p">,</span>
+    <span class="n">credential</span><span class="o">=</span><span class="n">DefaultAzureCredential</span><span class="p">()</span>  <span class="c1"># Managed Identity — no API key</span>
+<span class="p">)</span>
+
+<span class="n">SYSTEM_PROMPT</span> <span class="o">=</span> <span class="s2">"""You are a data analyst assistant for MKC (Mid-Kansas Cooperative).</span>
+<span class="s2">[... same schema and rules as data-agents.md system prompt ...]"""</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_dax</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"claude-3-5-sonnet"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Generate DAX from natural language via Azure AI Foundry."""</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">SYSTEM_PROMPT</span><span class="p">),</span>
+            <span class="n">UserMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">question</span><span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>       <span class="c1"># Foundry deployment name — switch model here</span>
+        <span class="n">max_tokens</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="mf">0.0</span>    <span class="c1"># deterministic output for DAX generation</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span>  <span class="c1"># OpenAI-compatible shape</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Same Response Shape for All Foundry Models</p>
+<p>The <code>azure-ai-inference</code> SDK normalises Claude, Mistral, and Llama responses to the same <code>choices[0].message.content</code> structure. No APIM outbound body transformation is needed — the Fabric Data Agent reads the response identically regardless of which Foundry model served the request.</p>
+</div>
+<h3 id="apim-policy-foundry-backend-routing">APIM Policy — Foundry Backend Routing<a class="headerlink" href="#apim-policy-foundry-backend-routing" title="Permanent link">¶</a></h3>
+<p>Extend the existing APIM policy from <a href="../llm-architecture/">Enterprise LLM Architecture</a> with a Foundry backend route. No Key Vault integration needed — Managed Identity handles auth.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;policies&gt;</span>
+<span class="w">  </span><span class="nt">&lt;inbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Existing: validate Entra Managed Identity token --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;validate-jwt</span><span class="w"> </span><span class="na">header-name=</span><span class="s">"Authorization"</span><span class="w"> </span><span class="na">failed-validation-httpcode=</span><span class="s">"401"</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;openid-config</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://login.microsoftonline.com/{tenant-id}/.well-known/openid-configuration"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/validate-jwt&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Existing: per-workspace rate limit --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;quota-by-key</span><span class="w"> </span><span class="na">calls=</span><span class="s">"100000"</span><span class="w"> </span><span class="na">bandwidth=</span><span class="s">"50000000"</span>
+<span class="w">                  </span><span class="na">renewal-period=</span><span class="s">"60"</span>
+<span class="w">                  </span><span class="na">counter-key=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-workspace-id",</span><span class="w"> </span><span class="err">"default"))"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- NEW: route to Azure AI Foundry if requested --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;choose&gt;</span>
+<span class="w">      </span><span class="nt">&lt;when</span><span class="w"> </span><span class="na">condition=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-llm-provider","azure").StartsWith("foundry-"))"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-backend-service</span><span class="w"> </span><span class="na">base-url=</span><span class="s">"https://{foundry-project}.{region}.inference.ml.azure.com"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Managed Identity token for AI Foundry — same scope as Azure OpenAI --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;authentication-managed-identity</span><span class="w"> </span><span class="na">resource=</span><span class="s">"https://cognitiveservices.azure.com"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Pass model name derived from the provider header suffix --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"foundryModel"</span>
+<span class="w">          </span><span class="na">value=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-llm-provider").Replace("foundry-",""))"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/when&gt;</span>
+<span class="w">      </span><span class="nt">&lt;otherwise&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Default: Azure OpenAI via Private Endpoint --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-backend-service</span><span class="w"> </span><span class="na">base-url=</span><span class="s">"https://{aoai-resource}.openai.azure.com/openai/deployments/gpt-4o"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-header</span><span class="w"> </span><span class="na">name=</span><span class="s">"api-key"</span><span class="w"> </span><span class="na">exists-action=</span><span class="s">"override"</span><span class="nt">&gt;</span>
+<span class="w">          </span><span class="nt">&lt;value&gt;</span>{{azure-openai-key}}<span class="nt">&lt;/value&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/set-header&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/otherwise&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/choose&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/inbound&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;outbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Existing: log token usage (Foundry models use same usage.total_tokens schema) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log-to-eventhub</span><span class="w"> </span><span class="na">logger-id=</span><span class="s">"token-usage-logger"</span><span class="nt">&gt;</span>
+<span class="w">      </span>@($"workspace={context.Request.Headers["x-workspace-id"]},provider={context.Request.Headers.GetValueOrDefault("x-llm-provider","azure")},tokens={context.Response.Body.As<span class="nt">&lt;JObject&gt;</span>(preserveContent:true)["usage"]["total_tokens"]}")
+<span class="w">    </span><span class="nt">&lt;/log-to-eventhub&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/outbound&gt;</span>
+<span class="nt">&lt;/policies&gt;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<h3 id="when-to-use">When to Use<a class="headerlink" href="#when-to-use" title="Permanent link">¶</a></h3>
+<p>Use the direct Anthropic API only when a Claude model version is not yet available in the Azure AI Foundry catalog, or during an initial proof-of-concept on synthetic/anonymised data before Foundry onboarding is complete.</p>
+<div class="admonition warning">
+<p class="admonition-title">Data Residency — Tier 2</p>
+<p>Prompts sent to <code>api.anthropic.com</code> leave the Azure tenant boundary and transit the public internet. MKC producer financial data, grain positions, and employee data classified as <strong>Confidential or Highly Confidential</strong> must <strong>not</strong> be sent via this path without a CISO-approved Data Protection Addendum with Anthropic. Use synthetic or anonymised data for all evaluations.</p>
+</div>
+<h3 id="key-api-difference-claude-vs-openai">Key API Difference: Claude vs. OpenAI<a class="headerlink" href="#key-api-difference-claude-vs-openai" title="Permanent link">¶</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Claude Messages API — System Prompt Placement</p>
+<p>Claude's API accepts <code>system</code> as a <strong>top-level parameter</strong>, not as a <code>{"role": "system"}</code> entry inside the <code>messages</code> array. This is the most common integration mistake when porting from OpenAI SDK code.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># OpenAI pattern (WRONG for Claude):</span>
+<span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">SYSTEM_PROMPT</span><span class="p">},</span> <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">q</span><span class="p">}]</span>
+
+<span class="c1"># Claude pattern (CORRECT):</span>
+<span class="n">system</span><span class="o">=</span><span class="n">SYSTEM_PROMPT</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">q</span><span class="p">}]</span>
+</code></pre></div>
+</div>
+<h3 id="python-anthropic-sdk">Python — <code>anthropic</code> SDK<a class="headerlink" href="#python-anthropic-sdk" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">anthropic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">azure.identity</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAzureCredential</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">azure.keyvault.secrets</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecretClient</span>
+
+<span class="c1"># Retrieve API key from Key Vault at startup — never hardcode</span>
+<span class="n">kv_client</span> <span class="o">=</span> <span class="n">SecretClient</span><span class="p">(</span>
+    <span class="n">vault_url</span><span class="o">=</span><span class="s2">"https://{keyvault-name}.vault.azure.net"</span><span class="p">,</span>
+    <span class="n">credential</span><span class="o">=</span><span class="n">DefaultAzureCredential</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">kv_client</span><span class="o">.</span><span class="n">get_secret</span><span class="p">(</span><span class="s2">"anthropic-api-key"</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
+
+<span class="n">SYSTEM_PROMPT</span> <span class="o">=</span> <span class="s2">"""You are a data analyst assistant for MKC (Mid-Kansas Cooperative).</span>
+<span class="s2">[... same schema and rules as data-agents.md system prompt ...]"""</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_dax_with_claude</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Generate DAX from natural language using Anthropic Claude directly."""</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">"claude-3-5-sonnet-20241022"</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+        <span class="n">system</span><span class="o">=</span><span class="n">SYSTEM_PROMPT</span><span class="p">,</span>          <span class="c1"># top-level system parameter</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>     <span class="c1"># NOT choices[0].message.content</span>
+</code></pre></div>
+<h3 id="apim-policy-direct-claude-backend">APIM Policy — Direct Claude Backend<a class="headerlink" href="#apim-policy-direct-claude-backend" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;policies&gt;</span>
+<span class="w">  </span><span class="nt">&lt;inbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- ... existing JWT validation and rate limit policies ... --&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Fetch Anthropic key from Key Vault (cached 5 min) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;cache-lookup-value</span><span class="w"> </span><span class="na">key=</span><span class="s">"anthropic-api-key"</span><span class="w"> </span><span class="na">variable-name=</span><span class="s">"anthropicKey"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;choose&gt;</span>
+<span class="w">      </span><span class="nt">&lt;when</span><span class="w"> </span><span class="na">condition=</span><span class="s">"@(context.Variables.GetValueOrDefault&lt;string&gt;("</span><span class="err">anthropicKey")</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="err">null)"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;send-request</span><span class="w"> </span><span class="na">mode=</span><span class="s">"new"</span><span class="w"> </span><span class="na">response-variable-name=</span><span class="s">"kvResp"</span><span class="w"> </span><span class="na">timeout=</span><span class="s">"5"</span><span class="nt">&gt;</span>
+<span class="w">          </span><span class="nt">&lt;set-url&gt;</span>https://{keyvault-name}.vault.azure.net/secrets/anthropic-api-key/?api-version=7.4<span class="nt">&lt;/set-url&gt;</span>
+<span class="w">          </span><span class="nt">&lt;set-method&gt;</span>GET<span class="nt">&lt;/set-method&gt;</span>
+<span class="w">          </span><span class="nt">&lt;authentication-managed-identity</span><span class="w"> </span><span class="na">resource=</span><span class="s">"https://vault.azure.net"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/send-request&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-variable</span><span class="w"> </span><span class="na">name=</span><span class="s">"anthropicKey"</span>
+<span class="w">          </span><span class="na">value=</span><span class="s">"@(((IResponse)context.Variables["</span><span class="err">kvResp"]).Body.As&lt;JObject</span><span class="nt">&gt;</span>()["value"].ToString())"<span class="w"> </span>/&gt;
+<span class="w">        </span><span class="nt">&lt;cache-store-value</span><span class="w"> </span><span class="na">key=</span><span class="s">"anthropic-api-key"</span>
+<span class="w">          </span><span class="na">value=</span><span class="s">"@((string)context.Variables["</span><span class="err">anthropicKey"])"</span>
+<span class="w">          </span><span class="na">duration=</span><span class="s">"300"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/when&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/choose&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;choose&gt;</span>
+<span class="w">      </span><span class="nt">&lt;when</span><span class="w"> </span><span class="na">condition=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-llm-provider")</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="err">"claude")"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-backend-service</span><span class="w"> </span><span class="na">base-url=</span><span class="s">"https://api.anthropic.com/v1"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-header</span><span class="w"> </span><span class="na">name=</span><span class="s">"x-api-key"</span><span class="w"> </span><span class="na">exists-action=</span><span class="s">"override"</span><span class="nt">&gt;</span>
+<span class="w">          </span><span class="nt">&lt;value&gt;</span>@((string)context.Variables["anthropicKey"])<span class="nt">&lt;/value&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/set-header&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-header</span><span class="w"> </span><span class="na">name=</span><span class="s">"anthropic-version"</span><span class="w"> </span><span class="na">exists-action=</span><span class="s">"override"</span><span class="nt">&gt;</span>
+<span class="w">          </span><span class="nt">&lt;value&gt;</span>2023-06-01<span class="nt">&lt;/value&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/set-header&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Transform OpenAI-format body to Claude Messages API format --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-body&gt;</span>@{
+<span class="w">          </span>var<span class="w"> </span>body<span class="w"> </span>=<span class="w"> </span>context.Request.Body.As<span class="nt">&lt;JObject&gt;</span>(preserveContent:<span class="w"> </span>true);
+<span class="w">          </span>var<span class="w"> </span>messages<span class="w"> </span>=<span class="w"> </span>body["messages"]<span class="w"> </span>as<span class="w"> </span>JArray;
+<span class="w">          </span>string<span class="w"> </span>systemPrompt<span class="w"> </span>=<span class="w"> </span>"";
+<span class="w">          </span>var<span class="w"> </span>claudeMessages<span class="w"> </span>=<span class="w"> </span>new<span class="w"> </span>JArray();
+<span class="w">          </span>foreach<span class="w"> </span>(var<span class="w"> </span>msg<span class="w"> </span>in<span class="w"> </span>messages)<span class="w"> </span>{
+<span class="w">            </span>if<span class="w"> </span>(msg["role"].ToString()<span class="w"> </span>==<span class="w"> </span>"system")<span class="w"> </span>{
+<span class="w">              </span>systemPrompt<span class="w"> </span>=<span class="w"> </span>msg["content"].ToString();
+<span class="w">            </span>}<span class="w"> </span>else<span class="w"> </span>{
+<span class="w">              </span>claudeMessages.Add(msg);
+<span class="w">            </span>}
+<span class="w">          </span>}
+<span class="w">          </span>return<span class="w"> </span>new<span class="w"> </span>JObject<span class="w"> </span>{
+<span class="w">            </span>["model"]<span class="w"> </span>=<span class="w"> </span>"claude-3-5-sonnet-20241022",
+<span class="w">            </span>["max_tokens"]<span class="w"> </span>=<span class="w"> </span>512,
+<span class="w">            </span>["system"]<span class="w"> </span>=<span class="w"> </span>systemPrompt,
+<span class="w">            </span>["messages"]<span class="w"> </span>=<span class="w"> </span>claudeMessages
+<span class="w">          </span>}.ToString();
+<span class="w">        </span>}<span class="nt">&lt;/set-body&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/when&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/choose&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/inbound&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;outbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Normalise Claude response to OpenAI shape for Fabric Data Agent SDK compatibility --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;choose&gt;</span>
+<span class="w">      </span><span class="nt">&lt;when</span><span class="w"> </span><span class="na">condition=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-llm-provider")</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="err">"claude")"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;set-body&gt;</span>@{
+<span class="w">          </span>var<span class="w"> </span>body<span class="w"> </span>=<span class="w"> </span>context.Response.Body.As<span class="nt">&lt;JObject&gt;</span>(preserveContent:<span class="w"> </span>true);
+<span class="w">          </span>var<span class="w"> </span>text<span class="w"> </span>=<span class="w"> </span>body["content"]?[0]?["text"]?.ToString()<span class="w"> </span>??<span class="w"> </span>"";
+<span class="w">          </span>var<span class="w"> </span>inputTokens<span class="w"> </span>=<span class="w"> </span>body["usage"]?["input_tokens"]?.ToObject<span class="nt">&lt;int&gt;</span>()<span class="w"> </span>??<span class="w"> </span>0;
+<span class="w">          </span>var<span class="w"> </span>outputTokens<span class="w"> </span>=<span class="w"> </span>body["usage"]?["output_tokens"]?.ToObject<span class="nt">&lt;int&gt;</span>()<span class="w"> </span>??<span class="w"> </span>0;
+<span class="w">          </span>return<span class="w"> </span>new<span class="w"> </span>JObject<span class="w"> </span>{
+<span class="w">            </span>["choices"]<span class="w"> </span>=<span class="w"> </span>new<span class="w"> </span>JArray<span class="w"> </span>{
+<span class="w">              </span>new<span class="w"> </span>JObject<span class="w"> </span>{
+<span class="w">                </span>["message"]<span class="w"> </span>=<span class="w"> </span>new<span class="w"> </span>JObject<span class="w"> </span>{
+<span class="w">                  </span>["role"]<span class="w"> </span>=<span class="w"> </span>"assistant",
+<span class="w">                  </span>["content"]<span class="w"> </span>=<span class="w"> </span>text
+<span class="w">                </span>}
+<span class="w">              </span>}
+<span class="w">            </span>},
+<span class="w">            </span>["usage"]<span class="w"> </span>=<span class="w"> </span>new<span class="w"> </span>JObject<span class="w"> </span>{
+<span class="w">              </span>["total_tokens"]<span class="w"> </span>=<span class="w"> </span>inputTokens<span class="w"> </span>+<span class="w"> </span>outputTokens
+<span class="w">            </span>}
+<span class="w">          </span>}.ToString();
+<span class="w">        </span>}<span class="nt">&lt;/set-body&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/when&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/choose&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Log token usage --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log-to-eventhub</span><span class="w"> </span><span class="na">logger-id=</span><span class="s">"token-usage-logger"</span><span class="nt">&gt;</span>
+<span class="w">      </span>@($"workspace={context.Request.Headers["x-workspace-id"]},provider=claude-direct,tokens={context.Response.Body.As<span class="nt">&lt;JObject&gt;</span>(preserveContent:true)["usage"]["total_tokens"]}")
+<span class="w">    </span><span class="nt">&lt;/log-to-eventhub&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/outbound&gt;</span>
+<span class="nt">&lt;/policies&gt;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Response Format Transformation</p>
+<p>Claude returns <code>content[0].text</code>; the Fabric Data Agent SDK (and the existing hybrid routing code) expects <code>choices[0].message.content</code>. The outbound <code>set-body</code> policy above normalises the response. If the APIM C# expression approach proves difficult to maintain, replace it with a thin <strong>Azure Function</strong> shim between APIM and the Anthropic API — the Function handles transformation and APIM calls the Function as its backend.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<h3 id="when-to-use_1">When to Use<a class="headerlink" href="#when-to-use_1" title="Permanent link">¶</a></h3>
+<p>Google Gemini via Vertex AI is documented primarily for cost benchmarking — Gemini 1.5 Flash is among the lowest-cost options listed. However, it involves the most authentication complexity of any provider covered here.</p>
+<div class="admonition warning">
+<p class="admonition-title">Data Residency — Tier 2</p>
+<p>Prompts sent to Vertex AI leave the Azure tenant boundary and are processed in Google Cloud. Apply the same CISO review requirement as the direct Anthropic API path.</p>
+</div>
+<h3 id="authentication-complexity">Authentication Complexity<a class="headerlink" href="#authentication-complexity" title="Permanent link">¶</a></h3>
+<p>Vertex AI uses a <strong>Google Service Account JSON key</strong> — a multi-line JSON document containing a private key, not a simple string. Storing this in Azure Key Vault requires one of:</p>
+<ul>
+<li><strong>Base64-encode</strong> the JSON and store as a Key Vault Secret string (decode in APIM or application code)</li>
+<li>Store as a <strong>Key Vault Certificate</strong> with the JSON embedded</li>
+<li>Use <strong>Workload Identity Federation</strong> (Google's equivalent of Managed Identity) — the cleanest long-term approach for hybrid Azure+GCP environments</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Prefer Workload Identity Federation</p>
+<p>Workload Identity Federation lets a Google Service Account trust the MKC Azure tenant as an identity provider. APIM's Managed Identity token is exchanged for a short-lived Google OAuth token — no JSON key stored anywhere. Recommended if MKC adopts Vertex AI for production use.</p>
+</div>
+<h3 id="python-google-cloud-aiplatform-sdk">Python — <code>google-cloud-aiplatform</code> SDK<a class="headerlink" href="#python-google-cloud-aiplatform-sdk" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">vertexai</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">vertexai.generative_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span>
+
+<span class="c1"># Authenticate with a Service Account JSON key file (dev/test)</span>
+<span class="c1"># In production: use Workload Identity Federation or Application Default Credentials</span>
+<span class="n">vertexai</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s2">"mkc-gcp-project"</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">"us-central1"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">GenerativeModel</span><span class="p">(</span><span class="s2">"gemini-1.5-pro"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_dax_with_gemini</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Generate DAX from natural language using Google Gemini 1.5 Pro."""</span>
+    <span class="c1"># Gemini 1.5 merges system context and user question into one content block.</span>
+    <span class="c1"># Gemini 2.0+ supports a dedicated system_instruction parameter.</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">SYSTEM_PROMPT</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">"</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">No Separate System Parameter (Gemini 1.5)</p>
+<p>Gemini 1.5 Pro/Flash does not have a separate <code>system</code> parameter — the system prompt is prepended to the first user content block. Gemini 2.0+ adds <code>system_instruction</code> support, aligning more closely with the OpenAI and Claude patterns.</p>
+</div>
+</div>
+</div>
+</input></input></input></div>
+<hr/>
+<h2 id="comparison-tables">Comparison Tables<a class="headerlink" href="#comparison-tables" title="Permanent link">¶</a></h2>
+<h3 id="model-capability-for-nldax">Model Capability for NL→DAX<a class="headerlink" href="#model-capability-for-nldax" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Provider</th>
+<th>Context</th>
+<th>DAX / Code Quality</th>
+<th>Instruction Following</th>
+<th>p50 Latency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GPT-4o</strong></td>
+<td>Azure OpenAI</td>
+<td>128K</td>
+<td>Excellent</td>
+<td>Excellent</td>
+<td>~800 ms</td>
+</tr>
+<tr>
+<td><strong>GPT-4o-mini</strong></td>
+<td>Azure OpenAI</td>
+<td>128K</td>
+<td>Good</td>
+<td>Good</td>
+<td>~300 ms</td>
+</tr>
+<tr>
+<td><strong>Claude 3.5 Sonnet</strong></td>
+<td>Azure AI Foundry / Anthropic</td>
+<td>200K</td>
+<td>Excellent</td>
+<td>Excellent</td>
+<td>~900 ms</td>
+</tr>
+<tr>
+<td><strong>Claude 3.5 Haiku</strong></td>
+<td>Azure AI Foundry / Anthropic</td>
+<td>200K</td>
+<td>Good</td>
+<td>Very Good</td>
+<td>~400 ms</td>
+</tr>
+<tr>
+<td><strong>Mistral Large 2</strong></td>
+<td>Azure AI Foundry</td>
+<td>128K</td>
+<td>Good</td>
+<td>Good</td>
+<td>~700 ms</td>
+</tr>
+<tr>
+<td><strong>Mistral Small 3</strong></td>
+<td>Azure AI Foundry</td>
+<td>128K</td>
+<td>Fair</td>
+<td>Fair</td>
+<td>~350 ms</td>
+</tr>
+<tr>
+<td><strong>Gemini 1.5 Pro</strong></td>
+<td>Google Vertex AI</td>
+<td>1M</td>
+<td>Very Good</td>
+<td>Good</td>
+<td>~1,200 ms</td>
+</tr>
+<tr>
+<td><strong>Gemini 1.5 Flash</strong></td>
+<td>Google Vertex AI</td>
+<td>1M</td>
+<td>Good</td>
+<td>Good</td>
+<td>~500 ms</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">These Are Estimates</p>
+<p>NL→DAX-specific benchmarks for agricultural/finance domain data are not publicly available. Latency figures above are indicative only. MKC should build a <strong>golden evaluation set</strong> of 50–100 representative questions with known correct DAX outputs and run each model against it before making any provider decision.</p>
+</div>
+<h3 id="pricing-comparison">Pricing Comparison<a class="headerlink" href="#pricing-comparison" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Provider</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>$/query (3,350 tok avg)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GPT-4o</strong></td>
+<td>Azure OpenAI</td>
+<td>$2.50</td>
+<td>$10.00</td>
+<td>~$0.011</td>
+</tr>
+<tr>
+<td><strong>GPT-4o-mini</strong></td>
+<td>Azure OpenAI</td>
+<td>$0.15</td>
+<td>$0.60</td>
+<td>~$0.001</td>
+</tr>
+<tr>
+<td><strong>Claude 3.5 Sonnet</strong></td>
+<td>Azure AI Foundry / Anthropic</td>
+<td>$3.00</td>
+<td>$15.00</td>
+<td>~$0.014</td>
+</tr>
+<tr>
+<td><strong>Claude 3.5 Haiku</strong></td>
+<td>Azure AI Foundry / Anthropic</td>
+<td>$0.80</td>
+<td>$4.00</td>
+<td>~$0.004</td>
+</tr>
+<tr>
+<td><strong>Mistral Large 2</strong></td>
+<td>Azure AI Foundry</td>
+<td>$2.00</td>
+<td>$6.00</td>
+<td>~$0.009</td>
+</tr>
+<tr>
+<td><strong>Mistral Small 3</strong></td>
+<td>Azure AI Foundry</td>
+<td>$0.10</td>
+<td>$0.30</td>
+<td>~$0.001</td>
+</tr>
+<tr>
+<td><strong>Gemini 1.5 Pro</strong></td>
+<td>Google Vertex AI</td>
+<td>$1.25</td>
+<td>$5.00</td>
+<td>~$0.006</td>
+</tr>
+<tr>
+<td><strong>Gemini 1.5 Flash</strong></td>
+<td>Google Vertex AI</td>
+<td>$0.075</td>
+<td>$0.30</td>
+<td>~$0.001</td>
+</tr>
+</tbody>
+</table>
+<p><em>Prices as of March 2026. Azure AI Foundry pricing matches direct provider pricing for Anthropic/Mistral models. See <a href="../cost-scenarios/">Cost Scenarios</a> for MKC usage projections.</em></p>
+<p><strong>Scale context:</strong> At 45,000 queries/month, the cost delta between the most expensive option (Claude 3.5 Sonnet, ~$630/month) and the cheapest (GPT-4o-mini or Mistral Small, ~$45/month) is ~$585/month. At MKC's current scale, the compliance and operational trade-offs below far outweigh this difference in most scenarios.</p>
+<h3 id="security-and-compliance-trade-offs">Security and Compliance Trade-offs<a class="headerlink" href="#security-and-compliance-trade-offs" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Azure OpenAI</th>
+<th>Azure AI Foundry (Tier 1)</th>
+<th>Claude Direct / Gemini (Tier 2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data stays in Azure tenant</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No — leaves to provider</td>
+</tr>
+<tr>
+<td><strong>Auth method</strong></td>
+<td>Managed Identity</td>
+<td>Managed Identity</td>
+<td>API key (Key Vault)</td>
+</tr>
+<tr>
+<td><strong>Network path</strong></td>
+<td>Private Endpoint</td>
+<td>Azure-managed</td>
+<td>Public internet</td>
+</tr>
+<tr>
+<td><strong>No training on prompts</strong></td>
+<td>Confirmed (Microsoft DPA)</td>
+<td>Confirmed (Azure + provider DPAs)</td>
+<td>Requires provider-specific DPA</td>
+</tr>
+<tr>
+<td><strong>SOC 2 Type II</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes (Anthropic / Google)</td>
+</tr>
+<tr>
+<td><strong>HIPAA BAA available</strong></td>
+<td>Yes (Microsoft)</td>
+<td>Yes (Microsoft)</td>
+<td>Yes (Anthropic / Google separately)</td>
+</tr>
+<tr>
+<td><strong>GDPR EU data residency</strong></td>
+<td>Yes (EU regions)</td>
+<td>Yes (EU regions)</td>
+<td>Limited for direct Anthropic; Yes for Vertex AI EU</td>
+</tr>
+<tr>
+<td><strong>Prompt audit trail</strong></td>
+<td>Full (APIM → Log Analytics)</td>
+<td>Full (APIM → Log Analytics)</td>
+<td>Full (APIM → Log Analytics)</td>
+</tr>
+<tr>
+<td><strong>API key rotation risk</strong></td>
+<td>None (no keys)</td>
+<td>None (no keys)</td>
+<td>Requires Key Vault rotation policy</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Confidential Data Must Stay In-Tenant</p>
+<p>MKC producer financial records, grain positions, AP invoices, and HR data are classified <strong>Confidential</strong> or <strong>Highly Confidential</strong>. These must only be processed via Azure OpenAI or Azure AI Foundry (Tier 1) — never via Tier 2 external APIs — without explicit CISO sign-off and a reviewed Data Protection Addendum with the relevant provider.</p>
+</div>
+<hr/>
+<h2 id="mkc-recommendation">MKC Recommendation<a class="headerlink" href="#mkc-recommendation" title="Permanent link">¶</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">MKC Recommendation</p>
+<p><strong>Scenario 1 — Default Production (Recommended):</strong> Continue using Azure OpenAI GPT-4o / GPT-4o-mini for all four Data Agents. At MKC's current scale (≤150 users, ~45,000 queries/month), the absolute cost difference vs. any alternative is under $600/month. Full compliance posture, zero API key management, Private Endpoint isolation — no trade-offs.</p>
+<p><strong>Scenario 2 — Introduce Claude via Azure AI Foundry (Low-Risk):</strong> If a capability evaluation demonstrates that Claude 3.5 Sonnet measurably outperforms GPT-4o for MKC's NL→DAX workload (&gt;10% improvement on the golden evaluation set), deploy Claude via <strong>Azure AI Foundry</strong> as a Tier 1 endpoint. APIM change is a single backend URL addition. Managed Identity auth, in-Azure billing, and the same compliance posture as Azure OpenAI. No CISO review required beyond confirming the Azure AI Foundry DPA covers the same data categories as the Azure OpenAI DPA.</p>
+<p><strong>Scenario 3 — Direct API Evaluation (Non-Sensitive Data Only):</strong> For an initial time-boxed benchmark before Azure AI Foundry onboarding, run Claude 3.5 Sonnet via the direct Anthropic API against <strong>synthetic or anonymised</strong> versions of MKC questions. Engage the Anthropic Enterprise DPA before introducing any real MKC data. If the evaluation confirms capability gains, graduate to Scenario 2.</p>
+<p><strong>Future Hybrid Routing (500+ users):</strong> When token costs represent a material fraction of total platform cost, implement query complexity routing:</p>
+<ul>
+<li>Classification: GPT-4o-mini (cheap, in-tenant, 5-token response)</li>
+<li>Simple single-table queries → Claude Haiku or Mistral Small (Azure AI Foundry)</li>
+<li>Complex multi-table queries → GPT-4o or Claude 3.5 Sonnet (Azure OpenAI or Foundry)</li>
+<li>Compliance-sensitive financial data → <strong>always</strong> Azure OpenAI or Azure AI Foundry (never Tier 2)</li>
+</ul>
+</div>
+<hr/>
+<h2 id="monitoring-across-providers">Monitoring Across Providers<a class="headerlink" href="#monitoring-across-providers" title="Permanent link">¶</a></h2>
+<p>Extend the existing APIM event log format (from <a href="../data-agents/">Fabric Data Agents</a>) with a <code>provider=</code> tag. The APIM outbound policy in each tab above already emits this tag.</p>
+<div class="highlight"><pre><span></span><code><span class="c">// Token usage and blended cost by LLM provider (30-day window)</span>
+<span class="n">AzureDiagnostics</span>
+<span class="p">|</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">ResourceType</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"APIMANAGEMENT"</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="n">ago</span><span class="p">(</span><span class="mi">30</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Provider</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="s">"provider=([^,]+)"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties_s</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">WorkspaceId</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="s">"workspace=([^,]+)"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties_s</span><span class="p">))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">Tokens</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="n">toint</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="s">"tokens=([0-9]+)"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tostring</span><span class="p">(</span><span class="n">properties_s</span><span class="p">)))</span>
+<span class="p">|</span><span class="w"> </span><span class="k">extend</span><span class="w"> </span><span class="n">CostUSD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">case</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Provider</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">"foundry-claude"</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">Provider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"claude-direct"</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Tokens</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.0000117</span><span class="p">,</span><span class="w">   </span><span class="c">// Claude 3.5 Sonnet blended (input+output avg)</span>
+<span class="w">    </span><span class="n">Provider</span><span class="w"> </span><span class="k">startswith</span><span class="w"> </span><span class="s">"foundry-mistral"</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Tokens</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.0000060</span><span class="p">,</span><span class="w">   </span><span class="c">// Mistral Large 2 blended</span>
+<span class="w">    </span><span class="n">Provider</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">"gemini"</span><span class="p">,</span>
+<span class="w">      </span><span class="n">Tokens</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.0000005</span><span class="p">,</span><span class="w">   </span><span class="c">// Gemini Flash blended</span>
+<span class="w">    </span><span class="n">Tokens</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mf">0.0000046</span><span class="w">      </span><span class="c">// Azure OpenAI GPT-4o blended (default)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">summarize</span>
+<span class="w">    </span><span class="n">TotalTokens</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">Tokens</span><span class="p">),</span>
+<span class="w">    </span><span class="n">TotalCostUSD</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">CostUSD</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+<span class="w">    </span><span class="n">QueryCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">count</span><span class="p">()</span>
+<span class="w">  </span><span class="k">by</span><span class="w"> </span><span class="n">Provider</span><span class="p">,</span><span class="w"> </span><span class="n">WorkspaceId</span><span class="p">,</span><span class="w"> </span><span class="n">bin</span><span class="p">(</span><span class="n">TimeGenerated</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">d</span><span class="p">)</span>
+<span class="p">|</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">TimeGenerated</span><span class="w"> </span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="n">TotalCostUSD</span><span class="w"> </span><span class="n">desc</span>
+</code></pre></div>
+<hr/>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview">Azure AI Foundry model catalog</a></td>
+<td>Third-party models (Anthropic, Mistral, Meta, Cohere) available as serverless endpoints within Azure</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/ai-studio/how-to/develop/sdk-overview">azure-ai-inference Python SDK</a></td>
+<td>Unified inference SDK for Azure AI Foundry models with OpenAI-compatible response schema</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/deploy-models-mistral">Deploy Mistral models on Azure AI Foundry</a></td>
+<td>Serverless deployment of Mistral Large and Small with Managed Identity authentication</td>
+</tr>
+<tr>
+<td><a href="https://docs.anthropic.com/en/api/getting-started">Anthropic Claude API reference</a></td>
+<td>Messages API, model names, system prompt placement, token counting</td>
+</tr>
+<tr>
+<td><a href="https://www.anthropic.com/legal/commercial-terms">Anthropic Enterprise Data Protection</a></td>
+<td>Data protection terms for Claude API — review before using with real MKC data</td>
+</tr>
+<tr>
+<td><a href="https://docs.anthropic.com/en/docs/about-claude/models/overview">Claude model overview</a></td>
+<td>Claude 3.5 Sonnet vs. Haiku — context window, pricing, capability notes</td>
+</tr>
+<tr>
+<td><a href="https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/gemini">Google Vertex AI Gemini API</a></td>
+<td>Gemini 1.5 Pro/Flash API reference, authentication, content generation</td>
+</tr>
+<tr>
+<td><a href="https://cloud.google.com/iam/docs/workload-identity-federation">Workload Identity Federation (Google)</a></td>
+<td>Federate Azure Managed Identity with Google Cloud — eliminates Service Account JSON keys</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets">Azure Key Vault secrets overview</a></td>
+<td>Storing and rotating external API keys with RBAC-controlled access</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/api-management/set-backend-service-policy">APIM set-backend-service policy</a></td>
+<td>Dynamically routing APIM requests to different backend URLs per request</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/api-management/cache-store-value-policy">APIM cache-store-value policy</a></td>
+<td>Caching Key Vault secrets in APIM memory to reduce per-request latency</td>
+</tr>
+<tr>
+<td><a href="../llm-architecture/">Enterprise LLM Architecture</a></td>
+<td>Base APIM policy configuration and Azure OpenAI Private Endpoint setup</td>
+</tr>
+<tr>
+<td><a href="../data-agents/">Fabric Data Agents</a></td>
+<td>Data Agent configuration, system prompt structure, and existing query flow to extend</td>
+</tr>
+<tr>
+<td><a href="../cost-scenarios/">Cost Scenarios</a></td>
+<td>MKC token cost projections — baseline for comparing provider economics</td>
+</tr>
+</tbody>
+</table>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "toc.integrate", "content.code.copy", "content.code.annotate", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.6.1/dist/mermaid.esm.min.mjs";
+window.mermaidConfig = {default: {
+    startOnLoad: false
+}};</script></body>
+</html>
