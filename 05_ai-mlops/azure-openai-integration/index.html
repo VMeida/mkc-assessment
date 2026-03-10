@@ -1138,6 +1138,11 @@
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
 <p>Azure OpenAI Service is the enterprise API layer that powers MKC's AI platform — from Fabric Data Agents to custom Teams bots and Power Platform automation. This page covers the full model catalogue and pricing, contrasts Azure OpenAI with Microsoft 365 Copilot (and why they cannot be interchanged), and shows concrete deployment patterns for Teams, Power Platform, and Microsoft Graph integrations.</p>
 <hr/>
+<div class="admonition info">
+<p class="admonition-title">Foundry Agent Service Architecture</p>
+<p>In the current architecture, GPT models are accessed as <strong>reasoning backends</strong> configured in Foundry Agent Service — not called directly by Data Agents or APIM. The model catalogue and pricing on this page remain valid for sizing reasoning backend costs. See <a href="../llm-architecture/">Foundry Agent Service Architecture</a> for the full deployment pattern, including how GPT-4o fits alongside Anthropic Claude and Mistral as interchangeable reasoning models.</p>
+</div>
+<hr/>
 <h2 id="model-catalogue-pricing">Model Catalogue &amp; Pricing<a class="headerlink" href="#model-catalogue-pricing" title="Permanent link">¶</a></h2>
 <p>All models below are available through <strong>Azure OpenAI Service</strong> in the East US region. Pricing is per million tokens (input / output separately billed).</p>
 <h3 id="gpt-4-family">GPT-4 Family<a class="headerlink" href="#gpt-4-family" title="Permanent link">¶</a></h3>

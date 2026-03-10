@@ -24,7 +24,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#enterprise-llm-architecture">
+<a class="md-skip" href="#foundry-agent-service-architecture">
           Skip to content
         </a>
 </div>
@@ -671,47 +671,65 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#overview">
+<a class="md-nav__link" href="#core-building-blocks">
 <span class="md-ellipsis">
       
-        Overview
+        Core Building Blocks
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#why-azure-openai-service">
+<a class="md-nav__link" href="#high-level-request-flow">
 <span class="md-ellipsis">
       
-        Why Azure OpenAI Service?
+        High-Level Request Flow
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#security-architecture">
+<a class="md-nav__link" href="#apim-two-optional-positions">
 <span class="md-ellipsis">
       
-        Security Architecture
+        APIM — Two Optional Positions
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#deployment-model-options">
+<a class="md-nav__link" href="#agent-tool-design-pattern">
 <span class="md-ellipsis">
       
-        Deployment Model Options
+        Agent Tool Design Pattern
       
     </span>
 </a>
-<nav aria-label="Deployment Model Options" class="md-nav">
+<nav aria-label="Agent Tool Design Pattern" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#hybrid-routing-implementation">
+<a class="md-nav__link" href="#tool-definitions">
 <span class="md-ellipsis">
       
-        Hybrid Routing Implementation
+        Tool Definitions
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#system-policy-prompt">
+<span class="md-ellipsis">
+      
+        System Policy Prompt
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sanitisation-before-reasoning">
+<span class="md-ellipsis">
+      
+        Sanitisation Before Reasoning
       
     </span>
 </a>
@@ -720,19 +738,59 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#apim-configuration">
+<a class="md-nav__link" href="#data-leakage-prevention">
 <span class="md-ellipsis">
       
-        APIM Configuration
+        Data Leakage Prevention
+      
+    </span>
+</a>
+<nav aria-label="Data Leakage Prevention" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-keep-data-access-inside-fabric">
+<span class="md-ellipsis">
+      
+        1. Keep Data Access Inside Fabric
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#available-models">
+<a class="md-nav__link" href="#2-control-what-leaves-your-boundary">
 <span class="md-ellipsis">
       
-        Available Models
+        2. Control What Leaves Your Boundary
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-provider-data-controls">
+<span class="md-ellipsis">
+      
+        3. Provider Data Controls
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#4-network-and-identity">
+<span class="md-ellipsis">
+      
+        4. Network and Identity
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#user-facing-surface-options">
+<span class="md-ellipsis">
+      
+        User-Facing Surface Options
       
     </span>
 </a>
@@ -987,274 +1045,454 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="enterprise-llm-architecture">Enterprise LLM Architecture<a class="headerlink" href="#enterprise-llm-architecture" title="Permanent link">¶</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
-<p>MKC uses <strong>Azure OpenAI Service</strong> as its enterprise LLM platform — the only option that delivers GPT-4-class models entirely within the Microsoft tenant boundary with Private Endpoint network isolation and Managed Identity authentication.</p>
+<h1 id="foundry-agent-service-architecture">Foundry Agent Service Architecture<a class="headerlink" href="#foundry-agent-service-architecture" title="Permanent link">¶</a></h1>
+<p>Expose a Foundry agent to users, keep all data access inside Fabric via Data Agents, and use Anthropic or other external models only as a stateless reasoning engine that sees sanitised, minimal context — never raw enterprise data.</p>
+<hr/>
+<h2 id="core-building-blocks">Core Building Blocks<a class="headerlink" href="#core-building-blocks" title="Permanent link">¶</a></h2>
 <pre class="mermaid"><code>flowchart LR
-    U[("MKC Users<br/>Teams · Portal · App")]
-    DA["Fabric Data Agents<br/>(4 workspace groups)"]
-    COP["Fabric Copilot<br/>(F64+)"]
-    NB["ML Notebooks<br/>(feature engineering)"]
-    APIM["Azure APIM<br/>LLM Gateway<br/>Rate limit · Audit · Auth"]
-    PE["Private Endpoint<br/>VNet-secured<br/>No public internet"]
-    AOAI["Azure OpenAI Service<br/>GPT-4o · GPT-4o-mini<br/>text-embedding-3-large<br/>Managed Identity"]
-    SEM["Semantic Models<br/>DAX execution"]
-    RAG["Azure AI Search<br/>RAG / embeddings"]
+    subgraph Surface["User-Facing Surface"]
+        A1["Custom App\n(web · Blazor · React)"]
+        A2["Teams / M365\nCopilot plugin"]
+        A3["Copilot Studio\ncustom action"]
+    end
 
-    U --&gt;|NL question| DA
-    DA --&gt;|Managed Identity| APIM
-    COP --&gt;|NL→DAX/SQL| APIM
-    NB --&gt;|LLM features| APIM
-    APIM --&gt;|Private link| PE
-    PE --&gt; AOAI
-    AOAI --&gt;|DAX/SQL query| SEM
-    AOAI --&gt;|vector search| RAG
-    SEM --&gt;|result set| U
+    subgraph Runtime["Agent Runtime"]
+        FA["Microsoft Foundry\nAgent Service\nOrchestrates tools · Calls models\nEnforces RBAC · Logs · Traces"]
+    end
+
+    subgraph DataAccess["Data Access (In-Fabric)"]
+        DA["Fabric Data Agents\n(Operational · Analytics\nFinancial · Domain)\nRLS/OLS · Entra ID\nReturns aggregated results only"]
+        SM["Fabric Semantic Models\nDAX execution"]
+    end
+
+    subgraph Reasoning["External Reasoning (Sanitised Context Only)"]
+        EXT["Anthropic Claude · GPT-4o\nMistral · Llama\nvia Azure AI Foundry\nStateless · Zero raw data"]
+    end
+
+    Surface --&gt;|"User identity\n(on-behalf-of)"| FA
+    FA --&gt;|"tool: query_semantic_model"| DA
+    DA --&gt;|"Entra ID · RLS/OLS"| SM
+    SM --&gt;|"Aggregated result"| DA
+    DA --&gt;|"Compact JSON summary"| FA
+    FA --&gt;|"System policy +\nsanitised summary"| EXT
+    EXT --&gt;|"Reasoning text only"| FA
+    FA --&gt;|"Answer"| Surface
 </code></pre>
-<h2 id="why-azure-openai-service">Why Azure OpenAI Service?<a class="headerlink" href="#why-azure-openai-service" title="Permanent link">¶</a></h2>
+<div class="admonition info">
+<p class="admonition-title">One Rule for External Models</p>
+<p>External reasoning models (Claude, GPT, Mistral, etc.) receive <strong>only</strong> a system policy prompt plus a compact, aggregated summary from the Data Agent. They never receive raw row-level data, PII, free-text fields, or direct access to Fabric. They return reasoning text only.</p>
+</div>
+<hr/>
+<h2 id="high-level-request-flow">High-Level Request Flow<a class="headerlink" href="#high-level-request-flow" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>sequenceDiagram
+    actor User
+    participant App as App / Teams / Copilot
+    participant FA as Foundry Agent Service
+    participant DA as Fabric Data Agent
+    participant SM as Semantic Model
+    participant EXT as Anthropic Claude\n(or GPT / Mistral)
+
+    User-&gt;&gt;App: "Compare Q4 revenue by region and suggest actions"
+    App-&gt;&gt;FA: Request + user identity (on-behalf-of token)
+    FA-&gt;&gt;FA: Plan — decide tool calls needed
+
+    FA-&gt;&gt;DA: query_semantic_model("Q4 revenue by region")
+    DA-&gt;&gt;SM: Execute DAX (Entra ID · on-behalf-of)
+    SM-&gt;&gt;SM: Apply RLS (user sees only their regions)
+    SM-&gt;&gt;SM: Apply OLS (hide margin columns if not Finance role)
+    SM--&gt;&gt;DA: Aggregated result set
+    DA--&gt;&gt;FA: Compact JSON summary\n(no PII · no raw rows)
+
+    FA-&gt;&gt;FA: Sanitise — aggregate further if needed\nstrip any residual identifiers
+
+    FA-&gt;&gt;EXT: System policy + sanitised summary\n"Q4 North +12% · South −3%  …\nSuggest actions."
+    Note over FA,EXT: No raw data · No PII · No identifiers
+    EXT--&gt;&gt;FA: Narrative insights and recommendations (text only)
+
+    FA-&gt;&gt;FA: Log full trace (Foundry built-in)
+    FA--&gt;&gt;App: Final answer
+    App--&gt;&gt;User: Formatted response
+</code></pre>
+<hr/>
+<h2 id="apim-two-optional-positions">APIM — Two Optional Positions<a class="headerlink" href="#apim-two-optional-positions" title="Permanent link">¶</a></h2>
+<p>APIM is not required for the Foundry Agent architecture to function, but it adds valuable governance controls in two distinct positions. Use one, both, or neither depending on your operational requirements.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Position 1 — Edge Gateway (Before Foundry)</label><label for="__tabbed_1_2">Position 2 — Internal Tool Governance (After Foundry)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>Flow:</strong>
+<div class="highlight"><pre><span></span><code>User → App / Teams / Copilot Studio → APIM → Foundry Agent → Data Agents → Fabric + Anthropic
+</code></pre></div></p>
+<p><strong>When to use:</strong> When users reach the Foundry Agent from multiple channels (web app, Teams bot, Copilot Studio, external partners) and you want a single enforcement point <em>before any agent work begins</em>.</p>
+<p><strong>Advantages:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Criterion</th>
-<th>Azure OpenAI Service</th>
-<th>Decision</th>
+<th>Advantage</th>
+<th>Why it matters</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Data residency</strong></td>
-<td>In-tenant; same Azure region as Fabric</td>
-<td>MKC data never leaves the tenant boundary</td>
+<td><strong>Rate limit before tokens are consumed</strong></td>
+<td>Block quota-exhausted or abusive clients at the edge — Foundry never starts orchestration on a rejected request, saving LLM cost</td>
 </tr>
 <tr>
-<td><strong>Authentication</strong></td>
-<td>Managed Identity (no API keys in code)</td>
-<td>Zero-secret auth; no key rotation risk</td>
+<td><strong>Centralised auth token validation</strong></td>
+<td>Validate Entra ID tokens once in APIM; Foundry trusts all inbound requests, eliminating per-channel validation logic</td>
 </tr>
 <tr>
-<td><strong>Network security</strong></td>
-<td>Private Endpoint + VNet integration</td>
-<td>All traffic on Microsoft backbone; no public internet</td>
+<td><strong>Single audit log across all channels</strong></td>
+<td>Every user query logged before reaching the agent — Teams bot, web app, and API calls all appear in one Log Analytics stream</td>
 </tr>
 <tr>
-<td><strong>Compliance</strong></td>
-<td>SOC2 Type II, HIPAA, ISO27001, GDPR</td>
-<td>Meets agricultural co-op data handling requirements</td>
+<td><strong>API versioning and blue/green routing</strong></td>
+<td>Route <code>/v1/agent</code> → Foundry v1 endpoint; swap to v2 or a new Foundry deployment without touching clients</td>
 </tr>
 <tr>
-<td><strong>No model training on data</strong></td>
-<td>Confirmed via Data Protection Addendum</td>
-<td>Microsoft does not use customer prompts to train models</td>
-</tr>
-<tr>
-<td><strong>Governance</strong></td>
-<td>Azure APIM as LLM Gateway</td>
-<td>Per-workspace token quotas, full audit log, chargeback by workspace</td>
-</tr>
-<tr>
-<td><strong>Model availability</strong></td>
-<td>GPT-4o, GPT-4o-mini, o1, o3-mini, GPT-5 (preview), text-embedding-3-large</td>
-<td>State-of-the-art models with Microsoft SLA</td>
-</tr>
-<tr>
-<td><strong>Alternatives considered</strong></td>
-<td>Azure AI Foundry model hub, on-prem Ollama, public OpenAI API</td>
-<td>Azure OpenAI wins on compliance + native Fabric/Entra integration</td>
+<td><strong>IP allowlisting / subscription key enforcement</strong></td>
+<td>Lock down who can call the agent endpoint independent of Foundry's own auth config</td>
 </tr>
 </tbody>
 </table>
-<h2 id="security-architecture">Security Architecture<a class="headerlink" href="#security-architecture" title="Permanent link">¶</a></h2>
-<div class="highlight"><pre><span></span><code>Data Agent / Copilot / ML Notebook
-    ↓ HTTPS (Managed Identity token)
-Azure API Management (LLM Gateway)
-    · Rate limit: 50,000 tokens/min per workspace
-    · Authentication: Managed Identity token validation
-    · Content filtering policies: enabled tenant-wide
-    · Audit log → Log Analytics workspace (full token usage)
-    ↓ Internal VNet (private link)
-Private Endpoint (no public IP)
-    ↓ Microsoft backbone network
-Azure OpenAI Service
-    · No public internet access
-    · Content filters enabled
-    · Customer data NOT used for training
-    · GPT-4o, GPT-4o-mini, text-embedding-3-large deployed
-</code></pre></div>
-<h2 id="deployment-model-options">Deployment Model Options<a class="headerlink" href="#deployment-model-options" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Description</th>
-<th>When to Use</th>
-<th>Est. Token Cost</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Direct (current)</strong></td>
-<td>Agent → APIM → AOAI → Semantic Model</td>
-<td>&lt; 500 queries/day per workspace</td>
-<td>High per-query</td>
-</tr>
-<tr>
-<td><strong>RAG-enhanced</strong></td>
-<td>+ domain knowledge vectors in Azure AI Search</td>
-<td>Complex agricultural domain questions</td>
-<td>Higher</td>
-</tr>
-<tr>
-<td><strong>Hybrid routing</strong></td>
-<td>Simple → GPT-4o-mini, Complex → GPT-4o</td>
-<td>&gt; 100K queries/month</td>
-<td>58% lower than full GPT-4o</td>
-</tr>
-<tr>
-<td><strong>Fine-tuned (future)</strong></td>
-<td>GPT-4o-mini trained on MKC DAX patterns</td>
-<td>&gt; 1M queries/month + stable DAX patterns</td>
-<td>Lowest</td>
-</tr>
-</tbody>
-</table>
-<h3 id="hybrid-routing-implementation">Hybrid Routing Implementation<a class="headerlink" href="#hybrid-routing-implementation" title="Permanent link">¶</a></h3>
-<p>Route queries by complexity using a lightweight classification step:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">openai</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">route_query</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">schema_context</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Classify query complexity and route to appropriate model."""</span>
-    <span class="n">classifier_response</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-4o-mini"</span><span class="p">,</span>  <span class="c1"># cheap classifier</span>
-        <span class="n">messages</span><span class="o">=</span><span class="p">[{</span>
-            <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
-            <span class="s2">"content"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Is this question simple (single table, no aggregation) or complex? "</span>
-                       <span class="sa">f</span><span class="s2">"Reply with SIMPLE or COMPLEX only.</span><span class="se">\n</span><span class="s2">Question: </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">"</span>
-        <span class="p">}],</span>
-        <span class="n">max_tokens</span><span class="o">=</span><span class="mi">5</span>
-    <span class="p">)</span>
-    <span class="n">complexity</span> <span class="o">=</span> <span class="n">classifier_response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-    <span class="n">target_model</span> <span class="o">=</span> <span class="s2">"gpt-4o-mini"</span> <span class="k">if</span> <span class="n">complexity</span> <span class="o">==</span> <span class="s2">"SIMPLE"</span> <span class="k">else</span> <span class="s2">"gpt-4o"</span>
-
-    <span class="k">return</span> <span class="n">openai</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="n">target_model</span><span class="p">,</span>
-        <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
-            <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">schema_context</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
-        <span class="p">]</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span>
-</code></pre></div>
-<p><strong>Cost saving:</strong> 60% simple / 40% complex split → blended cost of <code>0.60×$0.0007 + 0.40×$0.011 = $0.0046/query</code> — a <strong>58% reduction</strong> vs. all-GPT-4o.</p>
-<h2 id="apim-configuration">APIM Configuration<a class="headerlink" href="#apim-configuration" title="Permanent link">¶</a></h2>
-<p>The APIM LLM Gateway enforces per-workspace token quotas and logs all usage:</p>
-<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- APIM policy snippet — per-workspace token quota --&gt;</span>
-<span class="nt">&lt;policies&gt;</span>
+<p><strong>APIM policy (Position 1):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;policies&gt;</span>
 <span class="w">  </span><span class="nt">&lt;inbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Validate Entra ID token from the user's app --&gt;</span>
 <span class="w">    </span><span class="nt">&lt;validate-jwt</span><span class="w"> </span><span class="na">header-name=</span><span class="s">"Authorization"</span><span class="w"> </span><span class="na">failed-validation-httpcode=</span><span class="s">"401"</span><span class="nt">&gt;</span>
-<span class="w">      </span><span class="nt">&lt;openid-config</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://login.microsoftonline.com/{tenant}/.well-known/openid-configuration"</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;openid-config</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://login.microsoftonline.com/{tenant-id}/.well-known/openid-configuration"</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;required-claims&gt;</span>
+<span class="w">        </span><span class="nt">&lt;claim</span><span class="w"> </span><span class="na">name=</span><span class="s">"aud"</span><span class="nt">&gt;&lt;value&gt;</span>{foundry-app-client-id}<span class="nt">&lt;/value&gt;&lt;/claim&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/required-claims&gt;</span>
 <span class="w">    </span><span class="nt">&lt;/validate-jwt&gt;</span>
-<span class="w">    </span><span class="nt">&lt;quota-by-key</span><span class="w"> </span><span class="na">calls=</span><span class="s">"100000"</span><span class="w"> </span><span class="na">bandwidth=</span><span class="s">"50000000"</span>
-<span class="w">                  </span><span class="na">renewal-period=</span><span class="s">"60"</span>
-<span class="w">                  </span><span class="na">counter-key=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-workspace-id",</span><span class="w"> </span><span class="err">"default"))"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;set-header</span><span class="w"> </span><span class="na">name=</span><span class="s">"api-key"</span><span class="w"> </span><span class="na">exists-action=</span><span class="s">"override"</span><span class="nt">&gt;</span>
-<span class="w">      </span><span class="nt">&lt;value&gt;</span>{{azure-openai-key}}<span class="nt">&lt;/value&gt;</span>
-<span class="w">    </span><span class="nt">&lt;/set-header&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Per-user rate limit: 60 agent calls per minute --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;rate-limit-by-key</span><span class="w"> </span><span class="na">calls=</span><span class="s">"60"</span><span class="w"> </span><span class="na">renewal-period=</span><span class="s">"60"</span>
+<span class="w">      </span><span class="na">counter-key=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">Authorization","").GetHashCode().ToString())"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Per-workspace daily quota --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;quota-by-key</span><span class="w"> </span><span class="na">calls=</span><span class="s">"5000"</span><span class="w"> </span><span class="na">renewal-period=</span><span class="s">"86400"</span>
+<span class="w">      </span><span class="na">counter-key=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-workspace-id","default"))"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Forward to Foundry Agent endpoint using APIM Managed Identity --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;authentication-managed-identity</span><span class="w"> </span><span class="na">resource=</span><span class="s">"{foundry-app-client-id}"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;set-backend-service</span><span class="w"> </span><span class="na">base-url=</span><span class="s">"https://{foundry-project}.{region}.inference.ml.azure.com"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/inbound&gt;</span>
+
 <span class="w">  </span><span class="nt">&lt;outbound&gt;</span>
-<span class="w">    </span><span class="nt">&lt;log-to-eventhub</span><span class="w"> </span><span class="na">logger-id=</span><span class="s">"token-usage-logger"</span><span class="nt">&gt;</span>
-<span class="w">      </span>@($"workspace={context.Request.Headers["x-workspace-id"]},tokens={context.Response.Body.As<span class="nt">&lt;JObject&gt;</span>()["usage"]["total_tokens"]}")
+<span class="w">    </span><span class="cm">&lt;!-- Log every user interaction for audit --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log-to-eventhub</span><span class="w"> </span><span class="na">logger-id=</span><span class="s">"agent-audit-logger"</span><span class="nt">&gt;</span>
+<span class="w">      </span>@($"workspace={context.Request.Headers["x-workspace-id"]},user={context.Request.Headers.GetValueOrDefault("x-user-id","unknown")},ts={DateTime.UtcNow:o}")
 <span class="w">    </span><span class="nt">&lt;/log-to-eventhub&gt;</span>
 <span class="w">  </span><span class="nt">&lt;/outbound&gt;</span>
 <span class="nt">&lt;/policies&gt;</span>
 </code></pre></div>
-<h2 id="available-models">Available Models<a class="headerlink" href="#available-models" title="Permanent link">¶</a></h2>
+</div>
+<div class="tabbed-block">
+<p><strong>Flow:</strong>
+<div class="highlight"><pre><span></span><code>User → Foundry Agent → APIM → Internal APIs / Logic Apps / Data Agent endpoints
+</code></pre></div></p>
+<p><strong>When to use:</strong> When the Foundry Agent calls multiple internal tools (Data Agents, Logic Apps, internal search APIs) and you need per-tool governance, rate limiting, and auditing of the <em>agent's own outbound calls</em>.</p>
+<p><strong>Advantages:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Model</th>
-<th>Input $/1M tokens</th>
-<th>Output $/1M tokens</th>
-<th>Context</th>
-<th>Use Case</th>
+<th>Advantage</th>
+<th>Why it matters</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>GPT-4o</strong></td>
-<td>$2.50</td>
-<td>$10.00</td>
-<td>128K</td>
-<td>Complex multi-table NL→DAX, reasoning — <strong>primary model</strong></td>
+<td><strong>Per-tool call rate limiting</strong></td>
+<td>Prevent a runaway agent loop from hammering Data Agent endpoints — cap at N calls per session header</td>
 </tr>
 <tr>
-<td><strong>GPT-4o-mini</strong></td>
-<td>$0.15</td>
-<td>$0.60</td>
-<td>128K</td>
-<td>Simple lookups, high-volume queries, classification</td>
+<td><strong>Central audit of every tool call</strong></td>
+<td>Separate log of <code>query_semantic_model</code> invocations distinct from the user-level audit; useful for chargeback and debugging</td>
 </tr>
 <tr>
-<td>o1</td>
-<td>$15.00</td>
-<td>$60.00</td>
-<td>200K</td>
-<td>Multi-step reasoning, audit logic, compliance checks</td>
+<td><strong>Backend abstraction</strong></td>
+<td>Swap or version the Data Agent endpoint URL in APIM without changing the Foundry Agent's tool definition</td>
 </tr>
 <tr>
-<td>o3-mini</td>
-<td>$1.10</td>
-<td>$4.40</td>
-<td>200K</td>
-<td>Cost-efficient reasoning for structured validation tasks</td>
+<td><strong>Response transformation at the gateway</strong></td>
+<td>Enforce max row count, strip inadvertent PII columns <em>before</em> the result reaches the Foundry Agent and gets passed to an external model</td>
 </tr>
 <tr>
-<td>GPT-5 <em>(preview)</em></td>
-<td>~$15.00*</td>
-<td>~$60.00*</td>
-<td>256K+</td>
-<td>Autonomous agents, deep research — verify pricing at GA</td>
-</tr>
-<tr>
-<td>GPT-5-mini <em>(preview)</em></td>
-<td>~$1.50*</td>
-<td>~$6.00*</td>
-<td>128K</td>
-<td>Balanced cost/quality for high-volume agent tasks</td>
-</tr>
-<tr>
-<td>GPT-4 Turbo</td>
-<td>$10.00</td>
-<td>$30.00</td>
-<td>128K</td>
-<td>Legacy; superseded by GPT-4o — avoid for new deployments</td>
-</tr>
-<tr>
-<td>GPT-4 (0613)</td>
-<td>$30.00</td>
-<td>$60.00</td>
-<td>8K</td>
-<td>Deprecating — migrate to GPT-4o</td>
-</tr>
-<tr>
-<td>text-embedding-3-large</td>
-<td>$0.13</td>
-<td>—</td>
-<td>—</td>
-<td>Semantic search, RAG pipeline</td>
-</tr>
-<tr>
-<td>text-embedding-3-small</td>
-<td>$0.02</td>
-<td>—</td>
-<td>—</td>
-<td>High-volume embedding</td>
+<td><strong>Circuit breaker / retry policy</strong></td>
+<td>Protect Fabric Semantic Models from overload when complex agent chains generate many parallel tool calls</td>
 </tr>
 </tbody>
 </table>
-<p>*GPT-5 pricing estimated — confirm at <a href="https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/">Azure OpenAI pricing page</a> before budgeting.</p>
-<blockquote>
-<p>Prices as of March 2026 (East US region). See <a href="../cost-scenarios/">Cost Scenarios</a> for full MKC usage projections and <a href="../azure-openai-integration/">Azure OpenAI Integration</a> for model selection guidance.</p>
-</blockquote>
+<p><strong>APIM policy (Position 2):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;policies&gt;</span>
+<span class="w">  </span><span class="nt">&lt;inbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Validate that the caller is the Foundry Agent (Managed Identity) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;validate-jwt</span><span class="w"> </span><span class="na">header-name=</span><span class="s">"Authorization"</span><span class="w"> </span><span class="na">failed-validation-httpcode=</span><span class="s">"401"</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;openid-config</span><span class="w"> </span><span class="na">url=</span><span class="s">"https://login.microsoftonline.com/{tenant-id}/.well-known/openid-configuration"</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;required-claims&gt;</span>
+<span class="w">        </span><span class="nt">&lt;claim</span><span class="w"> </span><span class="na">name=</span><span class="s">"appid"</span><span class="nt">&gt;&lt;value&gt;</span>{foundry-agent-app-id}<span class="nt">&lt;/value&gt;&lt;/claim&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/required-claims&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/validate-jwt&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Per-session tool call quota: max 20 Data Agent calls per agent run --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;quota-by-key</span><span class="w"> </span><span class="na">calls=</span><span class="s">"20"</span><span class="w"> </span><span class="na">renewal-period=</span><span class="s">"3600"</span>
+<span class="w">      </span><span class="na">counter-key=</span><span class="s">"@(context.Request.Headers.GetValueOrDefault("</span><span class="err">x-agent-session-id","default"))"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Route to Fabric Data Agent endpoint --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;set-backend-service</span><span class="w"> </span><span class="na">base-url=</span><span class="s">"https://{fabric-data-agent-endpoint}"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;authentication-managed-identity</span><span class="w"> </span><span class="na">resource=</span><span class="s">"https://analysis.windows.net/powerbi/api"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/inbound&gt;</span>
+
+<span class="w">  </span><span class="nt">&lt;outbound&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Enforce max 50 rows — strip excess before returning to Foundry Agent --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;set-body&gt;</span>@{
+<span class="w">      </span>var<span class="w"> </span>body<span class="w"> </span>=<span class="w"> </span>context.Response.Body.As<span class="nt">&lt;JObject&gt;</span>(preserveContent:<span class="w"> </span>true);
+<span class="w">      </span>var<span class="w"> </span>rows<span class="w"> </span>=<span class="w"> </span>body["rows"]<span class="w"> </span>as<span class="w"> </span>JArray;
+<span class="w">      </span>if<span class="w"> </span>(rows<span class="w"> </span>!=<span class="w"> </span>null<span class="w"> </span><span class="err">&amp;&amp;</span><span class="w"> </span>rows.Count<span class="w"> </span>&gt;<span class="w"> </span>50)<span class="w"> </span>{
+<span class="w">        </span>body["rows"]<span class="w"> </span>=<span class="w"> </span>new<span class="w"> </span>JArray(rows.Take(50));
+<span class="w">        </span>body["truncated"]<span class="w"> </span>=<span class="w"> </span>true;
+<span class="w">      </span>}
+<span class="w">      </span>return<span class="w"> </span>body.ToString();
+<span class="w">    </span>}<span class="nt">&lt;/set-body&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Log tool call for per-agent chargeback --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log-to-eventhub</span><span class="w"> </span><span class="na">logger-id=</span><span class="s">"tool-audit-logger"</span><span class="nt">&gt;</span>
+<span class="w">      </span>@($"session={context.Request.Headers["x-agent-session-id"]},tool=query_semantic_model,workspace={context.Request.Headers["x-workspace-id"]},ts={DateTime.UtcNow:o}")
+<span class="w">    </span><span class="nt">&lt;/log-to-eventhub&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/outbound&gt;</span>
+<span class="nt">&lt;/policies&gt;</span>
+</code></pre></div>
+</div>
+</div>
+</input></input></div>
+<hr/>
+<h2 id="agent-tool-design-pattern">Agent Tool Design Pattern<a class="headerlink" href="#agent-tool-design-pattern" title="Permanent link">¶</a></h2>
+<p>Inside Foundry Agent Service, configure your agent with the following tool and policy structure.</p>
+<h3 id="tool-definitions">Tool Definitions<a class="headerlink" href="#tool-definitions" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">tools</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span>
+        <span class="s2">"function"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"query_semantic_model"</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Query a Fabric Semantic Model via the registered Data Agent. "</span>
+                           <span class="s2">"Returns an aggregated JSON summary. Never returns raw row-level data."</span><span class="p">,</span>
+            <span class="s2">"parameters"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+                <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"question"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+                        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Natural-language question about MKC data"</span>
+                    <span class="p">},</span>
+                    <span class="s2">"workspace"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+                        <span class="s2">"enum"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"operational"</span><span class="p">,</span> <span class="s2">"analytics"</span><span class="p">,</span> <span class="s2">"financial"</span><span class="p">,</span> <span class="s2">"domain"</span><span class="p">],</span>
+                        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Target Data Agent workspace"</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"question"</span><span class="p">,</span> <span class="s2">"workspace"</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span>
+        <span class="s2">"function"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"run_workflow"</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Trigger an Azure Logic Apps workflow for operational actions."</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span>
+        <span class="s2">"function"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"search_docs"</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Search MKC internal documentation via Azure AI Search (RAG)."</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="system-policy-prompt">System Policy Prompt<a class="headerlink" href="#system-policy-prompt" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>You are an AI assistant for MKC (Mid-Kansas Cooperative).
+
+TOOLS:
+- Use query_semantic_model to retrieve data from Fabric Semantic Models.
+- Use run_workflow to trigger operational actions.
+- Use search_docs to find internal documentation.
+
+DATA RULES (mandatory):
+- You must NEVER expose raw data rows, customer identifiers, or PII in your responses.
+- You may ONLY use query_semantic_model to access MKC data — never infer or fabricate numbers.
+- Before passing any data to your reasoning, aggregate and summarise it.
+- You must NOT memorise or reference data from previous sessions.
+
+RESPONSE RULES:
+- Provide insights and recommendations based on the aggregated summaries you receive.
+- If you cannot answer without exposing sensitive data, say so and explain why.
+- Always cite which workspace group the data came from.
+</code></pre></div>
+<h3 id="sanitisation-before-reasoning">Sanitisation Before Reasoning<a class="headerlink" href="#sanitisation-before-reasoning" title="Permanent link">¶</a></h3>
+<p>The agent tool implementation must sanitise the Data Agent result before it is included in any prompt sent to an external model:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sanitise_for_reasoning</span><span class="p">(</span><span class="n">data_agent_result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Transform a Data Agent result into a compact, sanitised summary</span>
+<span class="sd">    safe to include in a prompt to an external reasoning model.</span>
+<span class="sd">    Never pass raw rows or identifiers to the reasoning model.</span>
+<span class="sd">    """</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">data_agent_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"rows"</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">data_agent_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"columns"</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="c1"># Strip columns that may contain PII or sensitive identifiers</span>
+    <span class="n">SAFE_COLUMNS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fiscal_period"</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">,</span> <span class="s2">"division"</span><span class="p">,</span> <span class="s2">"commodity_type"</span><span class="p">,</span>
+                    <span class="s2">"total_revenue"</span><span class="p">,</span> <span class="s2">"total_bushels"</span><span class="p">,</span> <span class="s2">"margin_pct"</span><span class="p">,</span> <span class="s2">"yoy_change_pct"</span><span class="p">}</span>
+    <span class="n">safe_rows</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">SAFE_COLUMNS</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">[:</span><span class="mi">20</span><span class="p">]</span>  <span class="c1"># cap at 20 rows maximum</span>
+    <span class="p">]</span>
+
+    <span class="n">summary_lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"Data summary (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> records, showing top </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">safe_rows</span><span class="p">)</span><span class="si">}</span><span class="s2">):"</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">safe_rows</span><span class="p">:</span>
+        <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"  "</span> <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">summary_lines</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">call_reasoning_model</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_summary</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Send sanitised summary + question to the reasoning model.</span>
+<span class="sd">    The reasoning model receives NO raw data — only the summary.</span>
+<span class="sd">    """</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"Data context (aggregated, no PII):</span><span class="se">\n</span><span class="si">{</span><span class="n">data_summary</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span>
+        <span class="sa">f</span><span class="s2">"User question: </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span>
+        <span class="s2">"Provide insights and recommendations based solely on the above summary."</span>
+    <span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">SYSTEM_POLICY_PROMPT</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}</span>
+        <span class="p">],</span>
+        <span class="n">model</span><span class="o">=</span><span class="s2">"claude-3-5-sonnet"</span>  <span class="c1"># or gpt-4o — configured in Foundry</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span>
+</code></pre></div>
+<hr/>
+<h2 id="data-leakage-prevention">Data Leakage Prevention<a class="headerlink" href="#data-leakage-prevention" title="Permanent link">¶</a></h2>
+<h3 id="1-keep-data-access-inside-fabric">1. Keep Data Access Inside Fabric<a class="headerlink" href="#1-keep-data-access-inside-fabric" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Data Agents are the only gateway</strong> to Fabric Semantic Models. External reasoning models never call Fabric directly — they only receive what the Foundry Agent explicitly passes.</li>
+<li>Use <strong>Entra ID on-behalf-of flow</strong> for user-delegated access or <strong>service principals with least privilege</strong> for agent-to-Data-Agent calls.</li>
+<li>RLS and OLS in the Semantic Model enforce data boundaries — the Data Agent cannot return data the calling user is not permitted to see.</li>
+</ul>
+<h3 id="2-control-what-leaves-your-boundary">2. Control What Leaves Your Boundary<a class="headerlink" href="#2-control-what-leaves-your-boundary" title="Permanent link">¶</a></h3>
+<p>Before sending any data to an external reasoning model:</p>
+<ul>
+<li><strong>Aggregate and summarise</strong> — pass totals, trends, and percentages, not row-level records</li>
+<li><strong>Strip identifiers</strong> — remove <code>customer_id</code>, <code>producer_id</code>, <code>employee_id</code>, names, and any free-text fields that may contain PII</li>
+<li><strong>Cap result size</strong> — never send more than 20–50 aggregated rows; use prompt templates that say "summarise in 5 bullet points or fewer"</li>
+<li><strong>Instruct against retention</strong> — include in the system prompt: <em>"You must not memorise, store, or reference data from this session in future sessions."</em></li>
+</ul>
+<h3 id="3-provider-data-controls">3. Provider Data Controls<a class="headerlink" href="#3-provider-data-controls" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Anthropic via Foundry</th>
+<th>GPT via Azure OpenAI</th>
+<th>Mistral via Foundry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zero data retention</td>
+<td>Configurable — confirm in DPA</td>
+<td>Microsoft DPA (no training on customer prompts)</td>
+<td>Confirm per Mistral enterprise terms</td>
+</tr>
+<tr>
+<td>Independent processor</td>
+<td>Yes (Anthropic enterprise)</td>
+<td>Yes (Microsoft DPA)</td>
+<td>Yes (Azure AI Foundry terms)</td>
+</tr>
+<tr>
+<td>Prompt audit trail</td>
+<td>Foundry built-in logging</td>
+<td>Foundry + Azure Monitor</td>
+<td>Foundry built-in logging</td>
+</tr>
+<tr>
+<td>Network path</td>
+<td>Azure-native endpoint (Foundry managed)</td>
+<td>Azure OpenAI (Private Endpoint optional)</td>
+<td>Azure AI Foundry (in-tenant)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">CISO Sign-Off Required Before Production</p>
+<p>Any external reasoning model that receives prompt text derived from MKC Semantic Model data must be covered by a reviewed Data Protection Addendum <strong>before</strong> production use. For Anthropic, this means the Anthropic Enterprise Agreement including zero data retention terms. Engage the CISO and Legal before onboarding any new provider.</p>
+</div>
+<h3 id="4-network-and-identity">4. Network and Identity<a class="headerlink" href="#4-network-and-identity" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>MKC Users
+    ↓ HTTPS (Entra ID token)
+[APIM Position 1 — optional]
+    ↓ Managed Identity token
+Foundry Agent Service (private endpoint recommended)
+    ↓ Managed Identity (on-behalf-of / service principal)
+[APIM Position 2 — optional]
+    ↓ Managed Identity
+Fabric Data Agent endpoints (VNet-secured)
+    ↓ DAX execution under user identity
+Fabric Semantic Models (no public internet)
+
+    ↓ Sanitised summary only (no raw data)
+Azure AI Foundry endpoints (controlled egress)
+    ↓ HTTPS (Azure-native)
+External reasoning model (Anthropic / GPT / Mistral)
+</code></pre></div>
+<ul>
+<li>Foundry Agent Service and Fabric should sit behind <strong>private endpoints and VNets</strong></li>
+<li>Use <strong>private DNS</strong> for all internal service resolution</li>
+<li><strong>No direct Fabric-to-public-internet</strong> egress for data</li>
+<li>Only Foundry's controlled outbound calls to external models — no other component should reach external LLM APIs</li>
+</ul>
+<hr/>
+<h2 id="user-facing-surface-options">User-Facing Surface Options<a class="headerlink" href="#user-facing-surface-options" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Auth Flow</th>
+<th>RLS/OLS Enforcement</th>
+<th>APIM Position</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Custom app</strong> (React / Blazor)</td>
+<td>On-behalf-of (user token → Foundry → Data Agent)</td>
+<td>Full — Data Agent sees user identity</td>
+<td>Position 1 recommended</td>
+<td>Most flexible; full control over UX</td>
+</tr>
+<tr>
+<td><strong>Teams / M365 Copilot plugin</strong></td>
+<td>Entra ID SSO via Teams; user identity flows through plugin manifest</td>
+<td>Full — same RLS as Power BI in Teams</td>
+<td>Position 1 optional</td>
+<td>Fastest to deploy for Teams-first organisations</td>
+</tr>
+<tr>
+<td><strong>Copilot Studio</strong></td>
+<td>Entra ID (Copilot Studio calls Foundry as a custom action)</td>
+<td>Full — Foundry passes user context to Data Agent</td>
+<td>Position 1 optional</td>
+<td>Low-code conversation; Foundry handles deep reasoning</td>
+</tr>
+</tbody>
+</table>
 <hr/>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h2>
 <table>
@@ -1266,28 +1504,44 @@ Azure OpenAI Service
 </thead>
 <tbody>
 <tr>
-<td><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/overview">Azure OpenAI Service overview</a></td>
-<td>Enterprise GPT models with Private Endpoint, Managed Identity, and compliance</td>
+<td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/agent-service">Microsoft Foundry Agent Service overview</a></td>
+<td>Foundry agent orchestration, tool registration, RBAC, and built-in logging</td>
 </tr>
 <tr>
-<td><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts">Azure API Management overview</a></td>
-<td>APIM concepts: policies, rate limiting, and LLM gateway configuration</td>
-</tr>
-<tr>
-<td><a href="https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview">Azure Private Endpoint</a></td>
-<td>Network isolation for Azure services — no public internet traffic</td>
-</tr>
-<tr>
-<td><a href="https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview">Managed identities for Azure resources</a></td>
-<td>Zero-secret authentication for Azure services using Entra ID</td>
-</tr>
-<tr>
-<td><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits">Azure OpenAI quotas and limits</a></td>
-<td>Token-per-minute rate limits, deployment quotas, and PTU capacity</td>
+<td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview">Azure AI Foundry model catalog</a></td>
+<td>Anthropic, Mistral, Meta, and Cohere models as serverless endpoints</td>
 </tr>
 <tr>
 <td><a href="https://learn.microsoft.com/en-us/fabric/data-science/fabric-data-agent">Fabric Data Agent overview</a></td>
-<td>Natural-language query interface for Fabric semantic models</td>
+<td>Natural-language query tool for Fabric Semantic Models — used as a Foundry tool</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-on-behalf-of-flow">On-behalf-of flow (Entra ID)</a></td>
+<td>Delegated identity chain: user → app → Foundry Agent → Data Agent</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview">Azure Private Endpoint</a></td>
+<td>Network isolation for Foundry and Fabric — no public internet traffic</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/api-management/set-backend-service-policy">APIM set-backend-service policy</a></td>
+<td>Routing APIM to Foundry or Data Agent endpoints dynamically</td>
+</tr>
+<tr>
+<td><a href="../data-agents/">Fabric Data Agents</a></td>
+<td>Data Agent workspace mapping, tool call configuration, and RLS enforcement</td>
+</tr>
+<tr>
+<td><a href="../alternative-llm-providers/">External Reasoning Models</a></td>
+<td>Claude, GPT, Mistral as Foundry reasoning backends — sanitisation pattern and data controls</td>
+</tr>
+<tr>
+<td><a href="../azure-openai-integration/">Azure OpenAI Integration</a></td>
+<td>GPT model catalogue and pricing for sizing reasoning backend costs</td>
+</tr>
+<tr>
+<td><a href="../cost-scenarios/">Cost Scenarios</a></td>
+<td>MKC token cost projections for reasoning model selection</td>
 </tr>
 </tbody>
 </table>
