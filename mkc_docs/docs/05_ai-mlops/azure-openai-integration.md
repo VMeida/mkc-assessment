@@ -6,6 +6,11 @@ Azure OpenAI Service is the enterprise API layer that powers MKC's AI platform â
 
 ---
 
+!!! info "Foundry Agent Service Architecture"
+    In the current architecture, GPT models are accessed as **reasoning backends** configured in Foundry Agent Service â€” not called directly by Data Agents or APIM. The model catalogue and pricing on this page remain valid for sizing reasoning backend costs. See [Foundry Agent Service Architecture](llm-architecture.md) for the full deployment pattern, including how GPT-4o fits alongside Anthropic Claude and Mistral as interchangeable reasoning models.
+
+---
+
 ## Model Catalogue & Pricing
 
 All models below are available through **Azure OpenAI Service** in the East US region. Pricing is per million tokens (input / output separately billed).
