@@ -902,8 +902,8 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="llm-architecture/">Enterprise LLM Architecture</a></td>
-<td>Azure OpenAI Service design — Private Endpoint, APIM gateway, security model, deployment options</td>
+<td><a href="llm-architecture/">Foundry Agent Service Architecture</a></td>
+<td>Target architecture — Foundry Agent as orchestrator, Data Agents as tools, external models as stateless reasoning engines, APIM in two optional positions</td>
 </tr>
 <tr>
 <td><a href="azure-openai-integration/">Azure OpenAI Integration</a></td>
@@ -911,11 +911,11 @@
 </tr>
 <tr>
 <td><a href="data-agents/">Fabric Data Agents</a></td>
-<td>Natural-language querying per workspace group — scope, query flow, security</td>
+<td>Data Agents as Foundry tools — the only gateway to Semantic Models; RLS/OLS enforcement, aggregated return payloads, tool registration</td>
 </tr>
 <tr>
-<td><a href="alternative-llm-providers/">Alternative LLM Providers</a></td>
-<td>APIM multi-backend routing for Anthropic Claude, Google Gemini, and Mistral — Azure AI Foundry (Tier 1) vs. direct APIs (Tier 2), compliance trade-offs, and MKC provider recommendations</td>
+<td><a href="alternative-llm-providers/">External Reasoning Models</a></td>
+<td>Claude, GPT, Mistral as Foundry reasoning backends — sanitisation pattern, provider data controls, DPA checklist, model selection</td>
 </tr>
 <tr>
 <td><a href="mlops-pipeline/">MLOps Pipeline</a></td>
